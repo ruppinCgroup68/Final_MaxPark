@@ -1,0 +1,150 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>עמוד הבית</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <!-- Hover.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hover.css/2.3.1/css/hover-min.css">
+
+    <!-- Custom CSS -->
+    <link href="../CSS/userHomePage.css" rel="stylesheet" />
+    <link href="../CSS/userHomePage2.css" rel="stylesheet" />
+
+    <!-- Bootstrap JS and jQuery (required for Bootstrap) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+
+    <script src="../JS/ajaxCall.js"></script>
+
+    <script>
+        $(document).ready(function () {
+
+        api=
+            $('#orders').DataTable({
+                "paging": false,
+                "searching": false,
+                "ordering": false,
+                "info": false
+            });
+            ajaxCall("GET", "../api/Reservasions", "", getSCB, getECB); 
+          
+        });
+
+
+        function getSCB(reservationsData) {
+            reservations = reservationsData;
+            try {
+                tbl = $('#reservationsTable').DataTable({
+                    data: reservationsData,
+                    pageLength: 5,
+                    columns: [
+                        {
+                            render: function (data, type, row, meta) {
+                                let dataReservation = "data-reservationId='" + row.Id + "'";
+                                editBtn = "<button type='button' class = 'editBtn btn btn-success' " + dataReservation + "> Edit </button>";
+                                viewBtn = "<button type='button' class = 'viewBtn btn btn-info' " + dataReservation + "> View </button>";
+                                deleteBtn = "<button type='button' class = 'deleteBtn btn btn-danger' " + dataReservation + "> Delete </button>";
+                                return editBtn + viewBtn + deleteBtn;
+                            }
+                        },                                         
+                        { data: "reservationStatus" },
+                        { data: "reservation_ETime" },
+                        { data: "reservation_STime" },
+                        { data: "reservationId" }
+                    ]
+                });
+            }
+
+            
+            catch (err)
+            {
+                console.log("");
+            }
+
+       }
+
+      
+    </script>
+
+
+</head>
+<body>
+
+    <div class="container">
+
+        <!-- Top Section -->
+        <div class="top-section">
+            <div class="logo-placeholder">
+                <!-- Placeholder for logo upload -->
+                <img src="../Img/logo-removebg-preview.png" />
+            </div>
+        </div>
+
+
+        <!-- Button Group -->
+        <div class="button-group">
+            <div class="custom-button">
+                <a href="booking.html">הזמנת חניה<i class="icon fas fa-car" id="booking"></i></a>
+            </div>
+            <div class="custom-button">
+                <a href="#">מפת חניון<i class="icon fa-regular fa-map" id="map"></i></a>
+            </div>
+            <div class="custom-button">
+                <a href="showMyOrders.html">צפייה בהזמנות שלי<i class="icon fa-solid fa-table-list" id="showMyOrders"></i></a>
+            </div>
+            <div class="custom-button">
+                <a href="updateMyProfile.html">עדכון פרופיל אישי<i class="icon fa-solid fa-user " id="updateProfile"></i></a>
+            </div>
+        </div>
+
+
+        <!-- Orders Table -->
+        <div class="orders-table">
+            <table id="ReservationsTable" class="display nowrap table" style="width:100%" >
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>סטטוס</th>
+                        <th>שעת סיום</th>
+                        <th>שעת התחלה</th>
+                        <th>מספר הזמנה</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr class="row-hover-green">
+                        <td><span class="order-approved"><i class="fas fa-check-circle"></i> הזמנה אושרה</span></td>
+                        <td>11:00</td>
+                        <td>09:00</td>
+                        <td>חניון א</td>
+                        <td>1</td>
+                    </tr>
+                    <tr class="row-hover-red">
+                        <td><span class="order-rejected" ><i class="fas fa-times-circle"></i> הזמנה נדחתה</span></td>
+                        <td>13:00</td>
+                        <td>12:00</td>
+                        <td>חניון ב</td>
+                        <td>2</td>
+                    </tr>
+                    <tr class="row-hover-orange">
+                        <td><span class="order-pending"><i class="fas fa-hourglass-half"></i> הזמנה בהמתנה</span></td>
+                        <td>15:00</td>
+                        <td>14:00</td>
+                        <td>חניון ג</td>
+                        <td>3</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</body>
+</html>

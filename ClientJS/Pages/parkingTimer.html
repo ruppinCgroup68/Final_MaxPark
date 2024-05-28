@@ -1,0 +1,92 @@
+﻿<!DOCTYPE html>
+<html lang="he">
+<head>
+    <meta charset="UTF-8">
+    <title>טיימר חנייה</title>
+    <link href="../CSS/parkingTimer.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="timer-container" id="timerDisplay">
+        <div class="timer-border"></div>
+        00:00:00
+    </div>
+    <div class="details" id="parkingDetails">
+        <!-- Details will be loaded here -->
+    </div>
+    <div class="button-container">
+        <button onclick="endParking()" class="blue">סיום חנייה</button>
+    </div>
+    <div class="buttons-container">
+        <button onclick="extendParking()" class="green">הארכת חנייה</button>
+        <button onclick="requestBlock()" class="red">חסמו אותי</button>
+    </div>
+
+
+    <script>
+        const parking = JSON.parse(sessionStorage.getItem('currentParking'));
+
+        function displayDetails() {
+            const detailsContainer = document.getElementById('parkingDetails');
+            detailsContainer.innerHTML = `<p>מספר חנייה: ${parking.id}</p>
+                                                              <p>מקום חנייה: ${parking.parkingLot}</p>
+                                                              <p>תאריך: ${parking.reservationDate}</p>
+                                                              <p>שעות: ${parking.startTime} - ${parking.endTime}</p>`;
+        }
+
+        function startTimer() {
+            const endTime = new Date(`${parking.reservationDate} ${parking.endTime}`);
+            const now = new Date();
+            const diff = endTime - now;
+
+            if (diff <= 0) {
+                console.log("הזמן עבר כבר, אין צורך בטיימר.");
+                document.getElementById('timerDisplay').innerText = '00:00:00';
+                alert('הזמן עבר כבר!');
+                return;
+            }
+
+            let timer = diff / 1000;
+            const display = document.getElementById('timerDisplay');
+            console.log(`Starting timer for ${timer} seconds`);
+
+            const interval = setInterval(() => {
+                if (timer <= 0) {
+                    clearInterval(interval);
+                    display.innerText = '00:00:00';
+                    alert('הזמן נגמר!');
+                    return;
+                }
+
+                const hours = Math.floor(timer / 3600);
+                const minutes = Math.floor((timer % 3600) / 60);
+                const seconds = Math.floor(timer % 60);
+
+                display.innerText = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+                timer--;
+            }, 1000);
+        }
+
+        function endParking() {
+            console.log('חנייה הסתיימה');
+            // Implement the logic to notify the server that parking is ended
+        }
+
+        function extendParking() {
+            console.log('הארכת חנייה');
+            // Implement the logic to request parking extension from the server
+        }
+
+        function requestBlock() {
+            console.log('חסימת החנייה');
+            // Implement the logic to request blocking the parking space from the server
+        }
+
+
+        window.onload = function () {
+            displayDetails();
+            startTimer();
+        };
+    </script>
+</body>
+</html>

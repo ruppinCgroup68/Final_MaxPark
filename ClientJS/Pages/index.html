@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+<html lang="he">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link href="../CSS/index.css" rel="stylesheet" />
+    <script src="../JS/index.js"></script>
+    <script src="../JS/ajaxCall.js"></script>
+    <title>Login</title>
+</head>
+
+<body>
+    <div class="container text-center mt-5">
+        <h1>MaxPark</h1>
+        <form id="loginForm">
+            <div class="form-group">
+                <input type="email" class="form-control" placeholder="אימייל" id="email" required>
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-control" placeholder="סיסמא" id="password" required>
+            </div>
+            <div class="form-check mb-3">
+                <input type="checkbox" class="form-check-input" id="rememberMe">
+                <label class="form-check-label" for="rememberMe">זכור אותי</label>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block" id="submitbutton">כניסה</button>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,126 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MaxPark הזמנת חנייה</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.js"></script>
+
+    <link href="../CSS/Booking.css" rel="stylesheet" />
+    <script src="../JS/ajaxCall.js"></script>
+
+    <script>
+
+        function validateForm() {
+            var reservationDate = document.getElementById("reservationDate").value;
+            var startTime = document.getElementById("start-time").value;
+            var endTime = document.getElementById("end-time").value;
+
+            var today = new Date();
+            var minDate = new Date(today);
+            var maxDate = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);
+            if (new Date(reservationDate) < minDate || new Date(reservationDate) > maxDate) {
+                alert("תאריך ההזמנה חייב להיות בין היום ועד שבוע מהיום.");
+                return false;
+            }
+
+            if (startTime >= endTime) {
+                alert("שעת ההתחלה חייבת להיות לפני שעת הסיום.");
+                return false;
+            }
+
+            var now = new Date();
+            var currentTime = now.getHours() * 60 + now.getMinutes();
+            var selectedTime = parseInt(startTime.substr(0, 2)) * 60 + parseInt(startTime.substr(3));
+            if (new Date(reservationDate).getTime() === now.getTime() && selectedTime < currentTime) {
+                alert("לבחור שעות נכונות");
+                return false;
+            }
+            var now = new Date();
+            var currentTime = now.getHours() * 60 + now.getMinutes();
+            var selectedTime = parseInt(startTime.substr(0, 2)) * 60 + parseInt(startTime.substr(3));
+            if (new Date(reservationDate).getTime() === now.getTime() && selectedTime < currentTime) {
+                alert("לבחור שעות נכונות");
+                return false;
+            }
+
+
+            return true;
+        }
+
+        $(document).ready(function () {
+            $("#submit-button").click(function () {
+                if (validateForm()) {
+                    let formData = {
+                        reservationDate: $("#reservationDate").val(),
+                        parkingLot: $("#parking-lot").val(),
+                        startTime: $("#start-time").val(),
+                        endTime: $("#end-time").val()
+                    }
+
+                    let port = "7157";
+                    let server = `https://localhost:${port}`;
+                    let api = server + "/api/";
+
+                    ajaxCall("POST", api, JSON.stringify(formData), postSCB, postECB);
+                    return false;
+                }
+
+                function postSCB(res)
+                {
+                    console.log(res);
+                    alert("הזמנת חניה נשלחה בהצלחה!");
+
+                }
+
+                function postECB(err) {
+                    console.log(err);
+                    alert("אירעה שגיאה בעת שליחת הזמנת החניה. נסה שוב מאוחר יותר.");
+                }
+            });
+        }
+
+
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <button class="back-button">←</button>
+            <h1>MaxPark</h1>
+        </div>
+        <div class="content">
+            <div class="title-booking">
+                <div class="icon-maxpark">
+                    <img src="../img/favicon.png" />
+                </div>
+                <h2>הזמנת חניה</h2>
+            </div>
+            <form id="parkingReservationForm" onsubmit="return validateForm()">
+                <div class="form-group">
+                    <label for="reservationDate">תאריך הזמנה:</label>
+                    <input type="date" class="form-control" id="reservationDate" name="reservationDate" min="<?php echo date('Y-m-d'); ?>" max="<?php echo date('Y-m-d', strtotime('+1 week')); ?>" required>
+                </div>
+                <div class="parking-lot-selection">
+                    <label for="parking-lot">חניון:</label>
+                    <select id="parking-lot" required>
+                        <option value="">בחר חניון</option>
+                        <option value="1">חניון XY</option>
+                        <option value="2">חניון AS</option>
+                        <option value="3">חניון ZX</option>
+                    </select>
+                </div>
+                <div class="time-selection">
+                    <label for="start-time">זמן התחלה:</label>
+                    <input type="time" id="start-time" required>
+                    <label for="end-time">זמן סיום:</label>
+                    <input type="time" id="end-time" required>
+                </div>
+                <button type="submit" id="submit-button">שליחת הזמנה</button>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>

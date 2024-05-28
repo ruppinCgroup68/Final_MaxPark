@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34728.123
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MaxPark", "MaxPark.csproj", "{0EBB5C1D-0368-4CA8-B377-DBC43D6E3FEE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0EBB5C1D-0368-4CA8-B377-DBC43D6E3FEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0EBB5C1D-0368-4CA8-B377-DBC43D6E3FEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0EBB5C1D-0368-4CA8-B377-DBC43D6E3FEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0EBB5C1D-0368-4CA8-B377-DBC43D6E3FEE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {32F8A090-9AD6-4CF6-BB80-9045C460A1EF}
+	EndGlobalSection
+EndGlobal
