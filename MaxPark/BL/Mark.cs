@@ -1,14 +1,14 @@
-﻿using projMaxPark.DAL;
+﻿using MaxPark.DAL;
 
-namespace projMaxPark.BL
+namespace MaxPark.BL
 {
     public class Mark
     {
-            int markId;
-            int parkId;
-            string markName;
-            string markName_Block;
-            bool isAvailable;
+        int markId;
+        int parkId;
+        string markName;
+        string markName_Block;
+        bool isAvailable;
 
         public Mark(int markId, int parkId, string markName, string markName_Block, bool isAvailable)
         {
@@ -28,10 +28,18 @@ namespace projMaxPark.BL
         public bool IsAvailable { get => isAvailable; set => isAvailable = value; }
 
 
+        //מחזיר רשימת חניות 
         public List<Mark> readMarkList()
         {
             DBservicesMark dbs = new DBservicesMark();
             return dbs.readMarkList();
+        }
+
+        //מחזיר את מספר החניות הפנויות
+        static public int availableParkingCount()
+        {
+            DBservicesMark dbs = new DBservicesMark();
+            return dbs.availableParkingCount();
         }
     }
 }

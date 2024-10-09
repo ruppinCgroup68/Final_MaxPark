@@ -1,10 +1,10 @@
-﻿using projMaxPark.BL;
+﻿using MaxPark.BL;
 using System.Data.SqlClient;
 using System.Data;
 using System.Text.Json;
 using System.Dynamic;
 
-namespace projMaxPark.DAL
+namespace MaxPark.DAL
 {
     public class DBservicesSmartAlgorithm
     {
@@ -37,7 +37,7 @@ namespace projMaxPark.DAL
         //--------------------------------------------------------------------------------------------------
         //                            R E A D - D A I L Y    R E S E R V A T I O N 
         //---------------------------------------------------------------------------------------------------
-        public List<Reservation> getDailyReservations()
+        public List<Reservation> getTomorrowReservations_SmartAlgo()
         {
             SqlConnection con;
             SqlCommand cmd;
@@ -54,7 +54,7 @@ namespace projMaxPark.DAL
             // helper method to build the insert string
             // create the command
 
-            cmd = CreateDailyListForAlgorithmSP("spTommorowReadReservation", con);
+            cmd = CreateDailyListForAlgorithmSP("spReadTommorowReservations", con);
             try
             {
                 SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
@@ -76,8 +76,10 @@ namespace projMaxPark.DAL
                     {
                         res.Reservation_Status = dataReader["reservationStatus"].ToString();
                     }
+
                     reservations.Add(res);
                 }
+
                 return reservations;
             }
             catch (Exception ex)
@@ -94,6 +96,8 @@ namespace projMaxPark.DAL
                 }
             }
         }
+
+        //---------------------------------------------------------------------------------------------------
         private SqlCommand CreateDailyListForAlgorithmSP(String spName, SqlConnection con)
         {
             SqlCommand cmd = new SqlCommand();// create the command object-
@@ -103,6 +107,7 @@ namespace projMaxPark.DAL
             cmd.CommandType = System.Data.CommandType.StoredProcedure; // the type of the command, can also be stored procedure
             return cmd;
         }
+
 
 
         //--------------------------------------------------------------------------------------------------
@@ -156,9 +161,8 @@ namespace projMaxPark.DAL
                 }
             }
         }
-
-
         //---------------------------------------------------------------------------------------------------
+
         private SqlCommand ReadParkingMarksSP(String spName, SqlConnection con)
         {
             SqlCommand cmd = new SqlCommand();// create the command object-
@@ -169,57 +173,7 @@ namespace projMaxPark.DAL
             return cmd;
         }
 
-        //--------------------------------------------------------------------------------------------------
-        //                             U P D A T E   M A R K S   I S A V A L I A B L E  
         //---------------------------------------------------------------------------------------------------
-
-        public int UpdateIsAvailableMarkTrue(Mark mark)
-        {
-            SqlConnection con;
-            SqlCommand cmd;
-            try
-            {
-                con = connect("myProjDB"); // create the connection
-            }
-            catch (Exception ex)
-            {
-                // write to log
-                throw (ex);
-            }
-            cmd = spUpdateAvailableTrue("spUpdateIsAvailableMarkTrue", con, mark);// create the command
-            try
-            {
-                int numEffected = cmd.ExecuteNonQuery(); // execute the command
-                return numEffected;
-            }
-            catch (Exception ex)
-            {
-                // write to log
-                throw (ex);
-            }
-
-            finally
-            {
-                if (con != null)
-                {
-                    // close the db connection
-                    con.Close();
-                }
-            }
-        }
-        //--------------------------------------------------------------------------------------------------
-        private SqlCommand spUpdateAvailableTrue(String spName, SqlConnection con, Mark mark)
-        {
-            SqlCommand cmd = new SqlCommand(); // create the command object
-            cmd.Connection = con;// assign the connection to the command object
-            cmd.CommandText = spName;// can be Select, Insert, Update, Delete 
-            cmd.CommandTimeout = 10; // Time to wait for the execution' The default is 30 seconds
-            cmd.CommandType = System.Data.CommandType.StoredProcedure; // the type of the command, can also be text
-            cmd.Parameters.AddWithValue("@markId", mark.MarkId);
-            return cmd;
-        }
-
-        //--------------------------------------------------------------------------------------------------
         //                             U P D A T E   R E S E R V A T I O N   S T A T U S 
         //---------------------------------------------------------------------------------------------------
 
@@ -266,8 +220,8 @@ namespace projMaxPark.DAL
             cmd.CommandText = spName;// can be Select, Insert, Update, Delete 
             cmd.CommandTimeout = 10; // Time to wait for the execution' The default is 30 seconds
             cmd.CommandType = System.Data.CommandType.StoredProcedure; // the type of the command, can also be text
-            cmd.Parameters.AddWithValue("@reservationId",res.ReservationId);
-            cmd.Parameters.AddWithValue("@reservationStatus",res.Reservation_Status);
+            cmd.Parameters.AddWithValue("@reservationId", res.ReservationId);
+            cmd.Parameters.AddWithValue("@reservationStatus", res.Reservation_Status);
             return cmd;
         }
 
@@ -362,7 +316,7 @@ namespace projMaxPark.DAL
             }
         }
         //--------------------------------------------------------------------------------------------------
-        private SqlCommand spUpdateAvailable(String spName, SqlConnection con,Mark mark)
+        private SqlCommand spUpdateAvailable(String spName, SqlConnection con, Mark mark)
         {
             SqlCommand cmd = new SqlCommand(); // create the command object
             cmd.Connection = con;// assign the connection to the command object
@@ -397,7 +351,7 @@ namespace projMaxPark.DAL
             {
                 SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
 
-                List <Object> listObjects= new List<Object>();
+                List<Object> listObjects = new List<Object>();
                 while (dataReader.Read())
                 {
                     var reservationId = dataReader["reservationId"];
@@ -417,7 +371,7 @@ namespace projMaxPark.DAL
                     listObjects.Add(new
                     {
                         reservationId = reservationId != DBNull.Value ? Convert.ToInt32(reservationId) : 0,
-                        userFullName=userFullName != DBNull.Value ? userFullName.ToString() : string.Empty,
+                        userFullName = userFullName != DBNull.Value ? userFullName.ToString() : string.Empty,
                         userId = userId != DBNull.Value ? Convert.ToInt32(userId) : 0,
                         reservationDate = reservationDate != DBNull.Value ? Convert.ToDateTime(reservationDate) : DateTime.MinValue,
                         reservation_STime = reservation_STime != DBNull.Value ? reservation_STime.ToString() : string.Empty,
@@ -454,7 +408,5 @@ namespace projMaxPark.DAL
             cmd.CommandType = System.Data.CommandType.StoredProcedure; // the type of the command, can also be stored procedure
             return cmd;
         }
-
-
     }
 }

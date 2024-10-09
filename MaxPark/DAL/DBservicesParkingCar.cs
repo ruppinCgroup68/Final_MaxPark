@@ -1,10 +1,6 @@
-﻿using projMaxPark.BL;
-using System.Data.SqlClient;
-using System.Data;
-using System.Text.Json;
-using System.Dynamic;
+﻿using System.Data.SqlClient;
 
-namespace projMaxPark.DAL
+namespace MaxPark.DAL
 {
     public class DBservicesParkingCar
     {
@@ -33,8 +29,4 @@ namespace projMaxPark.DAL
             return con;
         }
     }
-   
 }
-
-
-

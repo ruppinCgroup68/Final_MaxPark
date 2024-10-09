@@ -1,10 +1,10 @@
-﻿using projMaxPark.BL;
+﻿using MaxPark.BL;
 using System.Data.SqlClient;
 using System.Data;
 using System.Text.Json;
 using System.Dynamic;
 
-namespace projMaxPark.DAL
+namespace MaxPark.DAL
 {
     public class DBservicesMark
     {
@@ -84,7 +84,7 @@ namespace projMaxPark.DAL
                     con.Close();
                 }
             }
-         
+
         }
 
 
@@ -100,5 +100,59 @@ namespace projMaxPark.DAL
         }
 
 
+        //--------------------------------------------------------------------------------------------------
+        //                            R E A D - A V A I L I A B L E   S L O T  
+        //---------------------------------------------------------------------------------------------------
+        public int availableParkingCount()
+        {
+            SqlConnection con;
+            SqlCommand cmd;
+            try
+            {
+                con = connect("myProjDB"); // create the connection
+            }
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
+
+            cmd = ReadAvailableParkingCount("spGetAvailiableParkingCount", con);
+            int counter = 0;
+            try
+            {
+                SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+                if (dataReader.Read())
+                {
+                    counter = dataReader.GetInt32(0); // read the first column
+                }
+                dataReader.Close(); // close the data reader
+                return counter;
+            }
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
+            finally
+            {
+                if (con != null)
+                {
+                    // close the db connection
+                    con.Close();
+                }
+            }
+        }
+
+        //---------------------------------------------------------------------------------------------------
+        private SqlCommand ReadAvailableParkingCount(String spName, SqlConnection con)
+        {
+            SqlCommand cmd = new SqlCommand();// create the command object-
+            cmd.Connection = con;// assign the connection to the command object
+            cmd.CommandText = spName;// can be Select, Insert, Update, Delete 
+            cmd.CommandTimeout = 10;// Time to wait for the execution' The default is 30 seconds
+            cmd.CommandType = System.Data.CommandType.StoredProcedure; // the type of the command, can also be stored procedure
+            return cmd;
+        }
     }
 }

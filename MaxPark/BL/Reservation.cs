@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using projMaxPark.DAL;
+﻿using MaxPark.DAL;
 
-namespace projMaxPark.BL
+namespace MaxPark.BL
 {
     public class Reservation
     {
@@ -16,7 +15,7 @@ namespace projMaxPark.BL
 
         public Reservation() { }
 
-        public Reservation(int reservationId, int userId, int parkId, DateTime reservationDate, string reservation_STime, string reservation_ETime, string reservation_Status, int markId)
+        public Reservation(int reservationId, int userId, int parkId, DateTime reservation_Date, string reservation_STime, string reservation_ETime, string reservation_Status, int markId)
         {
             ReservationId = reservationId;
             UserId = userId;
@@ -37,30 +36,40 @@ namespace projMaxPark.BL
         public string Reservation_Status { get => reservation_Status; set => reservation_Status = value; }
         public int MarkId { get => markId; set => markId = value; }
 
-
+        //all reservations
         public Object Read()
         {
             DBservicesReservation dbs = new DBservicesReservation();
             return dbs.readReservations();
         }
-        public List<Reservation> ReadTomorrowRes()
+
+        public List<Object> ReadByUserId(int userId)
         {
-            DBservicesReservation dbs =new DBservicesReservation();
-            return dbs.readTommorowReservations();
+            DBservicesReservation dbs = new DBservicesReservation();
+            return dbs.readReservationsByUserId(userId);
         }
+
+        public List<Reservation> getTomorrowReservations()
+        {
+            DBservicesReservation dbs = new DBservicesReservation();
+            return dbs.getTomorrowReservations();
+        }
+
+        //new Reservation
         public int Insert(Reservation reservation)
         {
             DBservicesReservation dbs = new DBservicesReservation();
             return dbs.InsertReservation(reservation);
         }
-      
-        public int updateReservation(Reservation reservation)
+
+        public int updateReservationDateTime(Reservation reservation)
         {
-            DBservicesReservation dbs=new DBservicesReservation();
-            return dbs.updateReservation(reservation);
-           
+            DBservicesReservation dbs = new DBservicesReservation();
+            return dbs.updateReservationDateTime(reservation);
+
         }
 
+        //delete reservation 
         public int cancleReservation(int id)
         {
             DBservicesReservation dbs = new DBservicesReservation();

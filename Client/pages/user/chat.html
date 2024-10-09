@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reservation Chatbot</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="../../css/user/user.css" rel="stylesheet" />
+    <link href="../../css/user/chat.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div class="content-wrapper">
+        <div class="content-container">
+            <div class="top-bar">
+                <img src="../../img/logo.png" alt="App Logo" class="app-logo">
+                <span class="userFullName">Hello, </span>
+            </div>
+
+            <!-- Chat Room -->
+            <div class="chat-container">
+                <div id="chat-messages" class="chat-messages"></div>
+                <div class="chat-input">
+                    <input type="text" id="messageInput" placeholder="Type your request here...">
+                    <button id="sendButton">Send</button>
+                </div>
+            </div>
+
+            <!-- Bottom Navigation Menu -->
+            <div class="bottom-nav">
+                <a href="userHome.html" class="nav-item">
+                    <i class="bi bi-house-door-fill"></i>
+                    <span>Home</span>
+                </a>
+                <a href="reservations.html" class="nav-item">
+                    <i class="bi bi-box"></i>
+                    <span>My Reservations</span>
+                </a>
+                <a href="parking.html" class="nav-item">
+                    <i class="bi bi-car-front"></i>
+                    <span>Parking</span>
+                </a>
+                <a href="profile.html" class="nav-item">
+                    <i class="bi bi-person-circle"></i>
+                    <span>Profile</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="../../js/ajaxCall.js"></script>
+    <script src="../../js/user/chatbot.js"></script>
+    <script src="../../js/user/user.js"></script>
+</body>
+</html>

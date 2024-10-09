@@ -1,48 +1,54 @@
-﻿using projMaxPark.DAL;
+﻿using MaxPark.DAL;
 
-namespace projMaxPark.BL
+namespace MaxPark.BL
 {
     public class User
     {
         int userId;
         string userEmail;
         string userPassword;
-        string userName;
+        string userFirstName;
         string userLastName;
         string userCarNum;
         string userPhone;
+        string userImagePath;
         bool isAdmin;
-        bool isManager;
+        bool isParkingManager;
+        bool isActive;
 
-        public User(int userId, string userEmail, string userPassword, string userName, string userLastName, string userCarNum, string userPhone, bool isAdmin, bool isManager)
+        public User() { } 
+
+        public User(int userId, string userEmail, string userPassword, string userFirstName, string userLastName, string userCarNum, string userPhone, string userImagePath, bool isAdmin, bool isParkingManager, bool isActive)
         {
             UserId = userId;
             UserEmail = userEmail;
             UserPassword = userPassword;
-            UserName = userName;
+            UserFirstName = userFirstName;
             UserLastName = userLastName;
             UserCarNum = userCarNum;
             UserPhone = userPhone;
+            UserImagePath = userImagePath;
             IsAdmin = isAdmin;
-            IsManager = isManager;
+            IsParkingManager = isParkingManager;
+            IsActive = isActive;
         }
-
-        public User() { }
 
         public int UserId { get => userId; set => userId = value; }
         public string UserEmail { get => userEmail; set => userEmail = value; }
         public string UserPassword { get => userPassword; set => userPassword = value; }
-        public string UserName { get => userName; set => userName = value; }
+        public string UserFirstName { get => userFirstName; set => userFirstName = value; }
         public string UserLastName { get => userLastName; set => userLastName = value; }
         public string UserCarNum { get => userCarNum; set => userCarNum = value; }
         public string UserPhone { get => userPhone; set => userPhone = value; }
+        public string UserImagePath { get => userImagePath; set => userImagePath = value; }
         public bool IsAdmin { get => isAdmin; set => isAdmin = value; }
-        public bool IsManager { get => isManager; set => isManager = value; }
+        public bool IsParkingManager { get => isParkingManager; set => isParkingManager = value; }
+        public bool IsActive { get => isActive; set => isActive = value; }
 
-        public int Login()
+        public Object Login()
         {
-            DBservicesUser login = new DBservicesUser();
-            return login.UserLogin(this);
+            DBservicesUser dbs = new DBservicesUser();
+            return dbs.Login(this);
         }
 
         public List<Reservation> getReservationList(int userId)
@@ -51,6 +57,22 @@ namespace projMaxPark.BL
             return dbs.getMyReservationsList(userId);
         }
 
+        public Object updateDetails()
+        {
+            DBservicesUser dbService = new DBservicesUser();
+            return dbService.updateDetails(this);
+        }
 
+        public int updatePassword()
+        {
+            DBservicesUser dbs = new DBservicesUser();
+            return dbs.updatePassword(this);
+        }
+
+        public Object GetUserByCarNumber(string carNumber)
+        {
+            DBservicesUser dbsUser = new DBservicesUser();
+            return dbsUser.getUserByCarNumber(carNumber);
+        }
     }
 }

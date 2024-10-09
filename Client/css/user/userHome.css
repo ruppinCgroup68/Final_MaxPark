@@ -1,0 +1,110 @@
+﻿.center-wrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 70%;
+}
+
+.big-circle-button {
+    width: 13rem;
+    height: 13rem;
+    background-color: #88b7de;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 72px;
+    color: white;
+    font-family: 'Lato', sans-serif;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional: Add a slight shadow */
+    
+}
+
+.button-text {
+    font-size: 100px;
+    font-weight: bold;
+    color: #f3f6fc;
+}
+
+label{
+    font-size: 0.8rem;
+}
+
+h5 {
+    margin: 5%;
+    margin-bottom: 2%;
+}
+
+#next-reservation {
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    width: 20%;
+
+
+}
+
+/* Modal content */
+.modal-content {
+    background-color: #88b7de;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    width: 80%; /* Could be more or less, depending on screen size */
+    border-radius: 20px;
+}
+
+/* The close button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+    .close:hover,
+    .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+/* Form layout */
+.form-group {
+    margin-bottom: 15px;
+}
+
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+
+    .form-group input {
+        width: 100%;
+        padding: 8px;
+        box-sizing: border-box;
+    }
+
+/* Submit button */
+.submit-button {
+    background-color: #4287f5; /* Light blue background */
+    color: white; /* White text */
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    text-align: center;
+    display: block;
+    margin: 0 auto; /* Center the button */
+}
+
+    .submit-button:hover {
+        background-color: #357ae8; /* Darker blue on hover */
+    }

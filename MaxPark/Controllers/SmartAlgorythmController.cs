@@ -1,14 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using projMaxPark.BL;
-using System;
+﻿using MaxPark.BL;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
-namespace projMaxPark.Controllers
+namespace MaxPark.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class SmartAlgorythmController : ControllerBase
+    public class SmartAlgorythmController : Controller
     {
         //Daily algorithm 
         [HttpGet("smartAlgorithm")]

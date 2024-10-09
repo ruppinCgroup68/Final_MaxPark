@@ -1,13 +1,13 @@
-﻿using projMaxPark.BL;
-using System.Data.SqlClient;
+﻿using MaxPark.BL;
 using System.Data;
-using System.Text.Json;
-using System.Dynamic;
+using System.Data.SqlClient;
 
-namespace projMaxPark.DAL
+namespace MaxPark.DAL
 {
     public class DBservicesUser
     {
+        private object dataReader;
+
         /// <summary>
         /// DBServices is a class created by me to provides some DataBase Services
         /// </summary>
@@ -33,11 +33,10 @@ namespace projMaxPark.DAL
             return con;
         }
 
-
         //--------------------------------------------------------------------------------------------------
-        //                            L O G I N  - U S E R S 
-        //---------------------------------------------------------------------------------------------------
-        public int UserLogin(User user)
+        //                                   LogIn
+        //--------------------------------------------------------------------------------------------------
+        public Object Login(User user)
         {
 
             SqlConnection con;
@@ -57,37 +56,28 @@ namespace projMaxPark.DAL
 
             try
             {
-                SqlDataReader reader = cmd.ExecuteReader(); //execute the command
+                SqlDataReader reader = cmd.ExecuteReader(); // execute the command
 
                 while (reader.Read())
                 {
-                    string email = reader["userEmail"].ToString();
-                    Boolean isAdmin = Convert.ToBoolean(reader["isAdmin"]);
-                    Boolean isManager = Convert.ToBoolean(reader["isParkingManager"]);
-
-
-                    // 0 = Not Found
-                    // 1 = Admin 
-                    // 2 = Manager 
-                    // 3 = User   
-
-                    if ((isAdmin == true) && (isManager == false))
+                    Object userLogin = new
                     {
-                        return 1;
-                    }
-                    else
-                    {
-                        if ((isAdmin == false) && (isManager == true))
-                        {
-                            return 2;
-                        }
-                    }
+                        userId = Convert.ToInt32(reader["userId"]),
+                        userEmail = reader["userEmail"].ToString(),
+                        userFirstName = reader["userFirstName"].ToString(),
+                        userLastName = reader["userLastName"].ToString(),
+                        userCarNum = reader["userCarNum"].ToString(),
+                        userPhone = reader["userPhone"].ToString(),
+                        userImagePath = reader["userImagePath"].ToString(),
+                        isAdmin = Convert.ToBoolean(reader["isAdmin"]),
+                        isParkingManager = Convert.ToBoolean(reader["isParkingManager"]),
+                        isActive = Convert.ToBoolean(reader["isActive"]),
+                        notificationCode = reader["notificationCode"].ToString()
+                    };
 
+                    return userLogin;
                 }
-                if (reader.HasRows)//חזר משהו 
-                    return 3;
-                else
-                    return 0;
+                return null;
             }
             catch (Exception ex)
             {
@@ -111,7 +101,7 @@ namespace projMaxPark.DAL
             SqlCommand cmd = new SqlCommand(); // create the command object
             cmd.Connection = con;// assign the connection to the command object
             cmd.CommandText = spName;// can be Select, Insert, Update, Delete 
-            cmd.CommandTimeout = 10; // Time to wait for the execution' The default is 30 seconds
+            cmd.CommandTimeout = 30; // Time to wait for the execution' The default is 30 seconds
             cmd.CommandType = System.Data.CommandType.StoredProcedure; // the type of the command, can also be text
             cmd.Parameters.AddWithValue("@userEmail", user.UserEmail);
             cmd.Parameters.AddWithValue("@userPassword", user.UserPassword);
@@ -119,7 +109,7 @@ namespace projMaxPark.DAL
         }
 
         //--------------------------------------------------------------------------------------------------
-        //                            R E A D - M Y  R E S E R V A T I O N   L I S T   
+        //                            Read my Reservation List
         //---------------------------------------------------------------------------------------------------
         public List<Reservation> getMyReservationsList(int userId)
         {
@@ -192,6 +182,260 @@ namespace projMaxPark.DAL
             return cmd;
         }
 
+        //--------------------------------------------------------------------------------------------------
+        //                         update user details  
+        //---------------------------------------------------------------------------------------------------
+        public Object updateDetails(User user)
+        {
+            SqlConnection con;
+            SqlCommand cmd;
 
+            try
+            {
+                con = connect("myProjDB"); // create the connection
+            }
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
+
+            cmd = updateUserDetailsSP("spUpdateUserDetails", con, user); // create the command
+            try
+            {
+                SqlDataReader reader = cmd.ExecuteReader(); // execute the command
+
+                while (reader.Read())
+                {
+                    Object updatedUser = new
+                    {
+                        userId = Convert.ToInt32(reader["userId"]),
+                        userEmail = reader["userEmail"].ToString(),
+                        userFirstName = reader["userFirstName"].ToString(),
+                        userLastName = reader["userLastName"].ToString(),
+                        userCarNum = reader["userCarNum"].ToString(),
+                        userPhone = reader["userPhone"].ToString(),
+                        userImagePath = reader["userImagePath"].ToString()
+                    };
+
+                    return updatedUser;
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
+
+            finally
+            {
+                if (con != null)
+                {
+                    // close the db connection
+                    con.Close();
+                }
+            }
+        }
+
+        private SqlCommand updateUserDetailsSP(String spName, SqlConnection con, User user)
+        {
+            SqlCommand cmd = new SqlCommand(); // create the command object
+            cmd.Connection = con; // assign the connection to the command object
+            cmd.CommandText = spName; // can be Select, Insert, Update, Delete 
+            cmd.CommandTimeout = 10; // Time to wait for the execution' The default is 30 seconds
+            cmd.CommandType = System.Data.CommandType.StoredProcedure; // the type of the command, can also be text
+            cmd.Parameters.AddWithValue("@userId", user.UserId);
+            cmd.Parameters.AddWithValue("@userEmail", user.UserEmail);
+            cmd.Parameters.AddWithValue("@userFirstName", user.UserFirstName);
+            cmd.Parameters.AddWithValue("@userLastName", user.UserLastName);
+            cmd.Parameters.AddWithValue("@userCarNum", user.UserCarNum);
+            cmd.Parameters.AddWithValue("@userPhone", user.UserPhone);
+            cmd.Parameters.AddWithValue("@userImagePath", user.UserImagePath);
+            return cmd;
+        }
+
+
+        // Notifications - user App - Aya
+        public string GetUserNotificationCodeById(int userId)
+        {
+
+            SqlConnection con;
+            SqlCommand cmd;
+            int role = 0;
+
+            try
+            {
+                con = connect("myProjDB"); // create the connection
+            }
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
+
+            cmd = getUserSP("spGetUserById", con, userId); // create the command
+
+            try
+            {
+                SqlDataReader reader = cmd.ExecuteReader(); //execute the command
+
+
+                while (reader.Read())
+                {
+                    return reader["notificationCode"].ToString();
+
+                }
+
+                return null;
+            }
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
+
+            finally
+            {
+                if (con != null)
+                {
+                    // close the db connection
+                    con.Close();
+                }
+            }
+        }
+        //--------------------------------------------------------------------------------------------------
+        private SqlCommand getUserSP(String spName, SqlConnection con, int userId)
+        {
+            SqlCommand cmd = new SqlCommand(); // create the command object
+            cmd.Connection = con;// assign the connection to the command object
+            cmd.CommandText = spName;// can be Select, Insert, Update, Delete 
+            cmd.CommandTimeout = 10; // Time to wait for the execution' The default is 30 seconds
+            cmd.CommandType = System.Data.CommandType.StoredProcedure; // the type of the command, can also be text
+            cmd.Parameters.AddWithValue("@userId", userId);
+            return cmd;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+        //                             U P D A T E - U S E R S
+        //--------------------------------------------------------------------------------------------------  
+        public int updatePassword(User user)
+        {
+            SqlConnection con;
+            SqlCommand cmd;
+            try
+            {
+                con = connect("myProjDB"); // create the connection
+            }
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
+            cmd = CreateCommandWithStoredProcedure("spUpdatePassword", con, user);// create the command
+            try
+            {
+                int numEffected = cmd.ExecuteNonQuery(); // execute the command
+                return numEffected;
+            }
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
+
+            finally
+            {
+                if (con != null)
+                {
+                    // close the db connection
+                    con.Close();
+                }
+            }
+        }
+
+        //--------------------------------------------------------------------------------------------------
+        private SqlCommand CreateCommandWithStoredProcedure(String spName, SqlConnection con, User user)
+        {
+            SqlCommand cmd = new SqlCommand(); // create the command object
+            cmd.Connection = con;// assign the connection to the command object
+            cmd.CommandText = spName;// can be Select, Insert, Update, Delete 
+            cmd.CommandTimeout = 10; // Time to wait for the execution' The default is 30 seconds
+            cmd.CommandType = System.Data.CommandType.StoredProcedure; // the type of the command, can also be text
+            cmd.Parameters.AddWithValue("@userEmail", user.UserEmail);
+            cmd.Parameters.AddWithValue("@userPassword", user.UserPassword);
+            return cmd;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+        //                                   Get Users Car Number
+        //--------------------------------------------------------------------------------------------------
+        public Object getUserByCarNumber(string carNumber)
+        {
+
+            SqlConnection con;
+            SqlCommand cmd;
+
+            try
+            {
+                con = connect("myProjDB"); // create the connection
+            }
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
+
+            cmd = getCarNumSP("spGetUserByCarNumber", con, carNumber); // create the command
+
+            try
+            {
+                SqlDataReader reader = cmd.ExecuteReader(); // execute the command
+
+                while (reader.Read())
+                {
+                    Object blokingUser = new
+                    {
+                        userId = Convert.ToInt32(reader["userId"]),
+                        userEmail = reader["userEmail"].ToString(),
+                        userFirstName = reader["userFirstName"].ToString(),
+                        userLastName = reader["userLastName"].ToString(),
+                        userCarNum = reader["userCarNum"].ToString(),
+                        userPhone = reader["userPhone"].ToString(),
+                        userImagePath = reader["userImagePath"].ToString()
+                    };
+
+                    return blokingUser;
+                }
+                return null;
+
+            }
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
+
+            finally
+            {
+                if (con != null)
+                {
+                    // close the db connection
+                    con.Close();
+                }
+            }
+        }
+
+        //--------------------------------------------------------------------------------------------------
+        private SqlCommand getCarNumSP(String spName, SqlConnection con, string carNumber)
+        {
+            SqlCommand cmd = new SqlCommand(); // create the command object
+            cmd.Connection = con;// assign the connection to the command object
+            cmd.CommandText = spName;// can be Select, Insert, Update, Delete 
+            cmd.CommandTimeout = 30; // Time to wait for the execution' The default is 30 seconds
+            cmd.CommandType = System.Data.CommandType.StoredProcedure; // the type of the command, can also be text
+            cmd.Parameters.AddWithValue("@userCarNum", carNumber);
+            return cmd;
+        }
     }
 }

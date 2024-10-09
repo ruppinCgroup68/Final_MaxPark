@@ -1,0 +1,30 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Burger Menu Navigation</title>   
+    <link href="../../css/admin/admin.css" rel="stylesheet" />
+    
+</head>
+<body>
+    <div id="burger-menu" onclick="toggleMenu()">&#9776;</div>
+    <div id="side-menu" class="side-menu">
+        <a href="javascript:void(0)" class="close-btn" onclick="toggleMenu()">&times;</a>
+        <a href="javascript:void(0)" onclick="loadContent('manageUsers_new.html')">Manage Users</a>
+        <a href="javascript:void(0)" onclick="loadContent('mapping.html')">Mapping</a>
+        <a href="javascript:void(0)" onclick="loadContent('adminHome.html')">Home</a>
+    </div>
+    
+    <div id="main-content">
+        <!-- The content of the loaded HTML will appear here -->
+        <h1>Blank</h1>
+        <p>
+          
+        </p>
+    </div>
+
+    <script src="../../js/admin/admin.js"></script>
+    <script src="../../js/ajaxCall.js"></script>
+</body>
+</html>

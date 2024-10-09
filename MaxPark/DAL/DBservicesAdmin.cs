@@ -1,10 +1,8 @@
-﻿using projMaxPark.BL;
+﻿using MaxPark.BL;
 using System.Data.SqlClient;
 using System.Data;
-using System.Text.Json;
-using System.Dynamic;
 
-namespace projMaxPark.DAL
+namespace MaxPark.DAL
 {
     public class DBservicesAdmin
     {
@@ -57,10 +55,14 @@ namespace projMaxPark.DAL
                 User u = new User();
                 u.UserId = Convert.ToInt32(dataReader["userId"]);
                 u.UserEmail = dataReader["userEmail"].ToString();
-                u.UserName = dataReader["userFirstName"].ToString();
+                u.UserFirstName = dataReader["userFirstName"].ToString();
                 u.UserLastName = dataReader["userLastName"].ToString();
                 u.UserCarNum = dataReader["userCarNum"].ToString();
                 u.UserPhone = dataReader["userPhone"].ToString();
+                u.UserImagePath = dataReader["userImagePath"].ToString();
+                u.IsAdmin = Convert.ToBoolean(dataReader["isAdmin"]);
+                u.IsParkingManager = Convert.ToBoolean(dataReader["isParkingManager"]);
+                u.IsActive = Convert.ToBoolean(dataReader["isActive"]);
 
                 users.Add(u);
             }
@@ -134,10 +136,65 @@ namespace projMaxPark.DAL
             cmd.CommandType = System.Data.CommandType.StoredProcedure; // the type of the command, can also be stored procedure
             cmd.Parameters.AddWithValue("@userEmail", user.UserEmail);
             cmd.Parameters.AddWithValue("@userPassword", user.UserPassword);
-            cmd.Parameters.AddWithValue("@userFirstName", user.UserName);
+            cmd.Parameters.AddWithValue("@userFirstName", user.UserFirstName);
             cmd.Parameters.AddWithValue("@userLastName", user.UserLastName);
             cmd.Parameters.AddWithValue("@userCarNum", user.UserCarNum);
             cmd.Parameters.AddWithValue("@userPhone", user.UserPhone);
+            return cmd;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+        //                            Update User isActive 
+        //-------------------------------------------------------------------------------------------------- 
+        public int updateIsActive(int userId, bool isActive)
+        {
+            SqlConnection con;
+            SqlCommand cmd;
+
+            try
+            {
+                con = connect("myProjDB"); // create the connection
+            }
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
+
+            cmd = CreateCommandWithStoredProcedure("spUpdateUserIsActive", con, userId, isActive); // create the command
+
+            try
+            {
+                int numEffected = cmd.ExecuteNonQuery(); // execute the command
+                return numEffected;
+            }
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
+
+            finally
+            {
+                if (con != null)
+                {
+                    // close the db connection
+                    con.Close();
+                }
+            }
+
+        }
+
+        //---------------------------------------------------------------------------------
+        private SqlCommand CreateCommandWithStoredProcedure(String spName, SqlConnection con, int userId, bool isActive)
+        {
+            SqlCommand cmd = new SqlCommand(); // create the command object
+            cmd.Connection = con; // assign the connection to the command object
+            cmd.CommandText = spName; // can be Select, Insert, Update, Delete 
+            cmd.CommandTimeout = 10; // Time to wait for the execution' The default is 30 seconds
+            cmd.CommandType = System.Data.CommandType.StoredProcedure; // the type of the command, can also be text
+            cmd.Parameters.AddWithValue("@userId", userId);
+            cmd.Parameters.AddWithValue("@isActive", isActive);
             return cmd;
         }
 
@@ -297,7 +354,5 @@ namespace projMaxPark.DAL
             cmd.CommandType = System.Data.CommandType.StoredProcedure;// the type of the command, can also be text
             return cmd;
         }
-
-
     }
 }

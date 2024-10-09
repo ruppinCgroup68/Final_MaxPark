@@ -1,0 +1,83 @@
+﻿.filters-section {
+    margin-bottom: 1rem;
+    height: auto;
+    width: 100%;
+    border-radius: 0.3rem; /* Optional: for rounded corners */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+    .filters-section .form-control,
+    .filters-section .form-select {
+        height: 2.5rem; /* Smaller height for input and select elements */
+        font-size: 0.8rem; /* Slightly smaller font size */
+    }
+
+    .filters-section .row {
+        width: auto; /* Ensure row does not take full width */
+        flex-wrap: nowrap;
+    }
+
+.table {
+    width: 90%; /* Make it responsive based on screen width */
+    border-collapse: collapse;
+    margin: 0 auto; /* Center the table horizontally */
+    font-size: 0.8rem; /* Use responsive font size */
+}
+
+.table-bordered {
+    border: 0.05rem solid #ddd; /* Use rem for border size */
+}
+
+.table th, .table td {
+    border: 0.05rem solid #ddd;
+    padding: 0.6rem; /* Use rem for padding */
+    text-align: center;
+}
+
+.table th {
+    background-color: #f4f4f4;
+}
+
+.status.waiting {
+    color: orange;
+}
+
+.status.denied {
+    color: red;
+}
+
+.status.approved {
+    color: green;
+}
+
+.pagination-controls {
+    position: absolute; /* Keep pagination at the bottom */
+    bottom: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.9rem; /* Smaller font size for buttons */
+    width: 100%; /* Ensure pagination controls stretch across the full width */
+
+}
+
+    .pagination-controls .btn {
+        padding: 0.3rem 0.6rem; /* Smaller padding for buttons */
+        font-size: 0.9rem; /* Make the button text smaller */
+    }
+
+#pageInfo {
+    margin: 0 0.8rem; /* Space between buttons */
+}
+
+.top-centered-content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 4rem; /* Ensure there’s room for pagination controls */
+}

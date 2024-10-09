@@ -1,19 +1,23 @@
-﻿using Microsoft.AspNetCore.DataProtection.KeyManagement;
-using projMaxPark.DAL;
-using System;
-using System.Collections.Generic;
-using System.Security.Cryptography;
+﻿using MaxPark.DAL;
 
-namespace projMaxPark.BL
+namespace MaxPark.BL
 {
     public class SmartAlgorithm
     {
+        public SmartAlgorithm()
+        {
+        }
 
         public Object GetDailyAlgorithm()
         {
-            DBservicesSmartAlgorithm dbsRes = new DBservicesSmartAlgorithm();
+
+            System.Console.WriteLine("GetDailyAlgorithm");
+
+            DBservicesReservation d = new DBservicesReservation();
             List<Reservation> reservationsList = new List<Reservation>();
-            reservationsList = dbsRes.getDailyReservations();
+            // reservationsList=d.GetTomorrowReservations();
+            reservationsList = d.getTomorrowReservations();
+
 
             DBservicesSmartAlgorithm dbsMarks = new DBservicesSmartAlgorithm();
             List<Mark> markList = new List<Mark>();
@@ -30,16 +34,17 @@ namespace projMaxPark.BL
                 reservation.MarkId = 0;
             }
 
+            // 3 main algorithm functions
             reservationsList = BubbleSort(reservationsList);
             reservationsList = GroupReservations(reservationsList);
             AssignParkingSlots(ref reservationsList, ref markList);
 
-  
 
             foreach (Reservation res in reservationsList)
             {
                 DBservicesSmartAlgorithm dbsStatus = new DBservicesSmartAlgorithm();
                 DBservicesSmartAlgorithm dbsMarkId = new DBservicesSmartAlgorithm();
+
                 dbsStatus.UpdateReservationStatus(res);
 
                 if (res.Reservation_Status == "אישור")
@@ -57,10 +62,10 @@ namespace projMaxPark.BL
 
             DBservicesSmartAlgorithm dbsObj = new DBservicesSmartAlgorithm();
             return dbsObj.getUpdatedReservations();
-
         }
 
-        //bubble sort - by early end
+
+        // sort order reservations by early end
         private List<Reservation> BubbleSort(List<Reservation> list)
         {
             int n = list.Count;
@@ -90,18 +95,21 @@ namespace projMaxPark.BL
             return list;
         }
 
+
+
+        // Group followed orders - make groups as large as posible
         private List<Reservation> GroupReservations(List<Reservation> reservations)
         {
-            List<Reservation> groupedReservations = new List<Reservation>();//החזרת רשימה חדשה
-            HashSet<int> addedReservationIds = new HashSet<int>();//שמירת מס ייחודי של הזמנות שנוספו כבר
+            List<Reservation> groupedReservations = new List<Reservation>(); // Return new list 
+            HashSet<int> addedReservationIds = new HashSet<int>(); // Saving booking num, who already added
 
-            int count = reservations.Count;//שמירת מס ייחודי של הזמנות שנוספו כבר
+            int count = reservations.Count; // Saving booking num, who already checked
 
             for (int i = 0; i < count; i++)
             {
                 Reservation current = reservations[i];
                 if (addedReservationIds.Contains(current.ReservationId))
-                    continue; // אם כבר טופלה ההזמנה הזו, דלג עליה
+                    continue; // Pass this booking if alredy checked
 
                 List<Reservation> currentCombination = new List<Reservation>();
                 currentCombination.Add(current);
@@ -121,17 +129,21 @@ namespace projMaxPark.BL
                         endTime = endTimeNext;
                     }
                 }
-                groupedReservations.AddRange(currentCombination); // הוספת כל הקבוצה לרשימת ההזמנות הכוללת
+                groupedReservations.AddRange(currentCombination);
+                // Add all the group to booking list
             }
             return groupedReservations;
         }
 
 
+
+        // main scheduling function 
         private void AssignParkingSlots(ref List<Reservation> sortedGroupedReservations, ref List<Mark> marks)
         {
             // Mapping of markId to list of reservations and tracking blocked marks
             Dictionary<string, List<Reservation>> markAvailability = new Dictionary<string, List<Reservation>>();
             Dictionary<string, string> blockMarks = new Dictionary<string, string>(); // Maps blocked markId to blocker markId
+            List<Reservation> rejectedReservations = new List<Reservation>();
 
             foreach (Mark mark in marks)
             {
@@ -144,12 +156,13 @@ namespace projMaxPark.BL
                         string blockerMarkName = marks.FirstOrDefault(m => m.MarkName == mark.MarkName_Block)?.MarkName ?? "";
                         if (blockerMarkName != "")
                         {
-                            blockMarks.Add( blockerMarkName, mark.MarkName);
+                            blockMarks.Add(blockerMarkName, mark.MarkName);
                         }
                     }
                 }
             }
-         
+
+
             foreach (Reservation reservation in sortedGroupedReservations)
             {
                 bool assigned = false;
@@ -176,7 +189,7 @@ namespace projMaxPark.BL
                     }
 
                     // אם אין חפיפת זמנים, נמשיך לבדוק אם ניתן לשבץ את ההזמנה
-                    else if(CanAssign(markAvailability[markName], reservation))
+                    else if (CanAssign(markAvailability[markName], reservation))
                     {
                         markAvailability[markName].Add(reservation);
                         reservation.MarkId = marks.FirstOrDefault(m => m.MarkName == markName)?.MarkId ?? 0;
@@ -189,15 +202,19 @@ namespace projMaxPark.BL
                 if (!assigned)
                 {
                     reservation.Reservation_Status = "דחייה";
+                    rejectedReservations.Add(reservation);
                 }
             }
 
             sortedGroupedReservations = swapSlot(markAvailability);
+            sortedGroupedReservations.AddRange(rejectedReservations);
+
             return;
         }
 
-        
 
+
+        // Time Overlap between reservations times 
         private bool TimesOverlap(Reservation r1, Reservation r2)
         {
             TimeSpan start1 = TimeSpan.Parse(r1.Reservation_STime);
@@ -208,6 +225,8 @@ namespace projMaxPark.BL
             return ((start1 >= start2 && end1 <= end2) || end1 <= start2 || start1 >= end2);
         }
 
+
+
         private bool CanAssign(List<Reservation> currentReservations, Reservation newReservation)
         {
             TimeSpan newStart = TimeSpan.Parse(newReservation.Reservation_STime);
@@ -217,15 +236,18 @@ namespace projMaxPark.BL
             {
                 TimeSpan existingStart = TimeSpan.Parse(existing.Reservation_STime);
                 TimeSpan existingEnd = TimeSpan.Parse(existing.Reservation_ETime);
-                // בדיקת חפיפת זמנים
+
+                // Time Overlap check again
                 if (!(existingEnd <= newStart || existingStart >= newEnd))
                 {
-                    return false; // חפיפת זמנים מתרחשת, לא ניתן לשבץ את ההזמנה החדשה בחנייה זו
+                    return false; // A time overlap occurs, the new reservation cannot be assigned into this mark
                 }
             }
-            return true; // אין חפיפות, ניתן לשבץ את ההזמנה בחנייה זו
+            return true;  // Successfuly assigened 
         }
 
+
+        // fix blocked parking spots 
         private List<Reservation> swapSlot(Dictionary<string, List<Reservation>> combinations)
         {
             List<Reservation> updatedlist = new List<Reservation>();
@@ -260,21 +282,19 @@ namespace projMaxPark.BL
                             reservation.MarkId = markId2;
                             combinations[previousKey].Add(reservation);
                             combinations[markNames].RemoveAt(i);
-                            i--; // Decrement i since we removed an item at index i
+                            i--;
+                            // Decrement i since we removed an item at index i
                         }
                     }
 
                 }
             }
 
-            foreach(string combKey in combinations.Keys)
+            foreach (string combKey in combinations.Keys)
             {
                 updatedlist.AddRange(combinations[combKey]);
             }
             return updatedlist;
         }
-
-
-
     }
 }
