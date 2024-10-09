@@ -1,7 +1,7 @@
 ﻿$(document).ready(function () {
 
     $("#submitBtn").click(submitLogIn);
-    let port = "7157";
+    let port = "7061";
     server = `http://localhost:${port}`;
 
 });

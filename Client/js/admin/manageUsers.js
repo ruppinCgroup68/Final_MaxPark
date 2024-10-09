@@ -1,5 +1,5 @@
 ﻿document.addEventListener('DOMContentLoaded', function () {
-     server = "http://localhost:7157";
+     server = "http://localhost:7061";
     const rowsPerPage = 5;
     let currentPage = 1;
 
@@ -281,7 +281,7 @@ $('#closeConfirmModal, #cancelIsActiveBtn').click(function ()
 $('#confirmIsActiveBtn').click(function ()
 {   
     if (location.hostname == "localhost" || location.hostname == "127.0.0.1") {
-        api = `http://localhost:7157/api/Admin/putIsActive/userId/${userId}/isActive/${isActive}`;
+        api = `http://localhost:7061/api/Admin/putIsActive/userId/${userId}/isActive/${isActive}`;
     }
     else
     {

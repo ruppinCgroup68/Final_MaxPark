@@ -5,7 +5,7 @@
 let slotsArray = [];
 let dataRetrieved = [];
 let lastSlotId = 1;
-const server = "http://localhost:7157/api";
+const server = "http://localhost:7061/api";
 function fetchParkingData()
 {
     if (location.hostname == "localhost" || location.hostname == "127.0.0.1")

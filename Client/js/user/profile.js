@@ -1,6 +1,6 @@
 ﻿$(document).ready(function () {
 
-    localserver = "http://localhost:7157/api";
+    localserver = "http://localhost:7061/api";
     server = "https://proj.ruppin.ac.il/cgroup68/test2/tar1/api";
 
     let api = "/Users/updateDetails";

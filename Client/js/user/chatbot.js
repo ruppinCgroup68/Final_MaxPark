@@ -1,5 +1,5 @@
 ﻿$(document).ready(function () {
-    const apiBaseUrl = 'http://localhost:7157/api'; // Base URL for your API
+    const apiBaseUrl = 'http://localhost:7061/api'; // Base URL for your API
     const userData = JSON.parse(sessionStorage.getItem('res')); // Retrieve user data from session storage
 
     // Check if user is logged in by checking userId

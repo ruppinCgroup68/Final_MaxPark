@@ -9,7 +9,7 @@
         if (userData && userData.userId)
         {
             if (location.hostname == "localhost" || location.hostname == "127.0.0.1") {
-                api = `http://localhost:7157/api/Users/reservationList?userId=${userData.userId}`;
+                api = `http://localhost:7061/api/Users/reservationList?userId=${userData.userId}`;
             }
             else
             {

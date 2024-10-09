@@ -2,7 +2,7 @@
 
 
     // Declare the API URL at the top of the script
-    const apiBaseUrl = 'http://localhost:7157/api';
+    const apiBaseUrl = 'http://localhost:7061/api';
     let nextReservationDate = "01/01/2020"
 
     // Function to load the next reservation and update the timer

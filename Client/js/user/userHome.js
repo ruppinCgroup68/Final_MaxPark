@@ -1,7 +1,7 @@
 ﻿$(document).ready(function () {
 
     // Declare the API URL at the top of the script
-    const apiBaseUrl = 'http://localhost:7157/api';
+    const apiBaseUrl = 'http://localhost:7061/api';
 
     // Function to load and display only the next reservation
     function loadNextReservation() {
@@ -10,7 +10,7 @@
         {
             if (location.hostname == "localhost" || location.hostname == "127.0.0.1")
             {
-                api = `http://localhost:7157/api/Users/reservationList?userId=${userData.userId}`;
+                api = `http://localhost:7061/api/Users/reservationList?userId=${userData.userId}`;
             }
             else
             {
