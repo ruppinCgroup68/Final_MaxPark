@@ -25,7 +25,7 @@ function submitLogIn(event) {
     }
     if (location.hostname == "localhost" || location.hostname == "127.0.0.1")
     {
-        //TODO: api = server + "/api/Users/LogIn";
+        // TODO api = server + "/api/Users/LogIn";
         api = 'https://proj.ruppin.ac.il/cgroup68/test2/tar1/api/Users/LogIn';
     }
     else
@@ -47,17 +47,18 @@ function postSCB(res) {
             console.log("Login User successful");
             sessionStorage.setItem("password", $("#password").val());
             sessionStorage.setItem("res", JSON.stringify(res));
-            window.location.href = "crm-maxpark/html/pages-userProfile.html";
+            window.location.href = "crm-maxpark/html/user-home.html";
         } else {
             console.log("user is nor active")
             alert("user is not active");
         }
     }
     if (res.isAdmin === true && res.isParkingManager === false) {
-        window.location.href = "pages/admin/adminHome.html";
+        window.location.href = "crm-maxpark/html/admin-dashboard.html";
     }
     if (res.isAdmin === false && res.isParkingManager === true) {
-        window.location.href = "pages/manager/events.html";
+        window.location.href = "crm-maxpark/html/manager-evenTable.html";
+
     }
 }
 
