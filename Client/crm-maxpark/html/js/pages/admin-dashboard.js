@@ -1,165 +1,165 @@
-﻿$(document).ready(function () {
-   // const localserver = "http://localhost:7061/api";
-    const localserver = "https://proj.ruppin.ac.il/cgroup68/test2/tar1/api";
-    const server = "https://proj.ruppin.ac.il/cgroup68/test2/tar1/api";
-    const defaultProfileImage = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png";
-    const apiBaseUrl = location.hostname === "localhost" || location.hostname === "127.0.0.1" ? localserver : server;
-    const updatePasswordApi = "/Users/updatePassword";
-    const updateDetailsApi = "/Users/updateDetails";
-    const uploadImageApi = "/Users/savePhoto";
-    const getImageApi = "/Users/getPhoto/";
-    let user = JSON.parse(sessionStorage.getItem('res'));
+﻿//admin.js
+function loadContent(page)
+{
+    window.location.href = page;
+}
 
-    function loadProfileFields() {
-        const userData = JSON.parse(sessionStorage.getItem('res'));
+function logout() {
+    // Clear session storage or any authentication tokens
+    sessionStorage.clear(); // Clears all session storage
+    localStorage.clear();   // Clears all local storage (if you use it)
 
-        if (userData) {
-            $('#fullName').attr('placeholder', `${userData.userFirstName || "Unknown"} ${userData.userLastName || "Unknown"}`);
-            $('#email').attr('placeholder', userData.userEmail || "Unknown");
-            $('#password').attr('placeholder', "********"); // Display asterisks for security
-            $('#phoneNumber').attr('placeholder', userData.userPhone || "Unknown");
-            $('#carNumber').attr('placeholder', userData.userCarNum || "Unknown");
+    // Redirect to the login page
+    window.location.href = '../../login.html';
+}
+//adminHome.js
+document.addEventListener("DOMContentLoaded", function () {
+    if (location.hostname == "localhost" || location.hostname == "127.0.0.1") {
+        api = 'http://localhost:7061/api/Reservasions/readReservations';
+    } else {
+        api = 'https://proj.ruppin.ac.il/cgroup68/test2/tar1/api/Reservasions/readReservations';
+    }
+    // Fetch data from the server
+    ajaxCall('GET', api, null, handleSuccess, handleError);
 
-            // Load user's profile image or set default
-            if (userData.userImagePath) {
-                loadProfileImage(userData.userImagePath);
+    function handleSuccess(response) {
+        const data = response;
+
+        // Format dates to DD-MM-YYYY (assuming `reservation_Date` is part of the response)
+        data.forEach(item => {
+            item.reservation_Date = formatDate(item.reservation_Date);
+        });
+
+        // Generate a list of all unique dates in the data
+        const allDates = generateDateRange('2024-09-01', '2024-10-28');
+
+        // Graph 1: Reservations by Date
+        const datesCtx = document.getElementById('datesGraph').getContext('2d');
+        const datesData = groupBy(data, 'reservation_Date');
+        const datesLabels = Object.keys(datesData);
+        const datesCounts = datesLabels.map(label => datesData[label].length);
+
+        new Chart(datesCtx, {
+            type: 'bar',
+            data: {
+                labels: datesLabels,
+                datasets: [{
+                    label: 'Number of Reservations',
+                    data: datesCounts,
+                    backgroundColor: '#36A2EB'
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        beginAtZero: true
+                    },
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Graph 2: Empty Slots Percentage
+        //const emptySlotsCtx = document.getElementById('emptySlotsGraph').getContext('2d');
+        //const totalSlots = 10;
+        //const reservedSlots = new Set(data.map(item => item.parkId));
+        //const emptySlots = totalSlots - reservedSlots.size;
+        //new Chart(emptySlotsCtx, {
+        //    type: 'doughnut',
+        //    data: {
+        //        labels: ['Empty Slots', 'Reserved Slots'],
+        //        datasets: [{
+        //            data: [emptySlots, reservedSlots.size],
+        //            backgroundColor: ['#FF6384', '#36A2EB'],
+        //        }]
+        //    },
+        //    options: {
+        //        responsive: true
+        //    }
+        //});
+
+        // Graph 3: Average Parking Time
+        const avgParkingTimeCtx = document.getElementById('avgParkingTimeGraph').getContext('2d');
+        const avgTimeData = calculateAverageParkingTime(data, allDates, datesData);
+        new Chart(avgParkingTimeCtx, {
+            type: 'line',
+            data: {
+                labels: Object.keys(avgTimeData),
+                datasets: [{
+                    label: 'Average Parking Time (hours)',
+                    data: Object.values(avgTimeData),
+                    backgroundColor: '#FFCE56',
+                    fill: true,
+                    borderColor: '#FFCE56',
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    }
+
+    function handleError(error) {
+        console.error('Failed to load reservations:', error);
+        alert('Failed to load reservations. Please try again.');
+    }
+
+    function formatDate(dateString) {
+        const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
+        return new Date(dateString).toLocaleDateString('en-GB', options);
+    }
+
+    function groupBy(array, key) {
+        return array.reduce((result, currentValue) => {
+            (result[currentValue[key]] = result[currentValue[key]] || []).push(currentValue);
+            return result;
+        }, {});
+    }
+
+    function calculateAverageParkingTime(data, allDates, datesData) {
+        const avgTimeData = {};
+        allDates.forEach(date => {
+            avgTimeData[date] = 0; // Initialize with 0
+        });
+        data.forEach(item => {
+            const date = item.reservation_Date;
+            const startTime = new Date(`1970-01-01T${item.reservation_STime}`);
+            const endTime = new Date(`1970-01-01T${item.reservation_ETime}`);
+            const duration = (endTime - startTime) / (1000 * 60 * 60);
+            if (avgTimeData[date] === 0) {
+                avgTimeData[date] = duration;
             } else {
-                $('#profileImage').attr('src', defaultProfileImage);
-            }
-        } else {
-            console.error("No user data found in sessionStorage.");
-        }
-    }
-
-    function loadProfileImage(fileName) {
-        const imageApiUrl = `${apiBaseUrl}${getImageApi}${fileName}`;
-
-        $.ajax({
-            url: imageApiUrl,
-            type: "GET",
-            xhrFields: {
-                responseType: 'blob' // Expect binary data (image)
-            },
-            success: function (response) {
-                // Create a URL for the image blob and set it as the image source
-                const imageUrl = URL.createObjectURL(response);
-                $('#profileImage').attr('src', imageUrl);
-            },
-            error: function (error) {
-                console.error('Failed to load image:', error);
-                $('#profileImage').attr('src', defaultProfileImage); // Fallback to default image if error
+                avgTimeData[date] += duration;
             }
         });
+        for (const date in avgTimeData) {
+            const count = datesData[date] ? datesData[date].length : 0;
+            avgTimeData[date] = count > 0 ? avgTimeData[date] / count : 0;
+        }
+        return avgTimeData;
     }
 
-    function updateProfile(event) {
-        event.preventDefault();
+    function generateDateRange(startDate, endDate) {
+        const start = new Date(startDate);
+        const end = new Date(endDate);
+        const dateArray = [];
+        let currentDate = start;
 
-        const newPassword = $('#password').val();
-        const storedPassword = sessionStorage.getItem('password');
-
-        // Check if the password needs updating
-        if (newPassword) {
-            changePassword(newPassword);
+        while (currentDate <= end) {
+            dateArray.push(formatDate(currentDate.toISOString()));
+            currentDate.setDate(currentDate.getDate() + 1);
         }
 
-        // Check if the profile picture needs updating
-        if (selectedFile) {
-            uploadProfilePicture(selectedFile, function (response) {
-                const imagePath = response[0];
-                user.userImagePath = imagePath;  // Update the image path in the user object
-                sessionStorage.setItem('res', JSON.stringify(user));
-                alert("Profile picture updated successfully!");
-            }, function () {
-                alert("Failed to upload profile picture.");
-            });
-        }
-
-        // Check for other updated fields
-        let fieldsUpdated = false;
-        let updatedUser = { ...user };  // Start with current user data
-
-        // Only update fields if the user entered something
-        updatedUser.userEmail = $("#email").val() || user.userEmail;
-        updatedUser.userFirstName = $("#firstName").val() || user.userFirstName;
-        updatedUser.userLastName = $("#lastName").val() || user.userLastName;
-        updatedUser.userCarNum = $("#carNumber").val() || user.userCarNum;
-        updatedUser.userPhone = $("#phoneNumber").val() || user.userPhone;
-
-        // Check if any field other than password/photo was changed
-        if (
-            updatedUser.userEmail !== user.userEmail ||
-            updatedUser.userFirstName !== user.userFirstName ||
-            updatedUser.userLastName !== user.userLastName ||
-            updatedUser.userCarNum !== user.userCarNum ||
-            updatedUser.userPhone !== user.userPhone
-        ) {
-            fieldsUpdated = true;
-        }
-
-        // If fields were updated, call saveProfile, else show "Nothing to Update" message
-        if (fieldsUpdated) {
-            saveProfile(updatedUser);
-        } else if (!newPassword && !selectedFile) {
-            alert("Nothing to Update");
-        }
+        return dateArray;
     }
-
-    // Function to change the password
-    function changePassword(newPassword) {
-        const updatedUser = {
-            ...user,
-            userPassword: newPassword
-        };
-
-        ajaxCall("PUT", `${apiBaseUrl}${updatePasswordApi}`, JSON.stringify(updatedUser), function (response) {
-            alert("Password changed successfully!");
-            $('#password').val('');  // Clear password field
-        }, function (error) {
-            alert("Failed to change password.");
-        });
-    }
-
-    // Function to save updated profile fields
-    function saveProfile(updatedUser) {
-        ajaxCall("PUT", `${apiBaseUrl}${updateDetailsApi}`, JSON.stringify(updatedUser), function (response) {
-            alert("Profile updated successfully!");
-            sessionStorage.setItem('res', JSON.stringify(updatedUser));  // Update session storage
-        }, function (error) {
-            alert("Failed to update profile.");
-        });
-    }
-
-    // Function to upload profile picture (using $.ajax directly)
-    function uploadProfilePicture(file, successCB, errorCB) {
-        const formData = new FormData();
-        formData.append('files', file);
-
-        const apiToAjax = `${apiBaseUrl}${uploadImageApi}`;
-
-        $.ajax({
-            url: apiToAjax,
-            type: 'POST',
-            data: formData,
-            contentType: false,
-            processData: false,
-            success: successCB,
-            error: errorCB
-        });
-    }
-
-    // Track selected file on image input change
-    $('#imageUpload').on('change', function (event) {
-        selectedFile = event.target.files[0];
-        const reader = new FileReader();
-        reader.onload = function (e) {
-            $('#profileImage').attr('src', e.target.result);
-        };
-        reader.readAsDataURL(selectedFile);
-    });
-
-    // Attach updateProfile function to the Update button
-    $('#updateProfileButton').on('click', updateProfile);
-
-    loadProfileFields(); // Call function to load profile fields on page load
 });
+
