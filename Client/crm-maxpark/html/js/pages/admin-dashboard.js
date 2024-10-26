@@ -15,7 +15,8 @@ function logout() {
 //adminHome.js
 document.addEventListener("DOMContentLoaded", function () {
     if (location.hostname == "localhost" || location.hostname == "127.0.0.1") {
-        api = 'http://localhost:7061/api/Reservasions/readReservations';
+        //TODO api = 'http://localhost:7061/api/Reservasions/readReservations';
+        api = 'https://proj.ruppin.ac.il/cgroup68/test2/tar1/api/Reservasions/readReservations';
     } else {
         api = 'https://proj.ruppin.ac.il/cgroup68/test2/tar1/api/Reservasions/readReservations';
     }
