@@ -7,9 +7,9 @@
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="keywords"
-        content="wrappixel, admin dashboard, html css dashboard, web dashboard, bootstrap 5 admin, bootstrap 5, css3 dashboard, bootstrap 5 dashboard, materialpro admin bootstrap 5 dashboard, frontend, responsive bootstrap 5 admin template, materialpro admin lite design, materialpro admin lite dashboard bootstrap 5 dashboard template">
+          content="wrappixel, admin dashboard, html css dashboard, web dashboard, bootstrap 5 admin, bootstrap 5, css3 dashboard, bootstrap 5 dashboard, materialpro admin bootstrap 5 dashboard, frontend, responsive bootstrap 5 admin template, materialpro admin lite design, materialpro admin lite dashboard bootstrap 5 dashboard template">
     <meta name="description"
-        content="Material Pro Lite is powerful and clean admin dashboard template, inpired from Bootstrap Framework">
+          content="Material Pro Lite is powerful and clean admin dashboard template, inpired from Bootstrap Framework">
     <meta name="robots" content="noindex,nofollow">
     <title>Material Pro Lite Template by WrapPixel</title>
     <link rel="canonical" href="https://www.wrappixel.com/templates/materialpro-lite/" />
@@ -24,9 +24,71 @@
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 
     <!-- Bootstrap CSS -->
-    
+    <style>
+        /* Chat container style */
+        .chat-container {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
 
-<![endif]-->
+        /* Messages area */
+        #chatMessages {
+            width: 100%;
+            resize: none;
+            overflow-y: auto;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            padding: 10px;
+            color: black;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+        }
+
+        /* Input area */
+        .chat-input {
+            display: flex;
+            align-items: center;
+        }
+
+        /* Message input field */
+        #messageInput {
+            flex: 1;
+            padding: 8px;
+            margin-right: 5px;
+            border-radius: 4px;
+        }
+
+        /* Send button */
+        #sendButton {
+            padding: 8px 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .bot-message {
+            color: black;
+            background-color: #b6d4f2;
+            padding: 5px;
+            border-radius: 5px;
+        }
+
+        .user-message {
+            color: black;
+            background-color: #f0f0f0;
+            padding: 5px;
+            border-radius: 5px;
+        }
+
+
+    </style>
+
+
 </head>
 
 <body>
@@ -227,40 +289,17 @@
             <!-- Container fluid  -->
             <!-- ============================================================== -->
             <div class="container-fluid">
-                <!-- Row for Next and New Reservations -->
                 <div class="row">
-                    <!-- Column for Next Reservation (wider) -->
-                    <div class="col-md-8">
+                    <div class="col-md-4">
                         <div class="card">
                             <div class="card-body">
                                 <h4 class="card-title">Next Reservation:</h4>
-                                <div class="row">
-                                    <div class="col-md-6 mb-3">
-                                        <label>Reservation Date</label>
-                                        <input type="text" id="reservationDate" class="form-control" disabled>
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label>Start Time</label>
-                                        <input type="text" id="reservationStartTime" class="form-control" disabled>
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label>End Time</label>
-                                        <input type="text" id="reservationEndTime" class="form-control" disabled>
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label>Status</label>
-                                        <input type="text" id="reservationStatus" class="form-control" disabled>
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label>Mark ID</label>
-                                        <input type="text" id="reservationMarkId" class="form-control" disabled>
-                                    </div>
+                                <div id="next-reservation-details">
+                                    <!-- Next reservation details here -->
                                 </div>
                             </div>
                         </div>
                     </div>
-
-                    <!-- Column for New Reservation Form (narrower) -->
                     <div class="col-md-4">
                         <div class="card">
                             <div class="card-body">
@@ -281,11 +320,22 @@
                                         </div>
                                         <div class="col-12 text-center">
                                             <button type="submit" id="submitReservation" class="btn btn-primary">Submit</button>
+                                            <button type="button" id="switchToChat" class="btn btn-secondary">Switch to Chat</button>
                                         </div>
                                     </div>
                                 </form>
+                                <div class="chat-container" id="chat-container" style="display: none;">
+                                    <div id="chatMessages" style="height: 300px; overflow-y: auto; border: 1px solid #ddd; padding: 10px;"></div>
+                                    <div class="chat-input">
+                                        <input type="text" id="messageInput" placeholder="Type your request here...">
+                                        <button id="sendButton">Send</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                    </div>
+                    <div class="col-md-4">
+
                     </div>
                 </div>
             </div>
@@ -324,7 +374,9 @@
     <script src="js/custom.js"></script>
     <!--My Scripts-->
     <script src="js/ajaxCall.js"></script>
+    <script src="js/general.js"></script>
     <script src="js/user-homePage.js"></script>
+    <script src="js/user-chatbot.js"></script>
 
 </body>
 

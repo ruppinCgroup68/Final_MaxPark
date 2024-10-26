@@ -7,6 +7,7 @@
         ? "https://proj.ruppin.ac.il/cgroup68/test2/tar1/api"
         : "https://proj.ruppin.ac.il/cgroup68/test2/tar1/api";
 
+
     function setTomorrowAsPlaceholder() {
         const today = new Date();
         const tomorrow = new Date(today);
@@ -36,7 +37,6 @@
 
     function postLoadNextReservationSuccess(response) {
         const reservations = response;
-
         const today = new Date();
         today.setHours(0, 0, 0, 0);
 
@@ -47,32 +47,65 @@
         });
 
         if (nextReservation) {
-            $('#reservationDate').val(formatDate(nextReservation.reservation_Date));
-            $('#reservationStartTime').val(formatTime(nextReservation.reservation_STime));
-            $('#reservationEndTime').val(formatTime(nextReservation.reservation_ETime));
-            $('#reservationStatus').val(nextReservation.reservation_Status);
-            $('#reservationMarkId').val(nextReservation.markId);
+            // Build HTML content with textboxes for each reservation detail
+            const reservationDetailsHtml = `
+            <div class="mb-3">
+                <label>Date</label>
+                <input type="text" class="form-control" value="${formatDate(nextReservation.reservation_Date)}" readonly>
+            </div>
+            <div class="mb-3">
+                <label>Status</label>
+                <input type="text" class="form-control" value="${nextReservation.reservation_Status}" readonly>
+            </div>
+            <div class="mb-3">
+                <label>Start Time</label>
+                <input type="text" class="form-control" value="${formatTime(nextReservation.reservation_STime)}" readonly>
+            </div>
+            <div class="mb-3">
+                <label>End Time</label>
+                <input type="text" class="form-control" value="${formatTime(nextReservation.reservation_ETime)}" readonly>
+            </div>
+            <div class="mb-3">
+                <label>Mark ID</label>
+                <input type="text" class="form-control" value="${nextReservation.markId}" readonly>
+            </div>
+        `;
+
+            // Insert the HTML content into the #next-reservation-details div
+            $('#next-reservation-details').html(reservationDetailsHtml);
         } else {
-            $('#next-reservation').html('<p>No upcoming reservations found.</p>');
+            $('#next-reservation-details').html('<p>No upcoming reservations found.</p>');
         }
     }
+
+
+    // Helper functions to format date and time
+    function formatDate(dateString) {
+        const date = new Date(dateString);
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const year = date.getFullYear();
+        return `${day}-${month}-${year}`;
+    }
+
+    function formatTime(timeString) {
+        return timeString.slice(0, 5); // Extracts HH:MM from HH:MM:SS
+    }
+
 
     function postLoadReservationsError(error) {
         console.error("Error loading reservations:", error);
         alert('Failed to load reservations. Please try again.');
     }
 
-    function formatDate(dateString) {
-        const date = new Date(dateString);
-        const year = date.getFullYear();
-        const month = ("0" + (date.getMonth() + 1)).slice(-2);
-        const day = ("0" + date.getDate()).slice(-2);
-        return `${year}-${month}-${day}`;
-    }
 
-    function formatTime(timeString) {
-        return timeString.slice(0, 5);
-    }
+
+    $('#switchToChat').click(function () {
+        // Toggle visibility of chat and reservation form
+        $('#newReservationForm').toggle();
+        $('#chat-container').toggle();
+    });
+
 
     // Handle new reservation form submission
     $('#newReservationForm').on('submit', function (event) {

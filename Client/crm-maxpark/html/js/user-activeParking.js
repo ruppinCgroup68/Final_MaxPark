@@ -55,12 +55,34 @@
 
     function updateParkingDetails(reservation) {
         const html = `
-            <div><strong>Parking:</strong> ${reservation.parkId}</div>
-            <div><strong>Slot:</strong> ${reservation.markId}</div>
-            <div><strong>Start Time:</strong> ${formatTime(reservation.reservation_STime)}</div>
-            <div><strong>End Time:</strong> ${formatTime(reservation.reservation_ETime)}</div>
-            <div><strong>Status:</strong> ${reservation.reservation_Status}</div>`;
+        <div class="mb-3">
+            <label>Parking</label>
+            <input type="text" class="form-control" value="${reservation.parkId}" readonly>
+        </div>
+        <div class="mb-3">
+            <label>Slot</label>
+            <input type="text" class="form-control" value="${reservation.markId}" readonly>
+        </div>
+        <div class="mb-3">
+            <label>Start Time</label>
+            <input type="text" class="form-control" value="${formatTime(reservation.reservation_STime)}" readonly>
+        </div>
+        <div class="mb-3">
+            <label>End Time</label>
+            <input type="text" class="form-control" value="${formatTime(reservation.reservation_ETime)}" readonly>
+        </div>
+        <div class="mb-3">
+            <label>Status</label>
+            <input type="text" class="form-control" value="${reservation.reservation_Status}" readonly>
+        </div>
+    `;
+
         $('#active-parking-details').html(html);
+    }
+
+    // Helper function to format time as needed
+    function formatTime(timeString) {
+        return timeString.slice(0, 5); // Extracts HH:MM from HH:MM:SS format
     }
 
     function startCountdown(date, endTime) {
@@ -83,10 +105,6 @@
 
     function combineDateAndTime(dateString, timeString) {
         return `${dateString}T${timeString}`;
-    }
-
-    function formatTime(timeString) {
-        return timeString.slice(0, 5);
     }
 
     function handleParkingError(error) {
