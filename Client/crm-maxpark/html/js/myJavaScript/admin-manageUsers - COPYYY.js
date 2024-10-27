@@ -1,5 +1,5 @@
 ﻿document.addEventListener('DOMContentLoaded', function () {
-     server = "http://localhost:7061";
+    server = "http://localhost:7061";
     const rowsPerPage = 5;
     let currentPage = 1;
 
@@ -60,16 +60,14 @@
 
     // Function to load user data via AJAX
     function loadUsers() {
-        if (location.hostname == "localhost" || location.hostname == "127.0.0.1")
-        {
+        if (location.hostname == "localhost" || location.hostname == "127.0.0.1") {
             api = server + "/api/Admin/users";
         }
-        else
-        {
+        else {
             api = 'https://proj.ruppin.ac.il/cgroup68/test2/tar1/api/Admin/users';
         }
 
-        ajaxCall('GET', api , null, onLoadUsersSuccess, onLoadUsersError);
+        ajaxCall('GET', api, null, onLoadUsersSuccess, onLoadUsersError);
     }
 
     function renderTable() {
@@ -140,13 +138,11 @@
         };
 
         // Make the AJAX POST request to add the new user
-        
-        if (location.hostname == "localhost" || location.hostname == "127.0.0.1")
-        {
+
+        if (location.hostname == "localhost" || location.hostname == "127.0.0.1") {
             api = `${server}/api/Admin/user`;
         }
-        else
-        {
+        else {
             api = "https://proj.ruppin.ac.il/cgroup68/test2/tar1/api/Admin/user";
         }
         ajaxCall('POST', api, JSON.stringify(newUserData), onAddUserSuccess, onAddUserError);
@@ -201,19 +197,17 @@
                 isParkingManager: true,
                 isActive: true,
                 notificationCode: "", // Assuming notification code is not updated here
-            
+
             };
 
-            if (location.hostname == "localhost" || location.hostname == "127.0.0.1")
-            {
+            if (location.hostname == "localhost" || location.hostname == "127.0.0.1") {
                 api = server + "/api/Admin/user";
-            } else
-            {
+            } else {
                 api = 'https://proj.ruppin.ac.il/cgroup68/test2/tar1/api/Admin/user';
             }
 
             // Make the AJAX PUT request to update the user
-            ajaxCall('PUT', api , JSON.stringify(updatedUserData), onUpdateUserSuccess, onUpdateUserError);
+            ajaxCall('PUT', api, JSON.stringify(updatedUserData), onUpdateUserSuccess, onUpdateUserError);
         }
     });
 
@@ -256,39 +250,35 @@ function sortTable(columnIndex) {
 
 let userId, isActive;
 
-$('#usersTable').on('click', 'input[type="checkbox"]', function ()
-{
+$('#usersTable').on('click', 'input[type="checkbox"]', function () {
     const row = $(this).closest('tr');
     userId = row.find('td').eq(0).text(); // קבלת ה-userId מהשורה
     const isChecked = $(this).is(':checked'); // בדיקה אם הסימון השתנה
     isActive = isChecked; // הגדרת המצב החדש של isActive בהתאם לסימון
 
     // הצגת מודאל עם הודעת אישור
-   
-    $('#confirmText').text(`Are you sure you want to ${isChecked ? 'activate':'deactivate'} the user with ID ${userId}?`);
+
+    $('#confirmText').text(`Are you sure you want to ${isChecked ? 'activate' : 'deactivate'} the user with ID ${userId}?`);
     $('#confirmModal').show();
 });
 
 
 // סגירת המודאל בלחיצה על הכפתורים "x" או "Cancel"
-$('#closeConfirmModal, #cancelIsActiveBtn').click(function ()
-{
+$('#closeConfirmModal, #cancelIsActiveBtn').click(function () {
 
     $('#confirmModal').hide();
 });
 
 // שליחת בקשת PUT לשרת בלחיצה על כפתור "Confirm"
-$('#confirmIsActiveBtn').click(function ()
-{   
+$('#confirmIsActiveBtn').click(function () {
     if (location.hostname == "localhost" || location.hostname == "127.0.0.1") {
         api = `http://localhost:7061/api/Admin/putIsActive/userId/${userId}/isActive/${isActive}`;
     }
-    else
-    {
+    else {
         api = `https://proj.ruppin.ac.il/cgroup68/test2/tar1/api/Admin/putIsActive/userId/${userId}/isActive/${isActive}`;
     }
 
-    ajaxCall('PUT',api, null, isActiveSCB, isActiveECB,);
+    ajaxCall('PUT', api, null, isActiveSCB, isActiveECB,);
     return false;
 });
 
@@ -303,4 +293,18 @@ function isActiveECB(err) {
     alert('Failed to update user status. Please try again.');
     $('#confirmModal').hide(); // סגירת המודאל לאחר שגיאה
 }
-    
+function loadContent(page) {
+    window.location.href = page;
+}
+
+function logout() {
+    // Clear session storage or any authentication tokens
+    sessionStorage.clear(); // Clears all session storage
+    localStorage.clear();   // Clears all local storage (if you use it)
+
+    // Redirect to the login page
+    window.location.href = '../../login.html';
+}
+
+------------------
+

@@ -6,17 +6,14 @@ let slotsArray = [];
 let dataRetrieved = [];
 let lastSlotId = 1;
 const server = "http://localhost:7061/api";
-function fetchParkingData()
-{
-    if (location.hostname == "localhost" || location.hostname == "127.0.0.1")
-    {
+function fetchParkingData() {
+    if (location.hostname == "localhost" || location.hostname == "127.0.0.1") {
         api = server + '/Marks';
     }
-    else
-    {
+    else {
         api = "https://proj.ruppin.ac.il/cgroup68/test2/tar1/api/Marks";
     }
-    
+
     ajaxCall('GET', api, null, onFetchSuccess, onFetchError);
 }
 
@@ -173,15 +170,13 @@ function deleteParkingChanges() {
 
 function deleteParking() {
 
-    if (location.hostname == "localhost" || location.hostname == "127.0.0.1")
-    {
+    if (location.hostname == "localhost" || location.hostname == "127.0.0.1") {
         api = server + '/admin/deleteParkingMarks';
     }
-    else
-    {
+    else {
         api = "https://proj.ruppin.ac.il/cgroup68/test2/tar1/api/Admin/deleteParkingMarks";
     }
-   
+
     function onSuccess(response) {
         alert('Deleted');
     }
@@ -202,12 +197,10 @@ function deleteParking() {
 
 function deleteAndSaveParking() {
 
-    if (location.hostname == "localhost" || location.hostname == "127.0.0.1")
-    {
+    if (location.hostname == "localhost" || location.hostname == "127.0.0.1") {
         api = server + '/admin/deleteParkingMarks';
     }
-    else
-    {
+    else {
         api = "https://proj.ruppin.ac.il/cgroup68/test2/tar1/api/Admin/deleteParkingMarks";
     }
 
@@ -231,17 +224,15 @@ function deleteAndSaveParking() {
 
 
 function addParking() {
-    if (location.hostname == "localhost" || location.hostname == "127.0.0.1")
-    {
+    if (location.hostname == "localhost" || location.hostname == "127.0.0.1") {
         api = server + '/admin/AddMark';
     }
-    else
-    {
+    else {
         api = "https://proj.ruppin.ac.il/cgroup68/test2/tar1/api/Admin/addMark";
     }
-     
+
     const parkingData = generateParkingData();
-   
+
     function onAddSuccess() {
         alert("Parking slots added successfully.");
         fetchParkingData(); // Refresh the parking data after successful addition
@@ -289,4 +280,17 @@ function generateParkingData() {
     });
 
     return dataRetrieved;
+}
+
+function loadContent(page) {
+    window.location.href = page;
+}
+
+function logout() {
+    // Clear session storage or any authentication tokens
+    sessionStorage.clear(); // Clears all session storage
+    localStorage.clear();   // Clears all local storage (if you use it)
+
+    // Redirect to the login page
+    window.location.href = '../../login.html';
 }

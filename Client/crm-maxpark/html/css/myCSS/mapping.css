@@ -1,4 +1,4 @@
-﻿#left {
+#left {
     width: 80%;
     justify-content: center;
     align-items: center;
@@ -53,7 +53,6 @@
 }
 
 .add-slot {
-
     box-sizing: border-box;
     background-color: #4287f5;
     color: white;
@@ -71,6 +70,7 @@
         font-size: 3rem;
         font-weight: bold;
     }
+
 .block-button {
     position: absolute;
     bottom: 5px;
