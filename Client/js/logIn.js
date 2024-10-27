@@ -43,7 +43,8 @@ function postSCB(res) {
         return; // Exit the function to avoid further execution
     }
     if (res.isAdmin === false && res.isParkingManager === false) {
-        if (res.isActive == true) {
+        if (res.isActive == true)
+        {
             console.log("Login User successful");
             sessionStorage.setItem("password", $("#password").val());
             sessionStorage.setItem("res", JSON.stringify(res));
@@ -53,10 +54,12 @@ function postSCB(res) {
             alert("user is not active");
         }
     }
-    if (res.isAdmin === true && res.isParkingManager === false) {
+    if (res.isAdmin === true && res.isParkingManager === false)
+    {
         window.location.href = "crm-maxpark/html/admin-dashboard.html";
     }
-    if (res.isAdmin === false && res.isParkingManager === true) {
+    if (res.isAdmin === false && res.isParkingManager === true)
+    {
         window.location.href = "crm-maxpark/html/manager-evenTable.html";
 
     }
