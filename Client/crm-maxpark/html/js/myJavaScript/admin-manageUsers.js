@@ -1,4 +1,6 @@
-﻿document.addEventListener('DOMContentLoaded', function () {
+﻿//TODO: להתאים לקובץ COPYYY 
+
+document.addEventListener('DOMContentLoaded', function () {
     server = "http://localhost:7061";
     const rowsPerPage = 5;
     let currentPage = 1;
