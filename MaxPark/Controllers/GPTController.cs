@@ -26,10 +26,13 @@ namespace MaxPark.Controllers
         public async Task<IActionResult> GetReservation([FromBody] ReservationPromptModel model)
         {
             var currentDate = DateTime.Now.ToString("dd.MM.yyyy");
-            var openAiApi = Environment.GetEnvironmentVariable("OpenApi"); // Replace with your actual API key
 
             // Create the complete prompt including today's date
-            var completePrompt = $"{model.Prompt}";
+            var completePrompt = $"You are a reservation assistant. Today's date is {currentDate}. The user has entered a request: \"{model.Prompt}\". " +
+                                 "Please return the following JSON format for reservation dates based on the input (default hours 8-17) : " +
+                                 "{\"dates\": [{\"date\": \"YYYY-MM-DDT00:00:00\", \"start\": \"HH:MM:00\", \"end\": \"HH:MM:00\"}]} " +
+                                 "If the input is not a valid reservation request or you just dont understand what the user want , respond with \"Please ask me for reservations only.\"";
+
 
             // Prepare the request body
             var requestBody = new
