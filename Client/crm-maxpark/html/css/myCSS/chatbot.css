@@ -1,0 +1,60 @@
+﻿/* Floating chat icon */
+.chat-bot-icon {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #4287f5;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+}
+
+#chatBotIcon {
+    cursor: pointer;
+    pointer-events: auto;
+}
+
+.chat-icon-img {
+    width: 30px;
+    height: 30px;
+}
+
+/* Chat container */
+.chat-container {
+    position: fixed;
+    bottom: 90px;
+    right: 20px;
+    width: 300px;
+    max-width: 90%;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+}
+
+.chat-input {
+    display: flex;
+    border-top: 1px solid #ddd;
+}
+
+    .chat-input input {
+        flex: 1;
+        border: none;
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    .chat-input button {
+        padding: 10px 15px;
+        background-color: #4287f5;
+        color: white;
+        border: none;
+        cursor: pointer;
+    }

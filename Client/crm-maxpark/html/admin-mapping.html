@@ -23,18 +23,56 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-
-    <!--My CSS-->
     <style>
-        .left-sidebar.myCSS {
+        .left-sidebar-myCSS {
             height: 0%;
         }
 
-        .scroll-sidebar.myCSS {
+        .scroll-sidebar-myCSS {
             position: static;
         }
-    </style>
 
+        .flex-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .slot {
+            width: 100px;
+            height: 80px;
+            border: 1px solid #333;
+            border-radius: 4px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #f2f2f2;
+            position: relative;
+        }
+
+        .blocked {
+            background-color: #ffcccc;
+            color: #900;
+        }
+
+        .slot-details {
+            font-size: 0.8em;
+        }
+
+        .row-break {
+            flex-basis: 100%;
+            height: 0;
+        }
+
+        .btn {
+            padding: 6px 12px;
+            margin-top: 10px;
+        }
+    </style>
 </head>
 
 <body>
@@ -47,7 +85,6 @@
             <div class="lds-pos"></div>
         </div>
     </div>
-
     <!-- ============================================================== -->
     <!-- Main wrapper - style you can find in pages.scss -->
     <!-- ============================================================== -->
@@ -67,14 +104,15 @@
                         <b class="logo-icon">
                             <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
                             <!-- Dark Logo icon -->
-                            <img src="../img/logo-removebg-preview.png" alt="homepage" class="dark-logo" />
+                            <!--<img src="../img/logo-removebg-preview.png" alt="dashboards" class="dark-logo" />-->
                         </b>
                         <!--End Logo icon -->
                         <!-- Logo text -->
                         <span class="logo-text">
                             <!-- dark Logo text -->
-                            <img src="../img/logo-removebg-preview.png" alt="homepage" class="dark-logo" />
-
+                            <!--<img src="../assets/images/logo-light-text.png" alt="dashboards" class="dark-logo" />-->
+                            <!--<img src="../img/logo-removebg-preview.png" alt="dashboards" class="dark-logo" /><img />-->
+                            ##TODO:לסדר את גודל הלוגו
                         </span>
                     </a>
                     <!-- ============================================================== -->
@@ -103,7 +141,6 @@
                         <!-- ============================================================== -->
                         <!-- Search -->
                         <!-- ============================================================== -->
-
                         <li class="nav-item search-box">
                             <a class="nav-link text-muted" href="javascript:void(0)"><i class="ti-search"></i></a>
                             <form class="app-search" style="display: none;">
@@ -121,7 +158,7 @@
                         <!-- ============================================================== -->
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="../assets/images/users/1.jpg" alt="user" class="profile-pic me-2">Markarn Doe
+                                <img src="../img/Admin.jpg" alt="user" class="profile-pic me-2">##Name: LastName:
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown"></ul>
                         </li>
@@ -135,89 +172,35 @@
         <!-- ============================================================== -->
         <!-- Left Sidebar - style you can find in sidebar.scss  -->
         <!-- ============================================================== -->
-        <aside class="left-sidebar" data-sidebarbg="skin6">
+        <aside class="left-sidebar left-sidebar-myCSS" data-sidebarbg="skin6">
             <!-- Sidebar scroll-->
-            <div class="scroll-sidebar">
+            <div class="scroll-sidebar scroll-sidebar-myCSS">
                 <!-- Sidebar navigation-->
                 <nav class="sidebar-nav">
                     <ul id="sidebarnav">
                         <!-- User Profile-->
                         <li class="sidebar-item">
                             <a class="sidebar-link waves-effect waves-dark sidebar-link"
-                               href="index.html" aria-expanded="false">
-                                <i class="mdi me-2 mdi-gauge"></i><span class="hide-menu">Dashboard</span>
+                               href="admin-dashboard.html" aria-expanded="false">
+                                <i class="mdi me-2 mdi-gauge"></i><span class="hide-menu">Dashboards</span>
                             </a>
                         </li>
                         <li class="sidebar-item">
                             <a class="sidebar-link waves-effect waves-dark sidebar-link"
-                               href="pages-profile.html" aria-expanded="false">
-                                <i class="mdi me-2 mdi-account-check"></i><span class="hide-menu">Profile</span>
+                               href="admin-manageUsers.html" aria-expanded="false">
+                                <i class="mdi me-2 mdi-gauge"></i><span class="hide-menu">Users</span>
                             </a>
                         </li>
                         <li class="sidebar-item">
                             <a class="sidebar-link waves-effect waves-dark sidebar-link"
-                               href="table-basic.html" aria-expanded="false">
-                                <i class="mdi me-2 mdi-table"></i><span class="hide-menu">Table</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link waves-effect waves-dark sidebar-link"
-                               href="icon-material.html" aria-expanded="false">
-                                <i class="mdi me-2 mdi-emoticon"></i><span class="hide-menu">Icon</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link waves-effect waves-dark sidebar-link"
-                               href="map-google.html" aria-expanded="false">
-                                <i class="mdi me-2 mdi-earth"></i><span class="hide-menu">Google Map</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link waves-effect waves-dark sidebar-link"
-                               href="pages-blank.html" aria-expanded="false">
-                                <i class="mdi me-2 mdi-book-open-variant"></i><span class="hide-menu">Blank</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link waves-effect waves-dark sidebar-link"
-                               href="pages-error-404.html" aria-expanded="false">
-                                <i class="mdi me-2 mdi-help-circle"></i><span class="hide-menu">Error 404</span>
-                            </a>
-                        </li>
-                        <li class="text-center p-20 upgrade-btn">
-                            <a href="https://www.wrappixel.com/templates/materialpro/"
-                               class="btn btn-warning text-white mt-4" target="_blank">
-                                Upgrade to
-                                Pro
+                               href="admin-mapping.html" aria-expanded="false">
+                                <i class="mdi me-2 mdi-gauge"></i><span class="hide-menu">Mapping</span>
                             </a>
                         </li>
                     </ul>
-
                 </nav>
+
                 <!-- End Sidebar navigation -->
-            </div>
-            <!-- End Sidebar scroll-->
-            <div class="sidebar-footer">
-                <div class="row">
-                    <div class="col-4 link-wrap">
-                        <!-- item-->
-                        <a href="" class="link" data-toggle="tooltip" title="" data-original-title="Settings">
-                            <i class="ti-settings"></i>
-                        </a>
-                    </div>
-                    <div class="col-4 link-wrap">
-                        <!-- item-->
-                        <a href="" class="link" data-toggle="tooltip" title="" data-original-title="Email">
-                            <i class="mdi mdi-gmail"></i>
-                        </a>
-                    </div>
-                    <div class="col-4 link-wrap">
-                        <!-- item-->
-                        <a href="" class="link" data-toggle="tooltip" title="" data-original-title="Logout">
-                            <i class="mdi mdi-power"></i>
-                        </a>
-                    </div>
-                </div>
             </div>
         </aside>
         <!-- ============================================================== -->
@@ -233,23 +216,13 @@
             <div class="page-breadcrumb">
                 <div class="row align-items-center">
                     <div class="col-md-6 col-8 align-self-center">
-                        <h3 class="page-title mb-0 p-0">Table</h3>
+                        <h3 class="page-title mb-0 p-0">Manage Users</h3>
                         <div class="d-flex align-items-center">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                    <li class="breadcrumb-item active" aria-current="page">Table</li>
+                                    <li class="breadcrumb-item"><a href="#"></a></li>
                                 </ol>
                             </nav>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-4 align-self-center">
-                        <div class="text-end upgrade-btn">
-                            <a href="https://www.wrappixel.com/templates/materialpro/"
-                               class="btn btn-danger d-none d-md-inline-block text-white" target="_blank">
-                                Upgrade to
-                                Pro
-                            </a>
                         </div>
                     </div>
                 </div>
@@ -261,152 +234,46 @@
             <!-- Container fluid  -->
             <!-- ============================================================== -->
             <div class="container-fluid">
-                <!-- ============================================================== -->
-                <!-- Start Page Content -->
-                <!-- ============================================================== -->
                 <div class="row">
-                    <!-- column -->
                     <div class="col-sm-12">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title">Basic Table</h4>
-                                <h6 class="card-subtitle">Add class <code>.table</code></h6>
-                                <div class="table-responsive">
-                                    <table class="table user-table">
-                                        <thead>
-                                            <tr>
-                                                <th class="border-top-0">#</th>
-                                                <th class="border-top-0">First Name</th>
-                                                <th class="border-top-0">Last Name</th>
-                                                <th class="border-top-0">Username</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>Deshmukh</td>
-                                                <td>Prohaska</td>
-                                                <td>@Genelia</td>
-                                            </tr>
-                                            <tr>
-                                                <td>2</td>
-                                                <td>Deshmukh</td>
-                                                <td>Gaylord</td>
-                                                <td>@Ritesh</td>
-                                            </tr>
-                                            <tr>
-                                                <td>3</td>
-                                                <td>Sanghani</td>
-                                                <td>Gusikowski</td>
-                                                <td>@Govinda</td>
-                                            </tr>
-                                            <tr>
-                                                <td>4</td>
-                                                <td>Roshan</td>
-                                                <td>Rogahn</td>
-                                                <td>@Hritik</td>
-                                            </tr>
-                                            <tr>
-                                                <td>5</td>
-                                                <td>Joshi</td>
-                                                <td>Hickle</td>
-                                                <td>@Maruti</td>
-                                            </tr>
-                                            <tr>
-                                                <td>6</td>
-                                                <td>Nigam</td>
-                                                <td>Eichmann</td>
-                                                <td>@Sonu</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                                <h4 class="card-title">Manage Parking Slots</h4>
+                                <div id="parking-container" class="flex-container"></div>
+                                <div class="controls mt-3">
+                                    <button id="addSlotButton"  class="btn btn-default">Add Slot</button>
+                                    <button id="saveParkingChangesButton"  class="btn btn-default">Save Changes</button>
+                                    <button id="deleteParkingButton" class="btn btn-danger">Delete All Parking</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- ============================================================== -->
-                <!-- End PAge Content -->
-                <!-- ============================================================== -->
-                <!-- ============================================================== -->
-                <!-- Right sidebar -->
-                <!-- ============================================================== -->
-                <!-- .right-sidebar -->
-                <!-- ============================================================== -->
-                <!-- End Right sidebar -->
-                <!-- ============================================================== -->
             </div>
-
-            <!-- ============================================================== -->
-            <!-- Mapping parking lots -->
-            <!-- ============================================================== -->
-            <div id="main-content">
-                <!-- The content of the loaded HTML will appear here -->
-                <h1>Mapping</h1>
-                <p>Add/Remove parking marks to able managing Company's db table</p>
-
-                <div class="dropdown-wrapper">
-                    <label for="parking-id-select">Parking id:</label>
-                    <select id="parking-id-select">
-                        <option value="1">1</option>
-                    </select>
-                </div>
-
-                <div class="parking-grid-wrapper">
-                    <div id="left">
-                        <div id="parking-container"></div>
-                        <div id="parking-add-slot">
-                            <div id="add-slot" class="add-slot" onclick="addSlotAlert()">
-                                <span>+</span>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-                <button id="save-parking" onclick="saveParkingChanges()">Save</button>
-                <button id="delete-parking" onclick="deleteParkingChanges()">Delete</button>
-
-            </div>
-
-            <!-- ============================================================== -->
-            <!-- End Maping parking lots  -->
-            <!-- ============================================================== -->
-            <!-- ============================================================== -->
-            <!-- End Container fluid  -->
-            <!-- ============================================================== -->
-            <!-- ============================================================== -->
-            <!-- footer -->
-            <!-- ============================================================== -->
             <footer class="footer">
-                © 2021 Material Pro Admin by <a href="https://www.wrappixel.com/">wrappixel.com </a>
+                © 2024 MaxPark - smart solution of parking lot management for companies & organizations - by Natalia Zaslavski
+                <a href="https://github.com/ruppinCgroup68/Final_MaxPark.git"> Full Project On GitHub </a>
             </footer>
-            <!-- ============================================================== -->
-            <!-- End footer -->
-            <!-- ============================================================== -->
         </div>
         <!-- ============================================================== -->
-        <!-- End Page wrapper  -->
+        <!-- End Wrapper -->
         <!-- ============================================================== -->
-    </div>
-    <!-- ============================================================== -->
-    <!-- End Wrapper -->
-    <!-- ============================================================== -->
-    <!-- ============================================================== -->
-    <!-- All Jquery -->
-    <!-- ============================================================== -->
-    <script src="../assets/plugins/jquery/dist/jquery.min.js"></script>
-    <!-- Bootstrap tether Core JavaScript -->
-    <script src="../assets/plugins/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="js/app-style-switcher.js"></script>
-    <!--Wave Effects -->
-    <script src="js/waves.js"></script>
-    <!--Menu sidebar -->
-    <script src="js/sidebarmenu.js"></script>
-    <!--Custom JavaScript -->
-    <script src="js/custom.js"></script>
-    <!-- My Java Script -->
-    <script src="js/ajaxCall.js"></script>
-    <script src="js/myJavaScript/admin-mapping.js"></script>
+        <!-- ============================================================== -->
+        <!-- All Jquery -->
+        <!-- ============================================================== -->
+        <script src="../assets/plugins/jquery/dist/jquery.min.js"></script>
+        <!-- Bootstrap tether Core JavaScript -->
+        <script src="../assets/plugins/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="js/app-style-switcher.js"></script>
+        <!--Wave Effects -->
+        <script src="js/waves.js"></script>
+        <!--Menu sidebar -->
+        <script src="js/sidebarmenu.js"></script>
+        <!--Custom JavaScript -->
+        <script src="js/custom.js"></script>
+        <!-- My Java Script -->
+        <script src="js/ajaxCall.js"></script>
+        <script src="js/myJavaScript/admin-mapping.js"></script>
 </body>
 
 </html>

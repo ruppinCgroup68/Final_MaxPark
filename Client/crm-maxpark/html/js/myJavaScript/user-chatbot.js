@@ -85,4 +85,35 @@
     function formatTime(timeString) {
         return timeString.slice(0, 5);
     }
+
+
+    $(document).on('click', '#chatBotIcon', function () {
+        console.log("Chat bot icon clicked (event delegation)");
+        $('#chat-container').toggle();
+    });
+
+    // Close chat container when clicking outside of it
+    $(document).click(function (e) {
+        if (!$(e.target).closest('#chat-container, #chatBotIcon').length) {
+            $('#chat-container').hide();
+        }
+    });
+
+    // Add a send message action
+    $('#sendButton').click(function () {
+        const message = $('#messageInput').val().trim();
+        if (message) {
+            $('#chatMessages').append(`<div><strong>You:</strong> ${message}</div>`);
+            $('#messageInput').val(''); // Clear the input field
+            // Here you could also send the message to the bot backend or handle it further
+        }
+    });
+
+    // Optional: Submit on Enter key in the input field
+    $('#messageInput').keypress(function (e) {
+        if (e.which === 13) {
+            $('#sendButton').click();
+        }
+    });
+
 });

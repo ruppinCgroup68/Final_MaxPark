@@ -17,6 +17,7 @@
     <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon.png">
     <!-- Custom CSS -->
     <link href="css/style.min.css" rel="stylesheet">
+    <link href="css/myCSS/chatbot.css" rel="stylesheet">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -24,69 +25,6 @@
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 
     <!-- Bootstrap CSS -->
-    <style>
-        /* Chat container style */
-        .chat-container {
-            margin-top: 20px;
-            padding: 15px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            background-color: #f9f9f9;
-        }
-
-        /* Messages area */
-        #chatMessages {
-            width: 100%;
-            resize: none;
-            overflow-y: auto;
-            background-color: #f9f9f9;
-            border: 1px solid #ddd;
-            padding: 10px;
-            color: black;
-            font-family: Arial, sans-serif;
-            font-size: 14px;
-        }
-
-        /* Input area */
-        .chat-input {
-            display: flex;
-            align-items: center;
-        }
-
-        /* Message input field */
-        #messageInput {
-            flex: 1;
-            padding: 8px;
-            margin-right: 5px;
-            border-radius: 4px;
-        }
-
-        /* Send button */
-        #sendButton {
-            padding: 8px 16px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        .bot-message {
-            color: black;
-            background-color: #b6d4f2;
-            padding: 5px;
-            border-radius: 5px;
-        }
-
-        .user-message {
-            color: black;
-            background-color: #f0f0f0;
-            padding: 5px;
-            border-radius: 5px;
-        }
-
-
-    </style>
 
 
 </head>
@@ -175,7 +113,8 @@
                         <!-- ============================================================== -->
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="../assets/images/users/1.jpg" alt="user" class="profile-pic me-2">Markarn Doe
+                                <img id="profileImage" src="../assets/images/users/1.jpg" alt="user" class="profile-pic me-2">
+                                <span id="userName">Markarn Doe</span>
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown"></ul>
                         </li>
@@ -275,10 +214,10 @@
                     </div>
                     <div class="col-md-6 col-4 align-self-center">
                         <!--<div class="text-end upgrade-btn">
-                            <a href="https://www.wrappixel.com/templates/materialpro/"
-                                class="btn btn-danger d-none d-md-inline-block text-white" target="_blank">Upgrade to
-                                Pro</a>
-                        </div>-->
+                    <a href="https://www.wrappixel.com/templates/materialpro/"
+                        class="btn btn-danger d-none d-md-inline-block text-white" target="_blank">Upgrade to
+                        Pro</a>
+                </div>-->
                     </div>
                 </div>
             </div>
@@ -320,17 +259,9 @@
                                         </div>
                                         <div class="col-12 text-center">
                                             <button type="submit" id="submitReservation" class="btn btn-primary">Submit</button>
-                                            <button type="button" id="switchToChat" class="btn btn-secondary">Switch to Chat</button>
                                         </div>
                                     </div>
                                 </form>
-                                <div class="chat-container" id="chat-container" style="display: none;">
-                                    <div id="chatMessages" style="height: 300px; overflow-y: auto; border: 1px solid #ddd; padding: 10px;"></div>
-                                    <div class="chat-input">
-                                        <input type="text" id="messageInput" placeholder="Type your request here...">
-                                        <button id="sendButton">Send</button>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -342,6 +273,20 @@
             <!-- ============================================================== -->
             <!-- footer -->
             <!-- ============================================================== -->
+            <div id="chatBotIcon" class="chat-bot-icon">
+                <img src="../assets/images/logo-light-icon.png" alt="Chat Bot" class="chat-icon-img">
+            </div>
+
+            <!-- Chat Box (initially hidden) -->
+            <div class="chat-container" id="chat-container" style="display: none;">
+                <div id="chatMessages" style="height: 300px; overflow-y: auto; border: 1px solid #ddd; padding: 10px;">
+                    <!-- Chat messages will appear here -->
+                </div>
+                <div class="chat-input">
+                    <input type="text" id="messageInput" placeholder="Type your request here...">
+                    <button id="sendButton">Send</button>
+                </div>
+            </div>
             <footer class="footer">
                 © 2021 Material Pro Admin by <a href="https://www.wrappixel.com/">wrappixel.com </a>
             </footer>
@@ -371,9 +316,9 @@
     <script src="js/custom.js"></script>
     <!--My Scripts-->
     <script src="js/ajaxCall.js"></script>
-    <script src="js/general.js"></script>
-    <script src="js/user-homePage.js"></script>
-    <script src="js/user-chatbot.js"></script>
+    <script src="js/myJavaScript/general.js"></script>
+    <script src="js/myJavaScript/user-homePage.js"></script>
+    <script src="js/myJavaScript/user-chatbot.js"></script>
 
 </body>
 

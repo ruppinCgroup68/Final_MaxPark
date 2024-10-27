@@ -99,14 +99,6 @@
     }
 
 
-
-    $('#switchToChat').click(function () {
-        // Toggle visibility of chat and reservation form
-        $('#newReservationForm').toggle();
-        $('#chat-container').toggle();
-    });
-
-
     // Handle new reservation form submission
     $('#newReservationForm').on('submit', function (event) {
         event.preventDefault();

@@ -17,6 +17,7 @@
     <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon.png">
     <!-- Custom CSS -->
     <link href="css/style.min.css" rel="stylesheet">
+    <link href="css/myCSS/chatbot.css" rel="stylesheet">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -112,7 +113,8 @@
                         <!-- ============================================================== -->
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="../assets/images/users/1.jpg" alt="user" class="profile-pic me-2">Markarn Doe
+                                <img id="profileImage" src="../assets/images/users/1.jpg" alt="user" class="profile-pic me-2">
+                                <span id="userName">Markarn Doe</span>
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown"></ul>
                         </li>
@@ -215,10 +217,10 @@
                     </div>
                     <div class="col-md-6 col-4 align-self-center">
                         <!--<div class="text-end upgrade-btn">
-                            <a href="https://www.wrappixel.com/templates/materialpro/"
-                                class="btn btn-danger d-none d-md-inline-block text-white" target="_blank">Upgrade to
-                                Pro</a>
-                        </div>-->
+                    <a href="https://www.wrappixel.com/templates/materialpro/"
+                        class="btn btn-danger d-none d-md-inline-block text-white" target="_blank">Upgrade to
+                        Pro</a>
+                </div>-->
                     </div>
                 </div>
             </div>
@@ -240,7 +242,7 @@
                             <div class="card-body profile-card">
                                 <center class="mt-4">
                                     <!-- Clickable Profile Image -->
-                                    <img id="profileImage" class="rounded-circle" width="150" onclick="document.getElementById('imageUpload').click();" />
+                                    <img id="profileImageBig" class="rounded-circle" width="150" onclick="document.getElementById('imageUpload').click();" />
 
                                     <!-- Hidden File Input for Image Upload -->
                                     <input type="file" id="imageUpload" class="form-control" accept="image/*" style="display:none;">
@@ -321,6 +323,20 @@
             <!-- ============================================================== -->
             <!-- footer -->
             <!-- ============================================================== -->
+            <div id="chatBotIcon" class="chat-bot-icon">
+                <img src="../assets/images/logo-light-icon.png" alt="Chat Bot" class="chat-icon-img">
+            </div>
+
+            <!-- Chat Box (initially hidden) -->
+            <div class="chat-container" id="chat-container" style="display: none;">
+                <div id="chatMessages" style="height: 300px; overflow-y: auto; border: 1px solid #ddd; padding: 10px;">
+                    <!-- Chat messages will appear here -->
+                </div>
+                <div class="chat-input">
+                    <input type="text" id="messageInput" placeholder="Type your request here...">
+                    <button id="sendButton">Send</button>
+                </div>
+            </div>
             <footer class="footer">
                 © 2021 Material Pro Admin by <a href="https://www.wrappixel.com/">wrappixel.com </a>
             </footer>
@@ -350,45 +366,9 @@
     <script src="js/custom.js"></script>
     <!--My Scripts-->
     <script src="js/ajaxCall.js"></script>
-    <script src="js/general.js"></script>
-    <script src="js/user-profile.js"></script>
-    <script>
-        document.getElementById("imageUpload").addEventListener("change", function (event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function (e) {
-                    const img = new Image();
-                    img.onload = function () {
-                        // Calculate dimensions to crop to a square
-                        const size = Math.min(img.width, img.height);
-                        const canvas = document.createElement("canvas");
-                        canvas.width = size;
-                        canvas.height = size;
-                        const ctx = canvas.getContext("2d");
-
-                        // Draw the image cropped to a square
-                        ctx.drawImage(
-                            img,
-                            (img.width - size) / 2,
-                            (img.height - size) / 2,
-                            size,
-                            size,
-                            0,
-                            0,
-                            size,
-                            size
-                        );
-
-                        // Set the square-cropped image as the profile picture
-                        document.getElementById("profileImage").src = canvas.toDataURL("image/png");
-                    };
-                    img.src = e.target.result;
-                };
-                reader.readAsDataURL(file);
-            }
-        });
-    </script>
+    <script src="js/myJavaScript/general.js"></script>
+    <script src="js/myJavaScript/user-chatbot.js"></script>
+    <script src="js/myJavaScript/user-profile.js"></script>
 </body>
 
 </html>

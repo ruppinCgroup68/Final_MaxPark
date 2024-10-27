@@ -146,7 +146,7 @@
                         </li>
                         <li class="sidebar-item">
                             <a class="sidebar-link waves-effect waves-dark sidebar-link"
-                               href="admin-usersTable.html" aria-expanded="false">
+                               href="admin-manageUsers.html" aria-expanded="false">
                                 <i class="mdi me-2 mdi-gauge"></i><span class="hide-menu">Users</span>
                             </a>
                         </li>
@@ -203,77 +203,78 @@
                             <div class="card-body">
                                 <h4 class="card-title">Manage Users Table</h4>
                                 <h6 class="card-subtitle"><code></code></h6>
+                                <button type="button" class="btn btn-primary mb-3" id="addUser-btn">Add User</button>
                                 <div class="table-responsive">
-                                    <table class="table user-table">
+                                    <table id="usersTable" class="table user-table">
                                         <thead>
                                             <tr>
-                                                <th class="border-top-0">#</th>
-                                                <th class="border-top-0">User Id</th>
-                                                <th class="border-top-0">First Name</th>
-                                                <th class="border-top-0">Last Name</th>
-                                                <th class="border-top-0">Mail</th>
-                                                <th class="border-top-0">Car Number</th>
-                                                <th class="border-top-0">Phone</th>
-                                                <th class="border-top-0">isActive </th>
-                                                <th class="border-top-0">##TODO:עמודה לעיפרון-עריכה</th>
+                                                <th>User Id</th>
+                                                <th>First Name</th>
+                                                <th>Last Name</th>
+                                                <th>Mail</th>
+                                                <th>Car Number</th>
+                                                <th>Phone</th>
+                                                <th>isActive</th>
+                                                <th>Edit</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>A</td>
-                                                <td>AA</td>
-                                                <td>A@gmail.com</td>
-                                                <td>10-776-67</td>
-                                                <td>050-7147128</td>
-                                                <td>1-True</td>
-                                                <td>##TODO:T/F</td>
-                                                <td>##TODO:edit</td>
-                                            </tr>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>A</td>
-                                                <td>AA</td>
-                                                <td>A@gmail.com</td>
-                                                <td>10-776-67</td>
-                                                <td>050-7147128</td>
-                                                <td>1-True</td>
-                                                <td>##TODO:T/F</td>
-                                                <td>##TODO:edit</td>
-                                            </tr>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>A</td>
-                                                <td>AA</td>
-                                                <td>A@gmail.com</td>
-                                                <td>10-776-67</td>
-                                                <td>050-7147128</td>
-                                                <td>1-True</td>
-                                                <td>##TODO:T/F</td>
-                                                <td>##TODO:edit</td>
-                                            </tr>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>A</td>
-                                                <td>AA</td>
-                                                <td>A@gmail.com</td>
-                                                <td>10-776-67</td>
-                                                <td>050-7147128</td>
-                                                <td>1-True</td>
-                                                <td>##TODO:T/F</td>
-                                                <td>##TODO:edit</td>
-                                            </tr>
-                                        </tbody>
+                                        <tbody></tbody>
                                     </table>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="submit" class="btn btn-primary" id="addUser-btn">Add User</button>
-                                    <button type="button" class="btn btn-secondary" id="cancel-btn">Cancel</button>
+                                    <button id="prevPage" class="btn btn-secondary">Previous</button>
+                                    <button id="nextPage" class="btn btn-secondary">Next</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                <!-- Add User Modal -->
+                <div id="addUserModal" class="modal" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Add New User</h5>
+                                <button type="button" id="closeModal" class="btn-close" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="addUserForm">
+                                    <div class="mb-3">
+                                        <label for="userFirstName" class="form-label">First Name</label>
+                                        <input type="text" class="form-control" id="userFirstName" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="userLastName" class="form-label">Last Name</label>
+                                        <input type="text" class="form-control" id="userLastName" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="userEmail" class="form-label">Email</label>
+                                        <input type="email" class="form-control" id="userEmail" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="userCarNum" class="form-label">Car Number</label>
+                                        <input type="text" class="form-control" id="userCarNum" required pattern="^\d{2}-\d{3}-\d{2}$" placeholder="22-222-22">
+                                        <small class="form-text text-muted">Format: 22-222-22</small>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="userPhone" class="form-label">Phone</label>
+                                        <input type="text" class="form-control" id="userPhone" required pattern="^05\d-\d{7}$" placeholder="050-7222222">
+                                        <small class="form-text text-muted">Format: 050-7222222</small>
+                                    </div>
+                                    <div class="form-check mb-3">
+                                        <input class="form-check-input" type="checkbox" id="isActive">
+                                        <label class="form-check-label" for="isActive">Active</label>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-primary">Add User</button>
+                                        <button type="button" id="cancel-btn" class="btn btn-secondary">Cancel</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- ============================================================== -->
                 <!-- End PAge Content -->
                 <!-- ============================================================== -->
@@ -318,9 +319,6 @@
     <script src="js/sidebarmenu.js"></script>
     <!--Custom JavaScript -->
     <script src="js/custom.js"></script>
-    <!-- My Java Script -->
-    <script src="js/ajaxCall.js"></script>
-    <script src="js/pages/admin-manageUsers.js"></script>
     <!-- My Java Script -->
     <script src="js/ajaxCall.js"></script>
     <script src="js/myJavaScript/admin-manageUsers.js"></script>

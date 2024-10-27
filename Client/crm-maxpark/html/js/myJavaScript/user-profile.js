@@ -26,7 +26,7 @@
             if (userData.userImagePath) {
                 loadProfileImage(userData.userImagePath);
             } else {
-                $('#profileImage').attr('src', defaultProfileImage);
+                $('#profileImageBig').attr('src', defaultProfileImage);
             }
         } else {
             console.error("No user data found in sessionStorage.");
@@ -49,12 +49,12 @@
 
     function handleLoadImageSuccess(response) {
         const imageUrl = URL.createObjectURL(response);
-        $('#profileImage').attr('src', imageUrl);
+        $('#profileImageBig').attr('src', imageUrl);
     }
 
     function handleLoadImageError(error) {
         console.error('Failed to load image:', error);
-        $('#profileImage').attr('src', defaultProfileImage);
+        $('#profileImageBig').attr('src', defaultProfileImage);
     }
 
     function updateProfile(event) {
@@ -154,11 +154,49 @@
         alert("Failed to upload profile picture.");
     }
 
+    document.getElementById("imageUpload").addEventListener("change", function (event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const img = new Image();
+                img.onload = function () {
+                    // Calculate dimensions to crop to a square
+                    const size = Math.min(img.width, img.height);
+                    const canvas = document.createElement("canvas");
+                    canvas.width = size;
+                    canvas.height = size;
+                    const ctx = canvas.getContext("2d");
+
+                    // Draw the image cropped to a square
+                    ctx.drawImage(
+                        img,
+                        (img.width - size) / 2,
+                        (img.height - size) / 2,
+                        size,
+                        size,
+                        0,
+                        0,
+                        size,
+                        size
+                    );
+
+                    // Set the square-cropped image as the profile picture
+                    document.getElementById("profileImage").src = canvas.toDataURL("image/png");
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+
+
     $('#imageUpload').on('change', function (event) {
         selectedFile = event.target.files[0];
         const reader = new FileReader();
         reader.onload = function (e) {
-            $('#profileImage').attr('src', e.target.result);
+            $('#profileImageBig').attr('src', e.target.result);
         };
         reader.readAsDataURL(selectedFile);
     });

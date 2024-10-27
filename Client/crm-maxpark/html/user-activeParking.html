@@ -7,9 +7,9 @@
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="keywords"
-        content="wrappixel, admin dashboard, html css dashboard, web dashboard, bootstrap 5 admin, bootstrap 5, css3 dashboard, bootstrap 5 dashboard, materialpro admin bootstrap 5 dashboard, frontend, responsive bootstrap 5 admin template, materialpro admin lite design, materialpro admin lite dashboard bootstrap 5 dashboard template">
+          content="wrappixel, admin dashboard, html css dashboard, web dashboard, bootstrap 5 admin, bootstrap 5, css3 dashboard, bootstrap 5 dashboard, materialpro admin bootstrap 5 dashboard, frontend, responsive bootstrap 5 admin template, materialpro admin lite design, materialpro admin lite dashboard bootstrap 5 dashboard template">
     <meta name="description"
-        content="Material Pro Lite is powerful and clean admin dashboard template, inpired from Bootstrap Framework">
+          content="Material Pro Lite is powerful and clean admin dashboard template, inpired from Bootstrap Framework">
     <meta name="robots" content="noindex,nofollow">
     <title>Material Pro Lite Template by WrapPixel</title>
     <link rel="canonical" href="https://www.wrappixel.com/templates/materialpro-lite/" />
@@ -17,6 +17,7 @@
     <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon.png">
     <!-- Custom CSS -->
     <link href="css/style.min.css" rel="stylesheet">
+    <link href="css/myCSS/chatbot.css" rel="stylesheet">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -24,9 +25,7 @@
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 
     <!-- Bootstrap CSS -->
-    
-
-<![endif]-->
+    <![endif]-->
 </head>
 
 <body>
@@ -113,7 +112,8 @@
                         <!-- ============================================================== -->
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="../assets/images/users/1.jpg" alt="user" class="profile-pic me-2">Markarn Doe
+                                <img id="profileImage" src="../assets/images/users/1.jpg" alt="user" class="profile-pic me-2">
+                                <span id="userName">Markarn Doe</span>
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown"></ul>
                         </li>
@@ -216,10 +216,10 @@
                     </div>
                     <div class="col-md-6 col-4 align-self-center">
                         <!--<div class="text-end upgrade-btn">
-                            <a href="https://www.wrappixel.com/templates/materialpro/"
-                                class="btn btn-danger d-none d-md-inline-block text-white" target="_blank">Upgrade to
-                                Pro</a>
-                        </div>-->
+                    <a href="https://www.wrappixel.com/templates/materialpro/"
+                        class="btn btn-danger d-none d-md-inline-block text-white" target="_blank">Upgrade to
+                        Pro</a>
+                </div>-->
                     </div>
                 </div>
             </div>
@@ -259,6 +259,20 @@
             <!-- ============================================================== -->
             <!-- footer -->
             <!-- ============================================================== -->
+            <div id="chatBotIcon" class="chat-bot-icon">
+                <img src="../assets/images/logo-light-icon.png" alt="Chat Bot" class="chat-icon-img">
+            </div>
+
+            <!-- Chat Box (initially hidden) -->
+            <div class="chat-container" id="chat-container" style="display: none;">
+                <div id="chatMessages" style="height: 300px; overflow-y: auto; border: 1px solid #ddd; padding: 10px;">
+                    <!-- Chat messages will appear here -->
+                </div>
+                <div class="chat-input">
+                    <input type="text" id="messageInput" placeholder="Type your request here...">
+                    <button id="sendButton">Send</button>
+                </div>
+            </div>
             <footer class="footer">
                 © 2021 Material Pro Admin by <a href="https://www.wrappixel.com/">wrappixel.com </a>
             </footer>
@@ -288,8 +302,9 @@
     <script src="js/custom.js"></script>
     <!--My Scripts-->
     <script src="js/ajaxCall.js"></script>
-    <script src="js/general.js"></script>
-    <script src="js/user-activeParking.js"></script>
+    <script src="js/myJavaScript/general.js"></script>
+    <script src="js/myJavaScript/user-activeParking.js"></script>
+    <script src="js/myJavaScript/user-chatbot.js"></script>
 
 </body>
 
