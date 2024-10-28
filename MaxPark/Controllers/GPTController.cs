@@ -32,8 +32,6 @@ namespace MaxPark.Controllers
                                  "Please return the following JSON format for reservation dates based on the input (default hours 8-17) : " +
                                  "{\"dates\": [{\"date\": \"YYYY-MM-DDT00:00:00\", \"start\": \"HH:MM:00\", \"end\": \"HH:MM:00\"}]} " +
                                  "If the input is not a valid reservation request or you just dont understand what the user want , respond with \"Please ask me for reservations only.\"";
-
-
             // Prepare the request body
             var requestBody = new
             {
