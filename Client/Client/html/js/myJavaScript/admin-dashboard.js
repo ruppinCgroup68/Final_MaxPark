@@ -1,100 +1,43 @@
-﻿
-$(document).ready(function () {
-    // Initialize dashboard functionalities on load
-    initAdminDashboard();
+﻿$(document).ready(function () {
+    // Define the base API endpoint
+    // const baseApi = location.hostname === "localhost" || location.hostname === "127.0.0.1"
+    //    ? "http://localhost:7061/api"
+    //    : "https://proj.ruppin.ac.il/cgroup68/test2/tar1/api";
+
+    const baseApi = location.hostname === "localhost" || location.hostname === "127.0.0.1"
+        ? "https://proj.ruppin.ac.il/cgroup68/test2/tar1/api"
+        : "https://proj.ruppin.ac.il/cgroup68/test2/tar1/api";
+
+    // Initialize the dashboard
+    initDashboard(baseApi);
+
+    // Set the default date to today for the date picker
+    const today = new Date().toISOString().split('T')[0];
+    $('#dateFilter').val(today);
+
+    // Event listener for the date picker
+    $('#dateFilter').on('change', function () {
+        const selectedDate = new Date(this.value);
+        updateBarChart(selectedDate, baseApi);
+    });
 });
 
-function initAdminDashboard() {
-    // Set API endpoint based on environment
-    let api;
-    if (location.hostname == "localhost" || location.hostname == "127.0.0.1") {
-        api = 'http://localhost:7061/api/Reservasions/readReservations';
-    } else {
-        api = 'https://proj.ruppin.ac.il/cgroup68/test2/tar1/api/Reservasions/readReservations';
-    }
+function initDashboard(baseApi) {
+    const api = `${baseApi}/Reservations/readReservations`;
 
-    // Fetch reservations data from the server
-    ajaxCall('GET', api, null, handleSuccess, handleError);
-    setupEventListeners();
+    // Fetch reservations data from the server using ajaxCall
+    ajaxCall('GET', api, null, function (response) {
+        handleSuccess(response, baseApi);
+    }, handleError);
 }
 
-// Navigation function
-function loadContent(page) {
-    window.location.href = page;
-}
+function handleSuccess(response, baseApi) {
+    const today = new Date();
+    updateBarChart(today, baseApi, response);
 
-// Logout function
-function logout() {
-    sessionStorage.clear(); // Clears session storage
-    localStorage.clear();   // Clears local storage (if used)
-    window.location.href = '../../login.html'; // Redirects to login
-}
-
-function handleSuccess(response) {
-    const data = response;
-
-    // Format dates in DD-MM-YYYY format
-    data.forEach(item => {
-        item.reservation_Date = formatDate(item.reservation_Date);
-    });
-
-    // Generate a list of all dates in the specified range
-    const allDates = generateDateRange('2024-09-01', '2024-10-28');
-
-    // Generate first graph: Reservations by Date
-    const datesCtx = document.getElementById('datesGraph').getContext('2d');
-    const datesData = groupBy(data, 'reservation_Date');
-    const datesLabels = Object.keys(datesData);
-    const datesCounts = datesLabels.map(label => datesData[label].length);
-
-    new Chart(datesCtx, {
-        type: 'bar',
-        data: {
-            labels: datesLabels,
-            datasets: [{
-                label: 'Number of Reservations',
-                data: datesCounts,
-                backgroundColor: '#36A2EB'
-            }]
-        },
-        options: {
-            responsive: true,
-            scales: {
-                x: {
-                    beginAtZero: true
-                },
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
-    });
-
-    // Generate third graph: Average Parking Time
-    const avgParkingTimeCtx = document.getElementById('avgParkingTimeGraph').getContext('2d');
-    const avgTimeData = calculateAverageParkingTime(data, allDates, datesData);
-    new Chart(avgParkingTimeCtx, {
-        type: 'line',
-        data: {
-            labels: Object.keys(avgTimeData),
-            datasets: [{
-                label: 'Average Parking Time (hours)',
-                data: Object.values(avgTimeData),
-                backgroundColor: '#FFCE56',
-                fill: true,
-                borderColor: '#FFCE56',
-                tension: 0.4
-            }]
-        },
-        options: {
-            responsive: true,
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
-    });
+    // Prepare and render pie chart data for all-time approved vs. not approved
+    const { approvedCount, notApprovedCount } = calculateOverallStatus(response);
+    renderPieChart(approvedCount, notApprovedCount);
 }
 
 function handleError(error) {
@@ -102,58 +45,142 @@ function handleError(error) {
     alert('Failed to load reservations. Please try again.');
 }
 
-function formatDate(dateString) {
-    const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
-    return new Date(dateString).toLocaleDateString('en-GB', options);
-}
+// Calculate counts for approved and not approved reservations (all time)
+function calculateOverallStatus(data) {
+    let approvedCount = 0;
+    let notApprovedCount = 0;
 
-function groupBy(array, key) {
-    return array.reduce((result, currentValue) => {
-        (result[currentValue[key]] = result[currentValue[key]] || []).push(currentValue);
-        return result;
-    }, {});
-}
-
-function calculateAverageParkingTime(data, allDates, datesData) {
-    const avgTimeData = {};
-    allDates.forEach(date => {
-        avgTimeData[date] = 0; // Initialize with 0
-    });
     data.forEach(item => {
-        const date = item.reservation_Date;
-        const startTime = new Date(`1970-01-01T${item.reservation_STime}`);
-        const endTime = new Date(`1970-01-01T${item.reservation_ETime}`);
-        const duration = (endTime - startTime) / (1000 * 60 * 60);
-        if (avgTimeData[date] === 0) {
-            avgTimeData[date] = duration;
-        } else {
-            avgTimeData[date] += duration;
+        if (item.markId !== 0) {  // Approved
+            approvedCount++;
+        } else {  // Not Approved
+            notApprovedCount++;
         }
     });
-    for (const date in avgTimeData) {
-        const count = datesData[date] ? datesData[date].length : 0;
-        avgTimeData[date] = count > 0 ? avgTimeData[date] / count : 0;
-    }
-    return avgTimeData;
+
+    return { approvedCount, notApprovedCount };
 }
 
-function generateDateRange(startDate, endDate) {
-    const start = new Date(startDate);
-    const end = new Date(endDate);
-    const dateArray = [];
-    let currentDate = start;
-
-    while (currentDate <= end) {
-        dateArray.push(formatDate(currentDate.toISOString()));
-        currentDate.setDate(currentDate.getDate() + 1);
+// Update the bar chart based on a selected date
+function updateBarChart(selectedDate, baseApi, data = null) {
+    if (!data) {
+        // If no data is provided, reload it from the server
+        const api = `${baseApi}/Reservations/readReservations`;
+        ajaxCall('GET', api, null, function (response) {
+            updateBarChart(selectedDate, baseApi, response);
+        }, handleError);
+        return;
     }
 
-    return dateArray;
+    const lastWeekData = filterDataByDateRange(data, selectedDate);
+    const { labels, series } = prepareChartData(lastWeekData);
+    renderBarChart(labels, series);
 }
 
-function setupEventListeners() {
-    // Reload data when refresh button is clicked
-    $('#refreshButton').on('click', function () {
-        loadDashboardData();
+// Function to filter data for the last 7 days from the selected date
+function filterDataByDateRange(data, endDate) {
+    const labels = [];
+
+    // Create the 7-day date labels in 'YYYY-MM-DD' format starting from endDate
+    for (let i = 6; i >= 0; i--) {
+        const date = new Date(endDate);
+        date.setDate(endDate.getDate() - i);
+        labels.push(date.toISOString().split('T')[0]);
+    }
+
+    // Filter data to include only dates within this 7-day range
+    const filteredData = data.filter(item => {
+        const reservationDate = new Date(item.reservation_Date).toISOString().split('T')[0];
+        return labels.includes(reservationDate);
+    });
+
+    return { filteredData, labels };
+}
+
+// Function to prepare data for the Chartist bar chart
+function prepareChartData({ filteredData, labels }) {
+    const approvedCounts = Array(7).fill(0);
+    const notApprovedCounts = Array(7).fill(0);
+
+    // Count reservations by approval status for each date
+    filteredData.forEach(item => {
+        const date = new Date(item.reservation_Date).toISOString().split('T')[0];
+        const dayIndex = labels.indexOf(date);
+
+        if (dayIndex !== -1) {
+            if (item.markId !== 0) {  // Approved
+                approvedCounts[dayIndex]++;
+            } else {  // Not Approved
+                notApprovedCounts[dayIndex]++;
+            }
+        }
+    });
+
+    return {
+        labels,
+        series: [approvedCounts, notApprovedCounts]
+    };
+}
+
+// Render the Chartist bar chart with filtered data
+function renderBarChart(labels, series) {
+    new Chartist.Bar('#reservationStatusChart', {
+        labels: labels,
+        series: series
+    }, {
+        seriesBarDistance: 15,
+        stackBars: false,
+        axisX: {
+            position: 'end',
+            showGrid: false
+        },
+        axisY: {
+            onlyInteger: true,
+            offset: 30,
+            labelInterpolationFnc: function (value) {
+                return value;
+            }
+        },
+        plugins: [
+            Chartist.plugins.tooltip()
+        ]
+    }).on('draw', function (data) {
+        if (data.type === 'bar') {
+            if (data.seriesIndex === 0) {
+                data.element.attr({ style: 'stroke: #4CAF50; stroke-width: 20px' }); // Green for Approved
+            } else if (data.seriesIndex === 1) {
+                data.element.attr({ style: 'stroke: #F44336; stroke-width: 20px' }); // Red for Not Approved
+            }
+        }
+    });
+}
+
+// Render the Chart.js pie chart for all-time approved vs. not approved
+function renderPieChart(approvedCount, notApprovedCount) {
+    const ctx = document.getElementById('reservationStatusPieChart').getContext('2d');
+
+    new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: ['Approved', 'Not Approved'],
+            datasets: [{
+                data: [approvedCount, notApprovedCount],
+                backgroundColor: ['#4CAF50', '#F44336'],
+                hoverBackgroundColor: ['#66BB6A', '#EF5350']
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: function (tooltipItem) {
+                            const value = tooltipItem.raw;
+                            return `${tooltipItem.label}: ${value}`;
+                        }
+                    }
+                }
+            }
+        }
     });
 }

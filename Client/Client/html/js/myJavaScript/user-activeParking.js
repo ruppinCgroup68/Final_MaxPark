@@ -4,7 +4,7 @@
     //    : 'https://proj.ruppin.ac.il/cgroup68/test2/tar1/api';
 
 
-    const debug = true;
+    const debug = false;
     const apiBaseUrl = location.hostname === "localhost" || location.hostname === "127.0.0.1"
         ? 'https://proj.ruppin.ac.il/cgroup68/test2/tar1/api'
         : 'https://proj.ruppin.ac.il/cgroup68/test2/tar1/api';
