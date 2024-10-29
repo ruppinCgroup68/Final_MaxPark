@@ -17,15 +17,21 @@
     <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon.png">
     <!-- Custom CSS -->
     <link href="css/style.min.css" rel="stylesheet">
-    <link href="css/myCSS/chatbot.css" rel="stylesheet">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-
-    <!-- Bootstrap CSS -->
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <style>
+        .left-sidebar-myCSS {
+            height: 0%;
+        }
+
+        .scroll-sidebar-myCSS {
+            position: static;
+        }
+    </style>
 </head>
 
 <body>
@@ -52,20 +58,20 @@
                     <!-- ============================================================== -->
                     <!-- Logo -->
                     <!-- ============================================================== -->
-                    <a class="navbar-brand ms-4" href="index.html">
+                    <a class="navbar-brand ms-4" href="admin-dashboard.html">
                         <!-- Logo icon -->
                         <b class="logo-icon">
                             <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
                             <!-- Dark Logo icon -->
-                            <img src="../assets/images/logo-light-icon.png" alt="homepage" class="dark-logo" />
-
+                            <!--<img src="../img/logo-removebg-preview.png" alt="dashboards" class="dark-logo" />-->
                         </b>
                         <!--End Logo icon -->
                         <!-- Logo text -->
                         <span class="logo-text">
                             <!-- dark Logo text -->
-                            <img src="../assets/images/logo-light-text.png" alt="homepage" class="dark-logo" />
-
+                            <!--<img src="../assets/images/logo-light-text.png" alt="dashboards" class="dark-logo" />-->
+                            <!--<img src="../img/logo-removebg-preview.png" alt="dashboards" class="dark-logo" /><img />-->
+                            ##TODO:לסדר את גודל הלוגו
                         </span>
                     </a>
                     <!-- ============================================================== -->
@@ -94,7 +100,6 @@
                         <!-- ============================================================== -->
                         <!-- Search -->
                         <!-- ============================================================== -->
-
                         <li class="nav-item search-box">
                             <a class="nav-link text-muted" href="javascript:void(0)"><i class="ti-search"></i></a>
                             <form class="app-search" style="display: none;">
@@ -112,8 +117,7 @@
                         <!-- ============================================================== -->
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <img id="profileImage" src="../assets/images/users/1.jpg" alt="user" class="profile-pic me-2">
-                                <span id="userName">Markarn Doe</span>
+                                <img src="../img/Admin.jpg" alt="user" class="profile-pic me-2">##Name: LastName:
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown"></ul>
                         </li>
@@ -127,68 +131,35 @@
         <!-- ============================================================== -->
         <!-- Left Sidebar - style you can find in sidebar.scss  -->
         <!-- ============================================================== -->
-        <aside class="left-sidebar" data-sidebarbg="skin6">
+        <aside class="left-sidebar left-sidebar-myCSS" data-sidebarbg="skin6">
             <!-- Sidebar scroll-->
-            <div class="scroll-sidebar">
+            <div class="scroll-sidebar scroll-sidebar-myCSS">
                 <!-- Sidebar navigation-->
                 <nav class="sidebar-nav">
                     <ul id="sidebarnav">
                         <!-- User Profile-->
                         <li class="sidebar-item">
                             <a class="sidebar-link waves-effect waves-dark sidebar-link"
-                               href="user-homePage.html" aria-expanded="false">
-                                <i class="mdi me-2 mdi-gauge"></i><span class="hide-menu">Home</span>
+                               href="admin-dashboard.html" aria-expanded="false">
+                                <i class="mdi me-2 mdi-gauge"></i><span class="hide-menu">Dashboards</span>
                             </a>
                         </li>
                         <li class="sidebar-item">
                             <a class="sidebar-link waves-effect waves-dark sidebar-link"
-                               href="user-profile.html" aria-expanded="false">
-                                <i class="mdi me-2 mdi-account-check"></i><span class="hide-menu">Profile</span>
+                               href="admin-manageUsers.html" aria-expanded="false">
+                                <i class="mdi me-2 mdi-gauge"></i><span class="hide-menu">Users</span>
                             </a>
                         </li>
                         <li class="sidebar-item">
                             <a class="sidebar-link waves-effect waves-dark sidebar-link"
-                               href="user-reservations.html" aria-expanded="false">
-                                <i class="mdi me-2 mdi-table"></i><span class="hide-menu">Reservations</span>
+                               href="admin-mapping.html" aria-expanded="false">
+                                <i class="mdi me-2 mdi-gauge"></i><span class="hide-menu">Mapping</span>
                             </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link waves-effect waves-dark sidebar-link"
-                               href="user-activeParking.html" aria-expanded="false">
-                                <i class="mdi me-2 mdi-emoticon"></i><span class="hide-menu">Parking</span>
-                            </a>
-                        </li>
-                        <li class="text-center p-20 upgrade-btn">
-                            <a href="https://www.wrappixel.com/templates/materialpro/"
-                               id="logout-btn" class="btn btn-danger text-white mt-4" target="_blank">Logout</a>
                         </li>
                     </ul>
-
                 </nav>
+
                 <!-- End Sidebar navigation -->
-            </div>
-            <!-- End Sidebar scroll-->
-            <div class="sidebar-footer">
-                <div class="row">
-                    <div class="col-4 link-wrap">
-                        <!-- item-->
-                        <a href="" class="link" data-toggle="tooltip" title="" data-original-title="Settings">
-                            <i class="ti-settings"></i>
-                        </a>
-                    </div>
-                    <div class="col-4 link-wrap">
-                        <!-- item-->
-                        <a href="" class="link" data-toggle="tooltip" title="" data-original-title="Email">
-                            <i class="mdi mdi-gmail"></i>
-                        </a>
-                    </div>
-                    <div class="col-4 link-wrap">
-                        <!-- item-->
-                        <a href="" class="link" data-toggle="tooltip" title="" data-original-title="Logout">
-                            <i class="mdi mdi-power"></i>
-                        </a>
-                    </div>
-                </div>
             </div>
         </aside>
         <!-- ============================================================== -->
@@ -204,12 +175,11 @@
             <div class="page-breadcrumb">
                 <div class="row align-items-center">
                     <div class="col-md-6 col-8 align-self-center">
-                        <h3 class="page-title mb-0 p-0">Reservations</h3>
+                        <h3 class="page-title mb-0 p-0">Manage Users</h3>
                         <div class="d-flex align-items-center">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                    <li class="breadcrumb-item active" aria-current="page">Reservations</li>
+                                    <li class="breadcrumb-item"><a href="#"></a></li>
                                 </ol>
                             </nav>
                         </div>
@@ -226,39 +196,94 @@
                 <!-- ============================================================== -->
                 <!-- Start Page Content -->
                 <!-- ============================================================== -->
-                <!-- Row -->
                 <div class="row">
                     <!-- column -->
                     <div class="col-sm-12">
                         <div class="card">
                             <div class="card-body">
+                                <h4 class="card-title">Manage Events Table</h4>
+                                <h6 class="card-subtitle"><code></code></h6>
+                                <button type="button" class="btn btn-primary mb-3" id="addEvent-btn">Add Event</button>
                                 <div class="table-responsive">
-                                    <table class="table user-table">
+                                    <table id="usersTable" class="table user-table">
                                         <thead>
                                             <tr>
-                                                <th class="border-top-0">Reservation ID</th>
-                                                <th class="border-top-0">Reservation Date</th>
+                                                <th class="border-top-0">Event ID</th>
+                                                <th class="border-top-0">User ID</th>
+                                                <th class="border-top-0">Park ID</th>
+                                                <th class="border-top-0">Mark ID</th>
+                                                <th class="border-top-0">Event Date</th>
                                                 <th class="border-top-0">Start Time</th>
                                                 <th class="border-top-0">End Time</th>
-                                                <th class="border-top-0">Status</th>
-                                                <th class="border-top-0">Mark ID</th>
+                                                <th class="border-top-0">Event Type</th>
+                                                <th class="border-top-0">Note</th>
+                                                <th class="border-top-0"></th>
                                             </tr>
                                         </thead>
-                                        <tbody id="reservationTableBody">
-                                            <!-- Reservation rows will be dynamically added here -->
-                                        </tbody>
+                                        <tbody></tbody>
                                     </table>
                                 </div>
-                                <!-- Pagination Buttons -->
-                                <div class="pagination-controls">
-                                    <button id="prevPageBtn" class="btn btn-secondary" disabled>Previous</button>
-                                    <button id="nextPageBtn" class="btn btn-secondary" disabled>Next</button>
+                                <div class="modal-footer">
+                                    <button id="prevPage" class="btn btn-secondary">Previous</button>
+                                    <button id="nextPage" class="btn btn-secondary">Next</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- Row -->
+                <!-- Add Event Modal -->
+                <div id="addUserModal" class="modal" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Add New Event</h5>
+                                <button type="button" id="closeModal" class="btn-close" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="add_EventForm">
+                                    <div class="mb-3">
+                                        <!--קודם נוסיף מספר רכב ולפי זה הוא ידע אחרכ למלא את המספר יוזר-->
+                                        <label for="curNumber" class="form-label">Car Number</label>
+                                        <input type="text" class="form-control" id="carNumber" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="parkId" class="form-label">Park ID</label>
+                                        <input type="number" class="form-control" id="parkId" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="markId" class="form-label">Mark ID</label>
+                                        <input type="number" class="form-control" id="markId" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="event_Date" class="form-label">Date</label>
+                                        <input type="date" class="form-control" id="event_Date" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="event_STime" class="form-label">Start Time</label>
+                                        <input type="time" class="form-control" id="event_STime">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="event_ETime" class="form-label">End Time</label>
+                                        <input type="time" class="form-control" id="event_ETime">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="evenType" class="form-label">Event Type</label>
+                                        <input type="text" class="form-control" id="evenType" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="event_Note" class="form-label">Note</label>
+                                        <input type="text" class="form-control" id="event_Note">
+                                    </div>                                  
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-primary" id="submit-btn">Add Event</button>
+                                        <button type="button" class="btn btn-secondary" id="cancel-btn">Cancel</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- ============================================================== -->
                 <!-- End PAge Content -->
                 <!-- ============================================================== -->
@@ -276,22 +301,8 @@
             <!-- ============================================================== -->
             <!-- footer -->
             <!-- ============================================================== -->
-            <div id="chatBotIcon" class="chat-bot-icon">
-                <img src="../assets/images/logo-light-icon.png" alt="Chat Bot" class="chat-icon-img">
-            </div>
-
-            <!-- Chat Box (initially hidden) -->
-            <div class="chat-container" id="chat-container" style="display: none;">
-                <div id="chatMessages" style="height: 300px; overflow-y: auto; border: 1px solid #ddd; padding: 10px;">
-                    <!-- Chat messages will appear here -->
-                </div>
-                <div class="chat-input">
-                    <input type="text" id="messageInput" placeholder="Type your request here...">
-                    <button id="sendButton">Send</button>
-                </div>
-            </div>
             <footer class="footer">
-                © 2021 Material Pro Admin by <a href="https://www.wrappixel.com/">wrappixel.com </a>
+                © 2024 MaxPark - smart solution of parking lot management for companies & organizations - by Natalia Zaslavski<a href=" https://github.com/ruppinCgroup68/Final_MaxPark.git"> Full Project On GitHub </a>
             </footer>
             <!-- ============================================================== -->
             <!-- End footer -->
@@ -317,11 +328,9 @@
     <script src="js/sidebarmenu.js"></script>
     <!--Custom JavaScript -->
     <script src="js/custom.js"></script>
-    <!--My Java Script-->
+    <!-- My Java Script -->
     <script src="js/ajaxCall.js"></script>
-    <script src="js/myJavaScript/general.js"></script>
-    <script src="js/myJavaScript/user-reservations.js"></script>
-    <script src="js/myJavaScript/user-chatbot.js"></script>
+    <script src="js/myJavaScript/admin-manageUsers.js"></script>
 </body>
 
 </html>
