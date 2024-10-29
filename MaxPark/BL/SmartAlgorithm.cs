@@ -15,7 +15,6 @@ namespace MaxPark.BL
 
             DBservicesReservation d = new DBservicesReservation();
             List<Reservation> reservationsList = new List<Reservation>();
-            // reservationsList=d.GetTomorrowReservations();
             reservationsList = d.getTomorrowReservations();
 
 
