@@ -5,32 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Log In</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link href="crm-maxpark/html/css/myCSS/logIn.css" rel="stylesheet" />
+    <link href="Client/html/css/myCSS/logIn.css" rel="stylesheet" />
     <!-- jQuery and Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script>
-        function ajaxCall(method, api, data, successCB, errorCB) {
-            $.ajax({
-                type: method,
-                url: api,
-                data: data,
-                cache: false,
-                contentType: "application/json",
-                dataType: "json",
-                success: successCB,
-                error: errorCB
-            });
-        }
-    </script>
+    <!-- My Scripts-->
+    <script src="Client/html/js/ajaxCall.js"></script>
+    <script src="Client/html/js/myJavaScript/logIn.js"></script>
 </head>
 
 <body>
     <div class="login-container">
-        <!--<img src="img/logo-removebg-preview.png" alt="Max Park Logo" class="login-image">-->
-        <img src="crm-maxpark/img/logo-removebg-preview.png" alt="Max Park Logo" class="login-image">
-       
+        <img src="Client/img/logo-removebg-preview.png" alt="Max Park Logo" class="login-image">
+
         <div class="login-form">
             <h2>Log In</h2>
             <form id="loginForm">
@@ -46,5 +34,6 @@
             </form>
         </div>
     </div>
+
 </body>
 </html>

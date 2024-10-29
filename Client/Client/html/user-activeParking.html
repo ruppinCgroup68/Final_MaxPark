@@ -10,7 +10,85 @@
           content="wrappixel, admin dashboard, html css dashboard, web dashboard, bootstrap 5 admin, bootstrap 5, css3 dashboard, bootstrap 5 dashboard, materialpro admin bootstrap 5 dashboard, frontend, responsive bootstrap 5 admin template, materialpro admin lite design, materialpro admin lite dashboard bootstrap 5 dashboard template">
     <meta name="description"
           content="Material Pro Lite is powerful and clean admin dashboard template, inpired from Bootstrap Framework">
-    <meta name="rזז
+    <meta name="robots" content="noindex,nofollow">
+    <title>Material Pro Lite Template by WrapPixel</title>
+    <link rel="canonical" href="https://www.wrappixel.com/templates/materialpro-lite/" />
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon.png">
+    <!-- Custom CSS -->
+    <link href="css/style.min.css" rel="stylesheet">
+    <link href="css/myCSS/chatbot.css" rel="stylesheet">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+
+    <!-- Bootstrap CSS -->
+    <![endif]-->
+</head>
+
+<body>
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+    <div class="preloader">
+        <div class="lds-ripple">
+            <div class="lds-pos"></div>
+            <div class="lds-pos"></div>
+        </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <div id="main-wrapper" data-layout="vertical" data-navbarbg="skin5" data-sidebartype="full"
+         data-sidebar-position="absolute" data-header-position="absolute" data-boxed-layout="full">
+        <!-- ============================================================== -->
+        <!-- Topbar header - style you can find in pages.scss -->
+        <!-- ============================================================== -->
+        <header class="topbar" data-navbarbg="skin6">
+            <nav class="navbar top-navbar navbar-expand-md navbar-dark">
+                <div class="navbar-header" data-logobg="skin6">
+                    <!-- ============================================================== -->
+                    <!-- Logo -->
+                    <!-- ============================================================== -->
+                    <a class="navbar-brand ms-4" href="index.html">
+                        <!-- Logo icon -->
+                        <b class="logo-icon">
+                            <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
+                            <!-- Dark Logo icon -->
+                            <img src="../assets/images/logo-light-icon.png" alt="homepage" class="dark-logo" />
+
+                        </b>
+                        <!--End Logo icon -->
+                        <!-- Logo text -->
+                        <span class="logo-text">
+                            <!-- dark Logo text -->
+                            <img src="../assets/images/logo-light-text.png" alt="homepage" class="dark-logo" />
+
+                        </span>
+                    </a>
+                    <!-- ============================================================== -->
+                    <!-- End Logo -->
+                    <!-- ============================================================== -->
+                    <!-- ============================================================== -->
+                    <!-- toggle and nav items -->
+                    <!-- ============================================================== -->
+                    <a class="nav-toggler waves-effect waves-light text-white d-block d-md-none"
+                       href="javascript:void(0)"><i class="ti-menu ti-close"></i></a>
+                </div>
+                <!-- ============================================================== -->
+                <!-- End Logo -->
+                <!-- ============================================================== -->
+                <div class="navbar-collapse collapse" id="navbarSupportedContent" data-navbarbg="skin5">
+                    <ul class="navbar-nav d-lg-none d-md-block ">
+                        <li class="nav-item">
+                            <a class="nav-toggler nav-link waves-effect waves-light text-white "
+                               href="javascript:void(0)"><i class="ti-menu ti-close"></i></a>
+                        </li>
+                    </ul>
+                    <!-- ============================================================== -->
+                    <!-- toggle and nav items -->
                     <!-- ============================================================== -->
                     <ul class="navbar-nav me-auto mt-md-0 ">
                         <!-- ============================================================== -->
@@ -80,7 +158,6 @@
                                 <i class="mdi me-2 mdi-emoticon"></i><span class="hide-menu">Parking</span>
                             </a>
                         </li>
-
                         <li class="text-center p-20 upgrade-btn">
                             <a href="https://www.wrappixel.com/templates/materialpro/"
                                id="logout-btn" class="btn btn-danger text-white mt-4" target="_blank">Logout</a>
@@ -127,18 +204,22 @@
             <div class="page-breadcrumb">
                 <div class="row align-items-center">
                     <div class="col-md-6 col-8 align-self-center">
-                        <h3 class="page-title mb-0 p-0">Home</h3>
+                        <h3 class="page-title mb-0 p-0">Active Parking</h3>
                         <div class="d-flex align-items-center">
                             <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">Active Parking</li>
+                                </ol>
                             </nav>
                         </div>
                     </div>
                     <div class="col-md-6 col-4 align-self-center">
                         <!--<div class="text-end upgrade-btn">
-                    <a href="https://www.wrappixel.com/templates/materialpro/"
-                        class="btn btn-danger d-none d-md-inline-block text-white" target="_blank">Upgrade to
-                        Pro</a>
-                </div>-->
+                            <a href="https://www.wrappixel.com/templates/materialpro/"
+                                class="btn btn-danger d-none d-md-inline-block text-white" target="_blank">Upgrade to
+                                Pro</a>
+                        </div>-->
                     </div>
                 </div>
             </div>
@@ -150,39 +231,23 @@
             <!-- ============================================================== -->
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-md-8">
+                    <!-- Active Parking Details -->
+                    <div class="col-lg-8">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title">Next Reservation:</h4>
-                                <div id="next-reservation-details">
-                                    <!-- Next reservation details here -->
+                                <h4 class="card-title">Active Parking Details</h4>
+                                <div id="active-parking-details">
+                                    <!-- Parking details will be injected here -->
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <!-- Countdown Timer -->
+                    <div class="col-lg-4">
                         <div class="card">
-                            <div class="card-body">
-                                <h4 class="card-title">New Reservation</h4>
-                                <form id="newReservationForm">
-                                    <div class="row">
-                                        <div class="col-12 mb-3">
-                                            <label for="newReservationDate">Reservation Date</label>
-                                            <input type="date" id="newReservationDate" class="form-control" required>
-                                        </div>
-                                        <div class="col-12 mb-3">
-                                            <label for="newReservationStartTime">Start Time</label>
-                                            <input type="time" id="newReservationStartTime" class="form-control" required>
-                                        </div>
-                                        <div class="col-12 mb-3">
-                                            <label for="newReservationEndTime">End Time</label>
-                                            <input type="time" id="newReservationEndTime" class="form-control" required>
-                                        </div>
-                                        <div class="col-12 text-center">
-                                            <button type="submit" id="submitReservation" class="btn btn-primary">Submit</button>
-                                        </div>
-                                    </div>
-                                </form>
+                            <div class="card-body text-center">
+                                <h4 class="card-title">Time Remaining</h4>
+                                <div id="countdown-timer" class="display-4">00:00:00</div>
                             </div>
                         </div>
                     </div>
@@ -238,7 +303,7 @@
     <!--My Scripts-->
     <script src="js/ajaxCall.js"></script>
     <script src="js/myJavaScript/general.js"></script>
-    <script src="js/myJavaScript/user-homePage.js"></script>
+    <script src="js/myJavaScript/user-activeParking.js"></script>
     <script src="js/myJavaScript/user-chatbot.js"></script>
 
 </body>

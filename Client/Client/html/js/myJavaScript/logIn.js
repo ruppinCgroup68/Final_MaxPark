@@ -39,17 +39,17 @@ function postSCB(res) {
             console.log("Login User successful");
             sessionStorage.setItem("password", $("#password").val());
             sessionStorage.setItem("res", JSON.stringify(res));
-            window.location.href = "crm-maxpark/html/user-homePage.html";
+            window.location.href = "Client/html/user-homePage.html";
         } else {
             console.log("user is nor active")
             alert("user is not active");
         }
     }
     if (res.isAdmin === true && res.isParkingManager === false) {
-        window.location.href = "crm-maxpark/html/admin-dashboard.html";
+        window.location.href = "Client/html/admin-dashboard.html";
     }
     if (res.isAdmin === false && res.isParkingManager === true) {
-        window.location.href = "crm-maxpark/html/manager-evenTable.html";
+        window.location.href = "Client/html/manager-evenTable.html";
     }
 }
 //postECB מקבלת תשובה מהשרת דרך החתימה/
