@@ -7,111 +7,187 @@
         ? "https://proj.ruppin.ac.il/cgroup68/test2/tar1/api"
         : "https://proj.ruppin.ac.il/cgroup68/test2/tar1/api";
 
-
     let currentPage = 1;
     const rowsPerPage = 5;
 
-    // Status color mapping
-    const statusColors = {
-        "הזמנה בהמתנה": "#FFA500",
-        "דחייה": "red",
-        "אישור": "green"
-    };
-
-    // Function to load reservations from the API
-    function loadReservations() {
-        const userData = JSON.parse(sessionStorage.getItem('res'));
-        if (userData && userData.userId) {
-            const api = `${apiBaseUrl}/Users/reservationList?userId=${userData.userId}`;
-            ajaxCall("GET", api, null, postLoadReservationsSuccess, postLoadReservationsError);
-        } else {
-            console.error("User data not found in session storage.");
-        }
+    // Function to load users from the API
+    function loadUsers() {
+        const api = `${apiBaseUrl}/Admin/users`;
+        ajaxCall("GET", api, null, onLoadUsersSuccess, onLoadUsersError);
     }
 
-    function postLoadReservationsSuccess(response) {
-        const filterDate = $('#filterDate').val();
-        const filterStatus = $('#filterStatus').val();
-
-        // Filter reservations based on the selected date and status
-        const filteredReservations = response.filter(reservation => {
-            const date = formatDate(reservation.reservation_Date);
-            const status = reservation.reservation_Status;
-
-            return (!filterDate || filterDate === date) && (!filterStatus || filterStatus === status);
-        });
-
-        paginateReservations(filteredReservations);
+    function onLoadUsersSuccess(response) {
+        const filteredUsers = response;
+        paginateUsers(filteredUsers);
     }
 
-    function postLoadReservationsError(error) {
-        console.error("Error loading reservations:", error);
-        alert('Failed to load reservations. Please try again.');
+    function onLoadUsersError(error) {
+        console.error("Failed to load users:", error);
+        alert('Failed to load users. Please try again.');
     }
 
-    function paginateReservations(reservations) {
-        const totalPages = Math.ceil(reservations.length / rowsPerPage);
+    function paginateUsers(users) {
         const startIndex = (currentPage - 1) * rowsPerPage;
-        const paginatedReservations = reservations.slice(startIndex, startIndex + rowsPerPage);
+        const paginatedUsers = users.slice(startIndex, startIndex + rowsPerPage);
 
-        displayReservations(paginatedReservations);
+        displayUsers(paginatedUsers);
 
-        // Enable or disable pagination buttons based on current page
-        $('#prevPageBtn').prop('disabled', currentPage === 1);
-        $('#nextPageBtn').prop('disabled', currentPage === totalPages || reservations.length <= rowsPerPage);
+        // Enable or disable pagination buttons based on the number of rows in the current page
+        $('#prevPage').prop('disabled', currentPage === 1);
+        $('#nextPage').prop('disabled', paginatedUsers.length < rowsPerPage);
     }
 
-    function displayReservations(reservations) {
-        const tableBody = $('#reservationTableBody');
+    function displayUsers(users) {
+        const tableBody = $('#usersTable tbody');
         tableBody.empty();
 
-        reservations.forEach(reservation => {
-            const statusColor = statusColors[reservation.reservation_Status] || "black";
+        users.forEach(user => {
             const row = `
                 <tr>
-                    <td>${reservation.reservationId}</td>
-                    <td>${formatDate(reservation.reservation_Date)}</td>
-                    <td>${formatTime(reservation.reservation_STime)}</td>
-                    <td>${formatTime(reservation.reservation_ETime)}</td>
-                    <td style="color: ${statusColor}">${reservation.reservation_Status}</td>
-                    <td>${reservation.markId}</td>
+                    <td>${user.userId}</td>
+                    <td>${user.userFirstName}</td>
+                    <td>${user.userLastName}</td>
+                    <td>${user.userEmail}</td>
+                    <td>${user.userCarNum}</td>
+                    <td>${user.userPhone}</td>
+                    <td><input type="checkbox" ${user.isActive ? 'checked' : ''} disabled></td>
+                    <td><button class="btn btn-gray btn-xs edit-btn">✏️</button></td>
                 </tr>
             `;
             tableBody.append(row);
         });
     }
 
-    function formatDate(dateString) {
-        const date = new Date(dateString);
-        const year = date.getFullYear();
-        const month = ("0" + (date.getMonth() + 1)).slice(-2);
-        const day = ("0" + date.getDate()).slice(-2);
-        return `${year}-${month}-${day}`;
+    // Event listener for the add user button
+    $('#addUser-btn').click(function () {
+        $('#addUserModal').show();
+    });
+
+    // Close modal on cancel or outside click
+    $('#closeModal, #cancel-btn').click(function () {
+        $('#addUserModal').hide();
+    });
+
+    $('#addUserForm').submit(function (e) {
+        e.preventDefault();
+
+        // Collect form data
+        const newUserData = {
+            userId: 0, // This should be set by the server
+            userEmail: $('#userEmail').val(),
+            userPassword: "1234", 
+            userFirstName: $('#userFirstName').val(),
+            userLastName: $('#userLastName').val(),
+            userCarNum: $('#userCarNum').val(),
+            userPhone: $('#userPhone').val(),
+            userImagePath: "", // Default or placeholder path
+            isAdmin: false, // Default value as specified
+            isParkingManager: false, // Default value as specified
+            notificationCode: "1", // Default notification code
+            isActive: $('#isActive').is(':checked')
+        };
+
+        // API endpoint for adding a new user
+        const api = `${apiBaseUrl}/Admin/user`;
+
+        // AJAX POST request to add a new user
+        ajaxCall("POST", api, JSON.stringify(newUserData), onAddUserSuccess, onAddUserError);
+    });
+
+    // Callback for successful user addition
+    function onAddUserSuccess(response) {
+        console.log("User added successfully:", response);
+        alert("User added successfully!");
+        $('#addUserModal').hide();         // Close the modal
+        $('#addUserForm')[0].reset();      // Reset the form
+        loadUsers();                       // Refresh the user list
     }
 
-    function formatTime(timeString) {
-        return timeString.slice(0, 5); // Assumes timeString is in the format "HH:MM:SS"
+    // Callback for error in user addition
+    function onAddUserError(error) {
+        console.error("Failed to add user:", error);
+        alert("Failed to add user. Please try again.");
     }
 
-    // Pagination button event handlers
-    $('#prevPageBtn').on('click', function () {
-        if (currentPage > 1) {
-            currentPage--;
-            loadReservations();
+    // Event listener for the Edit button in the user table
+    $('#usersTable').on('click', '.edit-btn', function () {
+        const row = $(this).closest('tr');
+
+        if ($(this).text() === '✏️') {
+            $(this).text('💾');  // Change to save icon
+
+            // Convert row cells to input fields for editing
+            row.find('td').not(':last').each(function (index) {
+                const cell = $(this);
+                if (index === 6) {
+                    cell.find('input').prop('disabled', false); // Enable checkbox
+                } else if (index !== 0) {
+                    cell.html(`<input type="text" class="form-control" value="${cell.text()}">`);
+                }
+            });
+        } else {
+            $(this).text('✏️'); // Change back to edit icon
+
+            // Collect updated data from input fields
+            const updatedUserData = {
+                userId: parseInt(row.find('td').eq(0).text()),
+                userEmail: row.find('td').eq(3).find('input').val(),
+                userPassword: "1234", // Assuming password is not updated here
+                userFirstName: row.find('td').eq(1).find('input').val(),
+                userLastName: row.find('td').eq(2).find('input').val(),
+                userCarNum: row.find('td').eq(4).find('input').val(),
+                userPhone: row.find('td').eq(5).find('input').val(),
+                userImagePath: "",
+                isAdmin: true,
+                isParkingManager: true,
+                isActive: row.find('td').eq(6).find('input').is(':checked'),
+                notificationCode: "" // Assuming notification code is not updated here
+            };
+
+            // Update the row with non-editable data
+            row.find('td').not(':last').each(function (index) {
+                const cell = $(this);
+                if (index === 6) {
+                    cell.find('input').prop('disabled', true); // Disable checkbox after saving
+                } else {
+                    cell.html(cell.find('input').val());
+                }
+            });
+
+            // API endpoint for updating the user
+            const api = `${apiBaseUrl}/Admin/user`;
+
+            // AJAX PUT request to update the user
+            ajaxCall("PUT", api, JSON.stringify(updatedUserData), onUpdateUserSuccess, onUpdateUserError);
         }
     });
 
-    $('#nextPageBtn').on('click', function () {
-        currentPage++;
-        loadReservations();
-    });
+    // Callback for successful user update
+    function onUpdateUserSuccess(response) {
+        console.log("User updated successfully:", response);
+        alert("User updated successfully!");
+    }
 
-    // Load reservations on page ready
-    loadReservations();
+    // Callback for error in user update
+    function onUpdateUserError(error) {
+        console.error("Failed to update user:", error);
+        alert("Failed to update user. Please try again.");
+    }
 
-    // Refresh table when date or status filter is changed
-    $('#filterDate, #filterStatus').on('change', function () {
-        currentPage = 1; // Reset to the first page
-        loadReservations();
-    });
+
+    $('#nextPage').on('click', function () {
+    currentPage++;
+    loadUsers();
+});
+
+// Event handler for the Previous button
+$('#prevPage').on('click', function () {
+    if (currentPage > 1) {
+        currentPage--;
+        loadUsers();
+    }
+});
+
+    // Load users on page ready
+    loadUsers();
 });
