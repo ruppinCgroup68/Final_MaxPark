@@ -51,11 +51,5 @@ namespace MaxPark.Controllers
         public void Put(int id, [FromBody] string value)
         {
         }
-
-        // DELETE api/<EventsController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
     }
 }
