@@ -5,7 +5,7 @@
 
 
     let currentPage = 1;
-    const rowsPerPage = 5;
+    const rowsPerPage = 8;
 
     // Function to load users from the API
     function loadUsers() {
