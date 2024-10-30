@@ -7,12 +7,12 @@
     let currentPage = 1;
     const rowsPerPage = 10;
 
-    // Status color mapping
-    const statusColors = {
-        "הזמנה בהמתנה": "#FFA500",
-        "דחייה": "red",
-        "אישור": "green"
-    };
+    // status color 
+    //const statusColors = {
+    //    "הזמנה בהמתנה": "#FFA500",
+    //    "דחייה": "red",
+    //    "אישור": "green"
+    //};
 
     // Set default start and end dates
     const today = new Date();
@@ -22,43 +22,43 @@
     $('#filterStartDate').val(today.toISOString().split('T')[0]);
     $('#filterEndDate').val(oneYearLater.toISOString().split('T')[0]);
 
-    // Load reservations from the API
+    // Load Events from the API
     function loadReservations() {
-        const userData = JSON.parse(sessionStorage.getItem('res'));
-        if (userData && userData.userId) {
-            const api = `${apiBaseUrl}/Users/reservationList?userId=${userData.userId}`;
+        const eventData = JSON.parse(sessionStorage.getItem('eve'));
+        if (eventData && eventData.eventId) {
+            const api = `${apiBaseUrl}/Events/eventList?eventId=${userData.userId}`;
             ajaxCall("GET", api, null, (response) => {
-                reservationsData = response;
-                sortReservationsByDate(); // Sort data by date before filtering
+                eventsData = response;
+                sortEventsByDate(); // Sort data by date before filtering
                 applyFilters(); // Apply filters initially
-            }, postLoadReservationsError);
+            }, postLoadEventsError);
         } else {
-            console.error("User data not found in session storage.");
+            console.error("Events data not found in session storage.");
         }
     }
 
     // Sort reservations by reservation date (ascending)
-    function sortReservationsByDate() {
-        reservationsData.sort((a, b) => new Date(a.reservation_Date) - new Date(b.reservation_Date));
+    function sortEventsByDate() {
+        eventsData.sort((a, b) => new Date(a.events_Date) - new Date(b.events_Date));
     }
 
-    function postLoadReservationsSuccess(response) {
+    function postLoadEventsSuccess(response) {
         const filterDate = $('#filterDate').val();
-        const filterStatus = $('#filterStatus').val();
+        const filterType = $('#filterType').val();
 
-        // Filter reservations based on the selected date and status
-        const filteredReservations = response.filter(reservation => {
-            const date = formatDate(reservation.reservation_Date);
-            const status = reservation.reservation_Status;
+        // Filter events based on the selected date and types
+        const filteredEvents = response.filter(event => {
+            const date = formatDate(event.event_Date);
+            const type = event.evenType;
 
-            return (!filterDate || filterDate === date) && (!filterStatus || filterStatus === status);
+            return (!filterDate || filterDate === date) && (!filterEvents || filterStatus === event);
         });
 
-        paginateReservations(filteredReservations);
+        paginateReservations(filteredEvents);
     }
 
-    function postLoadReservationsError(error) {
-        console.error("Error loading reservations:", error);
+    function postLoadEventsError(error) {
+        console.error("Error loading s:", error);
         alert('Failed to load reservations. Please try again.');
     }
 
