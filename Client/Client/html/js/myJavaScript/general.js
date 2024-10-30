@@ -41,7 +41,7 @@ $(document).ready(function () {
 
             // Update user name and image on the page
             $('#userName').text(fullName);
-            $('#profileImage').attr('alt', fullName);
+            //$('#profileImage').attr('alt', fullName);
 
             // Load profile image if the path exists; otherwise, use default
             if (userData.userImagePath) {

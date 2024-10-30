@@ -9,7 +9,7 @@
 
 
     let currentPage = 1;
-    const rowsPerPage = 5;
+    const rowsPerPage = 10;
 
     // Status color mapping
     const statusColors = {
@@ -18,15 +18,32 @@
         "אישור": "green"
     };
 
-    // Function to load reservations from the API
+    // Set default start and end dates
+    const today = new Date();
+    const oneYearLater = new Date(today);
+    oneYearLater.setFullYear(today.getFullYear() + 1);
+
+    $('#filterStartDate').val(today.toISOString().split('T')[0]);
+    $('#filterEndDate').val(oneYearLater.toISOString().split('T')[0]);
+
+    // Load reservations from the API
     function loadReservations() {
         const userData = JSON.parse(sessionStorage.getItem('res'));
         if (userData && userData.userId) {
             const api = `${apiBaseUrl}/Users/reservationList?userId=${userData.userId}`;
-            ajaxCall("GET", api, null, postLoadReservationsSuccess, postLoadReservationsError);
+            ajaxCall("GET", api, null, (response) => {
+                reservationsData = response;
+                sortReservationsByDate(); // Sort data by date before filtering
+                applyFilters(); // Apply filters initially
+            }, postLoadReservationsError);
         } else {
             console.error("User data not found in session storage.");
         }
+    }
+
+    // Sort reservations by reservation date (ascending)
+    function sortReservationsByDate() {
+        reservationsData.sort((a, b) => new Date(a.reservation_Date) - new Date(b.reservation_Date));
     }
 
     function postLoadReservationsSuccess(response) {
@@ -49,6 +66,28 @@
         alert('Failed to load reservations. Please try again.');
     }
 
+    function applyFilters() {
+        const filterDateStart = $('#filterStartDate').val();
+        const filterDateEnd = $('#filterEndDate').val();
+        const filterStatus = $('#filterStatus').val();
+
+        const filteredReservations = reservationsData.filter(reservation => {
+            const reservationDate = formatDate(reservation.reservation_Date);
+            const status = reservation.reservation_Status;
+
+            // Filter by status
+            const statusMatches = !filterStatus || filterStatus === status;
+
+            // Filter by date range
+            const dateInRange = (!filterDateStart || reservationDate >= filterDateStart) &&
+                (!filterDateEnd || reservationDate <= filterDateEnd);
+
+            return statusMatches && dateInRange;
+        });
+
+        paginateReservations(filteredReservations);
+    }
+
     function paginateReservations(reservations) {
         const totalPages = Math.ceil(reservations.length / rowsPerPage);
         const startIndex = (currentPage - 1) * rowsPerPage;
@@ -56,7 +95,7 @@
 
         displayReservations(paginatedReservations);
 
-        // Enable or disable pagination buttons based on current page
+        // Enable or disable pagination buttons based on the current page and total filtered results
         $('#prevPageBtn').prop('disabled', currentPage === 1);
         $('#nextPageBtn').prop('disabled', currentPage === totalPages || reservations.length <= rowsPerPage);
     }
@@ -93,21 +132,26 @@
         return timeString.slice(0, 5); // Assumes timeString is in the format "HH:MM:SS"
     }
 
-    // Pagination button event handlers
     $('#prevPageBtn').on('click', function () {
         if (currentPage > 1) {
             currentPage--;
-            loadReservations();
+            applyFilters();
         }
     });
 
     $('#nextPageBtn').on('click', function () {
         currentPage++;
-        loadReservations();
+        applyFilters();
     });
 
     // Load reservations on page ready
     loadReservations();
+
+    // Apply filters when any filter input changes
+    $('#filterStartDate, #filterEndDate, #filterStatus').on('change', function () {
+        currentPage = 1; // Reset to the first page
+        applyFilters();
+    });
 
     // Refresh table when date or status filter is changed
     $('#filterDate, #filterStatus').on('change', function () {

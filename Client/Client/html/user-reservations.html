@@ -25,6 +25,13 @@
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 
     <!-- Bootstrap CSS -->
+    <style>
+        .filter-container label {
+            display: flex;
+            align-items: center; /* Aligns text vertically in the center */
+            margin-bottom: 0; /* Removes any additional margin at the bottom */
+        }
+    </style>
     <![endif]-->
 </head>
 
@@ -229,6 +236,29 @@
                 <!-- Row -->
                 <div class="row">
                     <!-- column -->
+                    <div class="col-sm-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="filter-container d-flex align-items-center">
+                                    <label for="filterStatus" class="me-2">Status:</label>
+                                    <select id="filterStatus" class="form-select me-3" style="width: 150px;">
+                                        <option value="">All</option>
+                                        <option value="אישור">Approval</option>
+                                        <option value="דחייה">Rejection</option>
+                                        <option value="הזמנה בהמתנה">Pending</option>
+                                    </select>
+
+                                    <label for="filterStartDate" class="me-2">Start Date:</label>
+                                    <input type="date" id="filterStartDate" class="form-control me-3" style="width: 150px;">
+
+                                    <label for="filterEndDate" class="me-2">End Date:</label>
+                                    <input type="date" id="filterEndDate" class="form-control" style="width: 150px;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
                     <div class="col-sm-12">
                         <div class="card">
                             <div class="card-body">
