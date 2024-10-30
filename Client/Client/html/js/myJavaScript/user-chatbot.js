@@ -1,6 +1,5 @@
 ﻿$(document).ready(function () {
-    //const apiBaseUrl = location.hostname === "localhost" ? "http://localhost:7061/api" : "https://proj.ruppin.ac.il/cgroup68/test2/tar1/api";
-    const apiBaseUrl = location.hostname === "localhost" ? "https://proj.ruppin.ac.il/cgroup68/test2/tar1/api" : "https://proj.ruppin.ac.il/cgroup68/test2/tar1/api";
+    const apiBaseUrl = location.hostname === "localhost" ? "https://localhost:7061/api" : "https://proj.ruppin.ac.il/cgroup68/test2/tar1/api";
     const userData = JSON.parse(sessionStorage.getItem('res'));
 
     if (!userData || !userData.userId) {
