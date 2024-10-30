@@ -37,7 +37,7 @@
     }
 
     function handleApiError() {
-        displayMessage("Bot", "Sorry, something went wrong. Please try again.");
+        displayMessage("Bot", "Please enter request of future reservations only.");
     }
 
     function submitReservation(dateObj) {
@@ -51,7 +51,8 @@
             reservation_Status: "Pending",
             markId: 0
         };
-        const apiUrl = `${apiBaseUrl}/Reservasions/newReservation`;
+        const apiUrl = `${apiBaseUrl}/Reservations/newReservation`;
+        console.log(reservationData);
         ajaxCall("POST", apiUrl, JSON.stringify(reservationData), function () {
             postReservationSuccess(reservationData);
         }, postReservationError);
