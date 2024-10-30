@@ -75,20 +75,10 @@
         updatedUser.userPhone = $("#phoneNumber").val() || user.userPhone;
         updatedUser.userPassword = "********";
 
-        if (selectedFile) {
-            // Upload image first, then proceed to saveProfile in success callback
-            uploadProfilePicture(selectedFile, function (response) {
-                handleUploadImageSuccess(response);
-                updatedUser.userImagePath = user.userImagePath; // Update updatedUser with new image path
-                saveProfile(updatedUser); // Call saveProfile after successful image upload
-            }, handleUploadImageError);
+        if (fieldsUpdated) {
+            saveProfile(updatedUser);
         } else {
-            // If no image selected, proceed to saveProfile directly if fields were updated
-            if (fieldsUpdated) {
-                saveProfile(updatedUser);
-            } else {
-                alert("Nothing to Update");
-            }
+            alert("Nothing to Update");
         }
     }
 
@@ -120,7 +110,7 @@
     }
 
     function handleSaveProfileError() {
-        alert("Failed to update profile.");
+       
     }
 
     function uploadProfilePicture(file, successCB, errorCB) {
@@ -200,6 +190,14 @@
             $('#profileImageBig').attr('src', e.target.result);
         };
         reader.readAsDataURL(selectedFile);
+
+        uploadProfilePicture(selectedFile, function (response) {
+            handleUploadImageSuccess(response);
+            updatedUser.userImagePath = user.userImagePath; // Update updatedUser with new image path
+            updatedUser.userPassword = "********";
+            saveProfile(updatedUser); // Call saveProfile after successful image upload
+        }, handleUploadImageError);
+
     });
 
     $('#updateProfileButton').on('click', updateProfile);
