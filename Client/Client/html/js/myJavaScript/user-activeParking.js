@@ -38,8 +38,15 @@
 
     function handleActiveParkingSuccess(response) {
         const activeReservation = response.find(reservation => {
-            const endTime = combineDateAndTime(reservation.reservation_Date, reservation.reservation_ETime);
-            return reservation.reservation_Status === "אישור" && new Date(endTime) >= new Date();
+            const currentDate = new Date().toISOString().split('T')[0]; // Today's date in YYYY-MM-DD format
+            const currentTime = new Date().toLocaleTimeString('en-GB', { hour12: false }); // Current time in HH:MM:SS format
+
+            const isToday = reservation.reservation_Date.startsWith(currentDate); // Check if reservation is today
+            const startTime = reservation.reservation_STime;
+            const endTime = reservation.reservation_ETime;
+
+            return reservation.reservation_Status === "אישור" &&
+                (isToday && (currentTime >= startTime && currentTime <= endTime));
         });
 
         if (activeReservation) {
@@ -83,7 +90,8 @@
     }
 
     function startCountdown(date, endTime) {
-        const endDateTime = new Date(`${date}T${endTime}`);
+        const dateOnly = date.split('T')[0]; // Extract just the date part (YYYY-MM-DD)
+        const endDateTime = new Date(`${dateOnly}T${endTime}`);
         const timerInterval = setInterval(() => {
             const now = new Date();
             const timeRemaining = endDateTime - now;
