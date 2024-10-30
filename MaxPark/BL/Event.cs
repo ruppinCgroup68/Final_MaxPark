@@ -49,10 +49,10 @@ namespace MaxPark.BL
             return dbs.ReadEvents();
         }
 
-        public int InsertEvent(Event eve)
+        public int InsertEvent(Event e, string userCarNum)
         {
             DBservicesEvent dbs=new DBservicesEvent();
-            return dbs.InsertEvent(eve);
+            return dbs.InsertEvent(e, userCarNum);
         }
     }
 }

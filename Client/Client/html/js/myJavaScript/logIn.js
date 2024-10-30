@@ -49,7 +49,7 @@ function postSCB(res) {
         window.location.href = "Client/html/admin-dashboard.html";
     }
     if (res.isAdmin === false && res.isParkingManager === true) {
-        window.location.href = "Client/html/manager-evenTable.html";
+        window.location.href = "Client/html/manager-events.html";
     }
 }
 //postECB מקבלת תשובה מהשרת דרך החתימה/

@@ -91,7 +91,7 @@ namespace MaxPark.DAL
         //--------------------------------------------------------------------------------------------------
         //                            Insert - Event
         //---------------------------------------------------------------------------------------------------
-        public int InsertEvent(Event eve)
+        public int InsertEvent(Event eve, string carNumber)
         {
             SqlConnection con;
             SqlCommand cmd;
@@ -104,7 +104,7 @@ namespace MaxPark.DAL
                 // write to log
                 throw (ex);
             }
-            cmd = CreateInsertWithStoredProsedure("spInsertEvent", con, eve);// create the command
+            cmd = CreateInsertWithStoredProsedure("spInsertEvent", con, eve, carNumber);// create the command
             try
             {
                 int numEffected = cmd.ExecuteNonQuery(); // execute the command
@@ -127,14 +127,14 @@ namespace MaxPark.DAL
         }
 
         //--------------------------------------------------------------------------------------------------
-        private SqlCommand CreateInsertWithStoredProsedure(String spName, SqlConnection con, Event eve)
+        private SqlCommand CreateInsertWithStoredProsedure(String spName, SqlConnection con, Event eve, string carNumber)
         {
             SqlCommand cmd = new SqlCommand(); // create the command object
             cmd.Connection = con; // assign the connection to the command object
             cmd.CommandText = spName;// can be Select, Insert, Update, Delete 
             cmd.CommandTimeout = 10; // Time to wait for the execution' The default is 30 seconds
             cmd.CommandType = System.Data.CommandType.StoredProcedure; // the type of the command, can also be stored procedure
-            cmd.Parameters.AddWithValue("@carNumber", eve.ParkId);
+            cmd.Parameters.AddWithValue("@carNumber", carNumber);
             cmd.Parameters.AddWithValue("@parkId", eve.ParkId);
             cmd.Parameters.AddWithValue("@markId", eve.MarkId);
             cmd.Parameters.AddWithValue("@event_Date", eve.Event_Date);
