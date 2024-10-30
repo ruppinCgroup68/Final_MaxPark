@@ -1,8 +1,9 @@
 ﻿$(document).ready(function () {
-    const localserver = "https://proj.ruppin.ac.il/cgroup68/test2/tar1/api";
+    const localserver = "https://localhost:7061/api";
     const server = "https://proj.ruppin.ac.il/cgroup68/test2/tar1/api";
-    const defaultProfileImage = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png";
     const apiBaseUrl = location.hostname === "localhost" || location.hostname === "127.0.0.1" ? localserver : server;
+
+    const defaultProfileImage = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png";
     const updatePasswordApi = "/Users/updatePassword";
     const updateDetailsApi = "/Users/updateDetails";
     const uploadImageApi = "/Users/savePhoto";

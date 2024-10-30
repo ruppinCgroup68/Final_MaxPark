@@ -1,7 +1,7 @@
 ﻿$(document).ready(function () {
     // Define the base API endpoint
     // const baseApi = location.hostname === "localhost" || location.hostname === "127.0.0.1"
-    //    ? "http://localhost:7061/api"
+    //    ? "https://localhost:7061/api"
     //    : "https://proj.ruppin.ac.il/cgroup68/test2/tar1/api";
 
     const baseApi = location.hostname === "localhost" || location.hostname === "127.0.0.1"

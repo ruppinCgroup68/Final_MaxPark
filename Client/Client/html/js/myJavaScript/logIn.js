@@ -1,7 +1,7 @@
 ﻿$(document).ready(function () {
     $("#submitBtn").click(submitLogIn);
     let port = "7061";
-    server = `http://localhost:${port}`;
+    server = `https://localhost:${port}`;
 });
 function submitLogIn(event) {
     event.preventDefault(); // מונע מהטופס לשלוח את הנתונים ולרענן את הדף
@@ -20,8 +20,7 @@ function submitLogIn(event) {
         notificationCode: "string"
     }
     if (location.hostname == "localhost" || location.hostname == "127.0.0.1") {
-        //api = server + "/api/Users/LogIn";
-        api = 'https://proj.ruppin.ac.il/cgroup68/test2/tar1/api/Users/LogIn';
+        api = server + "/api/Users/LogIn";
     }
     else {
         api = 'https://proj.ruppin.ac.il/cgroup68/test2/tar1/api/Users/LogIn';

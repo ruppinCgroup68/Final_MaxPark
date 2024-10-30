@@ -1,12 +1,9 @@
 ﻿
 $(document).ready(function () {
-    //const apiBaseUrl = location.hostname === "localhost" || location.hostname === "127.0.0.1"
-    //    ? "http://localhost:7061/api"
-    //    : "https://proj.ruppin.ac.il/cgroup68/test2/tar1/api";
-
     const apiBaseUrl = location.hostname === "localhost" || location.hostname === "127.0.0.1"
-        ? "https://proj.ruppin.ac.il/cgroup68/test2/tar1/api"
+        ? "https://localhost:7061/api"
         : "https://proj.ruppin.ac.il/cgroup68/test2/tar1/api";
+
 
     const getImageApi = "/Users/getPhoto/";
     const defaultProfileImage = "../assets/images/users/default.jpg"; // Path to the default image
