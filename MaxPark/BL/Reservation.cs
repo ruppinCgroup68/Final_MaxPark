@@ -59,7 +59,7 @@ namespace MaxPark.BL
         public int Insert(Reservation reservation)
         {
             DBservicesReservation dbs = new DBservicesReservation();
-            return dbs.InsertReservation(reservation);
+            return dbs.InserReservation(reservation);
         }
 
         public int updateReservationDateTime(Reservation reservation)

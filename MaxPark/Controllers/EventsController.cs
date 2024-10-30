@@ -18,11 +18,13 @@ namespace MaxPark.Controllers
         }
 
         // POST api/<EventsController>
-        [HttpPost]
-        public void Post([FromBody] string value)
+        [HttpPost("addEvent")]
+        public int Post([FromBody] Event event_)
         {
-
+            Event event1_ =new Event();
+            return event1_.InsertEvent(event_);
         }
+
         // GET api/<EventsController>/5
         [HttpGet("{id}")]
         public string Get(int id)

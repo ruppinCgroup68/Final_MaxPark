@@ -48,24 +48,11 @@ namespace MaxPark.BL
             DBservicesEvent dbs = new DBservicesEvent();
             return dbs.ReadEvents();
         }
+
+        public int InsertEvent(Event eve)
+        {
+            DBservicesEvent dbs=new DBservicesEvent();
+            return dbs.InsertEvent(eve);
+        }
     }
 }
-
-
-
-/*
- 
-CREATE TABLE [tblEvent](
-[eventId]  INT IDENTITY(1,1) PRIMARY KEY,
-[userId] INT FOREIGN KEY REFERENCES [tblUser]([userId])NOT NULL,
-[parkId] INT FOREIGN KEY REFERENCES [tblParkingCar]([parkId]) NOT NULL,
-[markId] INT FOREIGN KEY REFERENCES [tblMark]([markId]) ,
-[evenType] NVARCHAR(20),
-[reservationDate] DATETIME,
-[reservation_STime] TIME,
-[reservation_ETime] TIME,
-[eventNote] NVARCHAR(100),
-Constraint CK10_ CHECK(evenType in ('רכב חורג מזמני חניה מותרים','רכב חוסם רכב אחר','רכב לא נמצא במקומו','רכב לא הגיע מעל חצי שעה','רכב מתפרץ','אחר'))
-); 
- 
- */

@@ -341,9 +341,9 @@ namespace MaxPark.DAL
         }
 
         //--------------------------------------------------------------------------------------------------
-        //                             I N S E R T  :   R E S E R V A T I O N 
+        //                            Insert - Reservation
         //---------------------------------------------------------------------------------------------------
-        public int InsertReservation(Reservation reservation)
+        public int InserReservation(Reservation reservation)
         {
             SqlConnection con;
             SqlCommand cmd;
