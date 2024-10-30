@@ -59,12 +59,11 @@ namespace MaxPark.DAL
                 e.UserId = Convert.ToInt32(dataReader["userId"]);
                 e.ParkId = Convert.ToInt32(dataReader["parkId"]);
                 e.MarkId = Convert.ToInt32(dataReader["markId"]);
-                e.Event_Date = Convert.ToDateTime(dataReader["event_Date"]);                   
+                e.Event_Date = Convert.ToDateTime(dataReader["event_Date"]);
                 e.Event_STime = dataReader["event_STime"].ToString();
                 e.Event_ETime = dataReader["event_ETime"].ToString();
                 e.EvenType = dataReader["evenType"].ToString();
-                e.Event_Note = dataReader["event_Note"].ToString();
-
+                e.Event_Note = dataReader["event_Note"].ToString(); 
                 events.Add(e);
             }
 
@@ -86,6 +85,64 @@ namespace MaxPark.DAL
             cmd.CommandText = spName;// can be Select, Insert, Update, Delete 
             cmd.CommandTimeout = 10;// Time to wait for the execution' The default is 30 seconds
             cmd.CommandType = System.Data.CommandType.StoredProcedure; // the type of the command, can also be text
+            return cmd;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+        //                            Insert - Event
+        //---------------------------------------------------------------------------------------------------
+        public int InsertEvent(Event eve)
+        {
+            SqlConnection con;
+            SqlCommand cmd;
+            try
+            {
+                con = connect("myProjDB"); // create the connection
+            }
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
+            cmd = CreateInsertWithStoredProsedure("spInsertEvent", con, eve);// create the command
+            try
+            {
+                int numEffected = cmd.ExecuteNonQuery(); // execute the command
+                return numEffected;
+            }
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
+
+            finally
+            {
+                if (con != null)
+                {
+                    // close the db connection
+                    con.Close();
+                }
+            }
+        }
+
+        //--------------------------------------------------------------------------------------------------
+        private SqlCommand CreateInsertWithStoredProsedure(String spName, SqlConnection con, Event eve)
+        {
+            SqlCommand cmd = new SqlCommand(); // create the command object
+            cmd.Connection = con; // assign the connection to the command object
+            cmd.CommandText = spName;// can be Select, Insert, Update, Delete 
+            cmd.CommandTimeout = 10; // Time to wait for the execution' The default is 30 seconds
+            cmd.CommandType = System.Data.CommandType.StoredProcedure; // the type of the command, can also be stored procedure
+            cmd.Parameters.AddWithValue("@carNumber", eve.ParkId);
+            cmd.Parameters.AddWithValue("@parkId", eve.ParkId);
+            cmd.Parameters.AddWithValue("@markId", eve.MarkId);
+            cmd.Parameters.AddWithValue("@event_Date", eve.Event_Date);
+            cmd.Parameters.AddWithValue("@event_STime", eve.Event_STime);
+            cmd.Parameters.AddWithValue("@event_ETime", eve.Event_ETime);
+            cmd.Parameters.AddWithValue("@evenType", eve.EvenType);
+            cmd.Parameters.AddWithValue("@event_Note", eve.Event_Note);
+
             return cmd;
         }
     }
