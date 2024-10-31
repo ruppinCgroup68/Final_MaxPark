@@ -212,15 +212,15 @@
             <div class="page-breadcrumb">
                 <div class="row align-items-center">
                     <div class="col-md-6 col-8 align-self-center">
-                        <h3 class="page-title mb-0 p-0">Reservations</h3>
-                        <div class="d-flex align-items-center">
-                            <nav aria-label="breadcrumb">
-                                <ol class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                    <li class="breadcrumb-item active" aria-current="page">Reservations</li>
-                                </ol>
-                            </nav>
-                        </div>
+                        <h3 class="page-title mb-0 p-0">Events</h3>
+                        <!--<div class="d-flex align-items-center">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page"></li>
+                        </ol>
+                    </nav>
+                </div>-->
                     </div>
                 </div>
             </div>
@@ -240,6 +240,7 @@
                     <div class="col-sm-12">
                         <div class="card">
                             <div class="card-body">
+                                <!--date filters-->
                                 <div class="filter-container d-flex align-items-center">
                                     <label for="filterStatus" class="me-2">Status:</label>
                                     <select id="filterStatus" class="form-select me-3" style="width: 150px;">
@@ -255,6 +256,7 @@
                                     <label for="filterEndDate" class="me-2">End Date:</label>
                                     <input type="date" id="filterEndDate" class="form-control" style="width: 150px;">
                                 </div>
+                                <!--end date filters-->
                             </div>
                         </div>
                     </div>
@@ -263,6 +265,7 @@
                     <div class="col-sm-12">
                         <div class="card">
                             <div class="card-body">
+                                <button type="button" class="btn btn-primary mb-3" id="addEvents-btn">Add Event</button>
                                 <div class="table-responsive">
                                     <table class="table user-table">
                                         <thead>
@@ -281,7 +284,7 @@
                                         </thead>
                                         <tbody id="eventsTableBody">
                                             <!-- Events rows will be dynamically
-                                ed here -->
+                                    ed here -->
                                         </tbody>
                                     </table>
                                 </div>
@@ -294,6 +297,60 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Add Event Modal -->
+                <div id="addUserModal" class="modal" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Add New Event</h5>
+                                <button type="button" id="closeModal" class="btn-close" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="add_EventForm">
+                                    <div class="mb-3">
+
+                                        <label for="curNumber" class="form-label">Car Number</label>
+                                        <input type="text" class="form-control" id="carNumber" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="parkId" class="form-label">Park ID</label>
+                                        <input type="number" class="form-control" id="parkId" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="markId" class="form-label">Mark ID</label>
+                                        <input type="number" class="form-control" id="markId" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="event_Date" class="form-label">Date</label>
+                                        <input type="date" class="form-control" id="event_Date" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="event_STime" class="form-label">Start Time</label>
+                                        <input type="time" class="form-control" id="event_STime">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="event_ETime" class="form-label">End Time</label>
+                                        <input type="time" class="form-control" id="event_ETime">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="evenType" class="form-label">Event Type</label>
+                                        <input type="text" class="form-control" id="evenType" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="event_Note" class="form-label">Note</label>
+                                        <input type="text" class="form-control" id="event_Note">
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-primary" id="submit-btn">Add Event</button>
+                                        <button type="button" class="btn btn-secondary" id="cancel-btn">Cancel</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Row -->
                 <!-- ============================================================== -->
                 <!-- End PAge Content -->
@@ -312,24 +369,22 @@
             <!-- ============================================================== -->
             <!-- footer -->
             <!-- ============================================================== -->
-            <div id="chatBotIcon" class="chat-bot-icon">
-                <img src="../assets/images/logo-light-icon.png" alt="Chat Bot" class="chat-icon-img">
-            </div>
-
+            <!--<div id="chatBotIcon" class="chat-bot-icon">
+        <img src="../assets/images/logo-light-icon.png" alt="Chat Bot" class="chat-icon-img">
+    </div>-->
             <!-- Chat Box (initially hidden) -->
-            <div class="chat-container" id="chat-container" style="display: none;">
-                <div id="chatMessages" style="height: 300px; overflow-y: auto; border: 1px solid #ddd; padding: 10px;">
-                    <!-- Chat messages will appear here -->
-                </div>
-                <div class="chat-input">
-                    <input type="text" id="messageInput" placeholder="Type your request here...">
-                    <button id="sendButton">Send</button>
-                </div>
-            </div>
+            <!--<div class="chat-container" id="chat-container" style="display: none;">
+        <div id="chatMessages" style="height: 300px; overflow-y: auto; border: 1px solid #ddd; padding: 10px;">-->
+            <!-- Chat messages will appear here -->
+            <!--</div>
+        <div class="chat-input">
+            <input type="text" id="messageInput" placeholder="Type your request here...">
+            <button id="sendButton">Send</button>
+        </div>
+    </div>-->
             <footer class="footer">
-                © 2021 Material Pro Admin by <a href="https://www.wrappixel.com/">wrappixel.com </a>
-            </footer>
-            <!-- ============================================================== -->
+                © 2024 MaxPark - smart solution of parking lot management for companies & organizations<a href=" https://github.com/ruppinCgroup68/Final_MaxPark.git"> Full Project On GitHub </a>
+            </footer><!-- ============================================================== -->
             <!-- End footer -->
             <!-- ============================================================== -->
         </div>
