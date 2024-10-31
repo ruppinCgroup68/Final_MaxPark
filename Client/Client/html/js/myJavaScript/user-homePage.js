@@ -33,6 +33,10 @@
 
     function postLoadNextReservationSuccess(response) {
         const reservations = response;
+
+        reservations.sort((a, b) => new Date(a.reservation_Date) - new Date(b.reservation_Date));
+
+
         const today = new Date();
         today.setHours(0, 0, 0, 0);
 
