@@ -3,11 +3,11 @@
     const userData = JSON.parse(sessionStorage.getItem('res'));
 
     if (!userData || !userData.userId) {
-        displayMessage("Bot", "Please log in to submit reservations.");
+        displayMessage("Bot", "Please log in to submit events.");
         return;
     }
 
-    displayMessage("Bot", "Hey, enter your request for reservations");
+    displayMessage("Bot", "Hey, enter your request for events");
 
     $('#sendButton').click(function () {
         const messageInput = $('#messageInput').val().trim();
@@ -16,57 +16,57 @@
             return;
         }
         displayMessage("You", messageInput);
-        sendReservationRequest(messageInput);
+        sendeventRequest(messageInput);
         $('#messageInput').val("");
     });
 
-    function sendReservationRequest(userPrompt) {
+    function sendeventRequest(userPrompt) {
         const data = { prompt: userPrompt };
-        const apiUrl = `${apiBaseUrl}/GPT/get-reservation-by-prompt`;
+        const apiUrl = `${apiBaseUrl}/GPT/get-event-by-prompt`;
 
         ajaxCall("POST", apiUrl, JSON.stringify(data), handleApiResponse, handleApiError, "application/json");
     }
 
     function handleApiResponse(response) {
         if (response && response.dates && response.dates.length > 0) {
-            displayMessage("Bot", `Submitting ${response.dates.length} reservations...`);
-            response.dates.forEach(submitReservation);
+            displayMessage("Bot", `Submitting ${response.dates.length} events...`);
+            response.dates.forEach(submitevent);
         } else {
-            displayMessage("Bot", "Please enter request of future reservations only.");
+            displayMessage("Bot", "Please enter request of future events only.");
         }
     }
 
     function handleApiError() {
-        displayMessage("Bot", "Please enter request of future reservations only.");
+        displayMessage("Bot", "Please enter request of future events only.");
     }
 
-    function submitReservation(dateObj) {
-        const reservationData = {
-            reservationId: 0,
+    function submitevent(dateObj) {
+        const eventData = {
+            eventId: 0,
             userId: userData.userId,
             parkId: 1,
-            reservation_Date: dateObj.date,
-            reservation_STime: dateObj.start,
-            reservation_ETime: dateObj.end,
-            reservation_Status: "Pending",
+            event_Date: dateObj.date,
+            event_STime: dateObj.start,
+            event_ETime: dateObj.end,
+            event_Status: "Pending",
             markId: 0
         };
-        const apiUrl = `${apiBaseUrl}/Reservations/newReservation`;
-        console.log(reservationData);
-        ajaxCall("POST", apiUrl, JSON.stringify(reservationData), function () {
-            postReservationSuccess(reservationData);
-        }, postReservationError);
+        const apiUrl = `${apiBaseUrl}/events/newevent`;
+        console.log(eventData);
+        ajaxCall("POST", apiUrl, JSON.stringify(eventData), function () {
+            postSuccess(eventData);
+        }, posteventError);
     }
 
-    function postReservationSuccess(reservationData) {
-        const formattedDate = formatDate(reservationData.reservation_Date);
-        const formattedSTime = formatTime(reservationData.reservation_STime);
-        const formattedETime = formatTime(reservationData.reservation_ETime);
-        displayMessage("Bot", `Reservation created successfully! Date: ${formattedDate} ${formattedSTime}-${formattedETime}`);
+    function posteventSuccess(eventData) {
+        const formattedDate = formatDate(eventData.event_Date);
+        const formattedSTime = formatTime(eventData.event_STime);
+        const formattedETime = formatTime(eventData.event_ETime);
+        displayMessage("Bot", `event created successfully! Date: ${formattedDate} ${formattedSTime}-${formattedETime}`);
     }
 
-    function postReservationError() {
-        displayMessage("Bot", "Failed to create reservation. Please try again.");
+    function posteventError() {
+        displayMessage("Bot", "Failed to create event. Please try again.");
     }
 
     function displayMessage(sender, content) {

@@ -21,7 +21,7 @@ namespace MaxPark.Controllers
 
         // POST api/<EventsController>
         [HttpPost("addEvent")]
-        public int Post([FromBody] JsonElement event_data)
+        public int Post([FromBody] Event event_data)
         {
             Event e = new Event();
             e.ParkId = event_data.GetProperty("parkId").GetInt32();

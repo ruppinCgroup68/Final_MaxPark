@@ -81,7 +81,7 @@ namespace MaxPark.Controllers
                 return NotFound(); // Return 404 if the file is not found
             }
 
-            var fileBytes = System.IO.File.ReadAllBytes(path);
+            var fileBytes = System.IO.File.nReadAllBytes(path);
 
             // Get the MIME type directly in this function
             string extension = Path.GetExtension(fileName).ToLowerInvariant();
@@ -97,7 +97,6 @@ namespace MaxPark.Controllers
             return File(fileBytes, mimeType, fileName); // Return the file as a response
         }
 
-
         [HttpGet]
         [Route("getByCarNumber/{carNumber}")]
         public IActionResult GetUserByCarNumber(string carNumber)
@@ -111,7 +110,6 @@ namespace MaxPark.Controllers
                 {
                     return NotFound($"User with car number {carNumber} not found.");
                 }
-
                 return Ok(blockingUser);
             }
             catch (Exception ex)
