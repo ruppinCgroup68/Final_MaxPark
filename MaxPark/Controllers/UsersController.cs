@@ -1,4 +1,5 @@
 ﻿using MaxPark.BL;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -81,7 +82,7 @@ namespace MaxPark.Controllers
                 return NotFound(); // Return 404 if the file is not found
             }
 
-            var fileBytes = System.IO.File.nReadAllBytes(path);
+            var fileBytes = System.IO.File.ReadAllBytes(path);
 
             // Get the MIME type directly in this function
             string extension = Path.GetExtension(fileName).ToLowerInvariant();
@@ -96,6 +97,7 @@ namespace MaxPark.Controllers
 
             return File(fileBytes, mimeType, fileName); // Return the file as a response
         }
+
 
         [HttpGet]
         [Route("getByCarNumber/{carNumber}")]
