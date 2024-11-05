@@ -55,7 +55,7 @@ $(document).ready(function () {
         sessionStorage.removeItem("password");
         sessionStorage.removeItem("res");
 
-        window.location.href = "../../../login.html";
+        window.location.href = "../../login.html";
     });
 
     // Initialize by loading the profile fields when document is ready
