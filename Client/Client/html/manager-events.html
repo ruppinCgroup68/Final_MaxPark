@@ -144,26 +144,8 @@
                         <!-- User Profile-->
                         <li class="sidebar-item">
                             <a class="sidebar-link waves-effect waves-dark sidebar-link"
-                               href="user-homePage.html" aria-expanded="false">
+                               href="manager-events.html" aria-expanded="false">
                                 <i class="mdi me-2 mdi-gauge"></i><span class="hide-menu">Home</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link waves-effect waves-dark sidebar-link"
-                               href="user-profile.html" aria-expanded="false">
-                                <i class="mdi me-2 mdi-account-check"></i><span class="hide-menu">Profile</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link waves-effect waves-dark sidebar-link"
-                               href="user-reservations.html" aria-expanded="false">
-                                <i class="mdi me-2 mdi-table"></i><span class="hide-menu">Reservations</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link waves-effect waves-dark sidebar-link"
-                               href="user-activeParking.html" aria-expanded="false">
-                                <i class="mdi me-2 mdi-emoticon"></i><span class="hide-menu">Parking</span>
                             </a>
                         </li>
                         <li class="text-center p-20 upgrade-btn">
@@ -240,15 +222,10 @@
                     <div class="col-sm-12">
                         <div class="card">
                             <div class="card-body">
-                                <!--date filters-->
+                                <!-- Filters -->
                                 <div class="filter-container d-flex align-items-center">
-                                    <label for="filterStatus" class="me-2">Status:</label>
-                                    <select id="filterStatus" class="form-select me-3" style="width: 150px;">
-                                        <option value="">All</option>
-                                        <option value="אישור">Approval</option>
-                                        <option value="דחייה">Rejection</option>
-                                        <option value="הזמנה בהמתנה">Pending</option>
-                                    </select>
+                                    <label for="filterParkId" class="me-2">Park ID:</label>
+                                    <input type="number" id="filterParkId" class="form-control me-3" style="width: 150px;" placeholder="Enter Park ID">
 
                                     <label for="filterStartDate" class="me-2">Start Date:</label>
                                     <input type="date" id="filterStartDate" class="form-control me-3" style="width: 150px;">
@@ -256,7 +233,6 @@
                                     <label for="filterEndDate" class="me-2">End Date:</label>
                                     <input type="date" id="filterEndDate" class="form-control" style="width: 150px;">
                                 </div>
-                                <!--end date filters-->
                             </div>
                         </div>
                     </div>
@@ -266,6 +242,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <button type="button" class="btn btn-primary mb-3" id="addEvents-btn">Add Event</button>
+
                                 <div class="table-responsive">
                                     <table class="table user-table">
                                         <thead>
@@ -411,8 +388,7 @@
     <!--My Java Script-->
     <script src="js/ajaxCall.js"></script>
     <script src="js/myJavaScript/general.js"></script>
-    <script src="js/myJavaScript/user-reservations.js"></script>
-    <script src="js/myJavaScript/user-chatbot.js"></script>
+    <script src="js/myJavaScript/manager-events.js"></script>
 </body>
 
 </html>

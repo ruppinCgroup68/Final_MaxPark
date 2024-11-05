@@ -3,113 +3,80 @@
         ? "https://localhost:7061/api"
         : "https://proj.ruppin.ac.il/cgroup68/test2/tar1/api";
 
-
     let currentPage = 1;
-    const rowsPerPage = 10;
+    const rowsPerPage = 8;
+    let eventsData = [];
 
-    // status color 
-    //const statusColors = {
-    //    "הזמנה בהמתנה": "#FFA500",
-    //    "דחייה": "red",
-    //    "אישור": "green"
-    //};
-
-    // Set default start and end dates
     const today = new Date();
+    const oneWeekAgo = new Date(today);
+    oneWeekAgo.setDate(today.getDate() - 7); // Set to 7 days before today
+
     const oneYearLater = new Date(today);
     oneYearLater.setFullYear(today.getFullYear() + 1);
 
-    $('#filterStartDate').val(today.toISOString().split('T')[0]);
+    $('#filterStartDate').val(oneWeekAgo.toISOString().split('T')[0]);
     $('#filterEndDate').val(oneYearLater.toISOString().split('T')[0]);
 
-    // Load Events from the API
-    function loadReservations() {
-        const eventData = JSON.parse(sessionStorage.getItem('eve'));
-        if (eventData && eventData.eventId) {
-            const api = `${apiBaseUrl}/Events/eventList?eventId=${userData.userId}`;
-            ajaxCall("GET", api, null, (response) => {
-                eventsData = response;
-                sortEventsByDate(); // Sort data by date before filtering
-                applyFilters(); // Apply filters initially
-            }, postLoadEventsError);
-        } else {
-            console.error("Events data not found in session storage.");
-        }
+    // Function to load events
+    function loadEvents() {
+        const api = `${apiBaseUrl}/Events`;
+        ajaxCall("GET", api, null, onLoadEventsSuccess, onLoadEventsError);
     }
 
-    // Sort reservations by reservation date (ascending)
-    function sortEventsByDate() {
-        eventsData.sort((a, b) => new Date(a.events_Date) - new Date(b.events_Date));
+    function onLoadEventsSuccess(response) {
+        eventsData = response;
+        applyFilters();
     }
 
-    function postLoadEventsSuccess(response) {
-        const filterDate = $('#filterDate').val();
-        const filterType = $('#filterType').val();
-
-        // Filter events based on the selected date and types
-        const filteredEvents = response.filter(event => {
-            const date = formatDate(event.event_Date);
-            const type = event.evenType;
-
-            return (!filterDate || filterDate === date) && (!filterEvents || filterStatus === event);
-        });
-
-        paginateReservations(filteredEvents);
-    }
-
-    function postLoadEventsError(error) {
-        console.error("Error loading s:", error);
-        alert('Failed to load reservations. Please try again.');
+    function onLoadEventsError(error) {
+        console.error("Error loading events:", error);
+        alert('Failed to load events. Please try again.');
     }
 
     function applyFilters() {
-        const filterDateStart = $('#filterStartDate').val();
-        const filterDateEnd = $('#filterEndDate').val();
-        const filterStatus = $('#filterStatus').val();
+        const filterParkId = $('#filterParkId').val();
+        const filterStartDate = $('#filterStartDate').val();
+        const filterEndDate = $('#filterEndDate').val();
 
-        const filteredReservations = reservationsData.filter(reservation => {
-            const reservationDate = formatDate(reservation.reservation_Date);
-            const status = reservation.reservation_Status;
+        const filteredEvents = eventsData.filter(event => {
+            const eventDate = formatDate(event.event_Date);
+            const parkIdMatches = !filterParkId || event.parkId == filterParkId;
+            const dateInRange = (!filterStartDate || eventDate >= filterStartDate) &&
+                (!filterEndDate || eventDate <= filterEndDate);
 
-            // Filter by status
-            const statusMatches = !filterStatus || filterStatus === status;
-
-            // Filter by date range
-            const dateInRange = (!filterDateStart || reservationDate >= filterDateStart) &&
-                (!filterDateEnd || reservationDate <= filterDateEnd);
-
-            return statusMatches && dateInRange;
+            return parkIdMatches && dateInRange;
         });
 
-        paginateReservations(filteredReservations);
+        paginateEvents(filteredEvents);
     }
 
-    function paginateReservations(reservations) {
-        const totalPages = Math.ceil(reservations.length / rowsPerPage);
+    function paginateEvents(events) {
+        const totalPages = Math.ceil(events.length / rowsPerPage);
         const startIndex = (currentPage - 1) * rowsPerPage;
-        const paginatedReservations = reservations.slice(startIndex, startIndex + rowsPerPage);
+        const paginatedEvents = events.slice(startIndex, startIndex + rowsPerPage);
 
-        displayReservations(paginatedReservations);
+        displayEvents(paginatedEvents);
 
-        // Enable or disable pagination buttons based on the current page and total filtered results
         $('#prevPageBtn').prop('disabled', currentPage === 1);
-        $('#nextPageBtn').prop('disabled', currentPage === totalPages || reservations.length <= rowsPerPage);
+        $('#nextPageBtn').prop('disabled', currentPage === totalPages || events.length <= rowsPerPage);
     }
 
-    function displayReservations(reservations) {
-        const tableBody = $('#reservationTableBody');
+    function displayEvents(events) {
+        const tableBody = $('#eventsTableBody');
         tableBody.empty();
 
-        reservations.forEach(reservation => {
-            const statusColor = statusColors[reservation.reservation_Status] || "black";
+        events.forEach(event => {
             const row = `
                 <tr>
-                    <td>${reservation.reservationId}</td>
-                    <td>${formatDate(reservation.reservation_Date)}</td>
-                    <td>${formatTime(reservation.reservation_STime)}</td>
-                    <td>${formatTime(reservation.reservation_ETime)}</td>
-                    <td style="color: ${statusColor}">${reservation.reservation_Status}</td>
-                    <td>${reservation.markId}</td>
+                    <td>${event.eventId}</td>
+                    <td>${event.userId}</td>
+                    <td>${event.parkId}</td>
+                    <td>${event.markId}</td>
+                    <td>${formatDate(event.event_Date)}</td>
+                    <td>${formatTime(event.event_STime)}</td>
+                    <td>${formatTime(event.event_ETime)}</td>
+                    <td>${event.evenType}</td>
+                    <td>${event.event_Note}</td>
                 </tr>
             `;
             tableBody.append(row);
@@ -118,14 +85,11 @@
 
     function formatDate(dateString) {
         const date = new Date(dateString);
-        const year = date.getFullYear();
-        const month = ("0" + (date.getMonth() + 1)).slice(-2);
-        const day = ("0" + date.getDate()).slice(-2);
-        return `${year}-${month}-${day}`;
+        return date.toISOString().split('T')[0];
     }
 
     function formatTime(timeString) {
-        return timeString.slice(0, 5); // Assumes timeString is in the format "HH:MM:SS"
+        return timeString ? timeString.slice(0, 5) : '';
     }
 
     $('#prevPageBtn').on('click', function () {
@@ -140,18 +104,56 @@
         applyFilters();
     });
 
-    // Load reservations on page ready
-    loadReservations();
-
-    // Apply filters when any filter input changes
-    $('#filterStartDate, #filterEndDate, #filterStatus').on('change', function () {
-        currentPage = 1; // Reset to the first page
+    $('#filterParkId, #filterStartDate, #filterEndDate').on('change', function () {
+        currentPage = 1;
         applyFilters();
     });
 
-    // Refresh table when date or status filter is changed
-    $('#filterDate, #filterStatus').on('change', function () {
-        currentPage = 1; // Reset to the first page
-        loadReservations();
+    // Show the Add Event modal
+    $('#addEvents-btn').click(function () {
+        console.log("Add Event button clicked");
+        $('#addUserModal').fadeIn();  // Updated to use 'addUserModal'
     });
+
+    // Close modal on cancel or close button click
+    $('#closeModal, #cancel-btn').click(function () {
+        console.log("Closing modal");
+        $('#addUserModal').fadeOut();  // Updated to use 'addUserModal'
+    });
+
+    $('#add_EventForm').submit(function (e) {
+        e.preventDefault();
+
+        const carNumber = $('#carNumber').val();
+
+        const newEvent = {
+            eventId: 0,
+            userId: 6, // Example user ID, replace as needed
+            parkId: $('#parkId').val(),
+            markId: $('#markId').val(),
+            event_Date: $('#event_Date').val(),
+            event_STime: $('#event_STime').val(),
+            event_ETime: $('#event_ETime').val(),
+            evenType: $('#evenType').val(),
+            event_Note: $('#event_Note').val()
+        };
+
+        const api = `${apiBaseUrl}/Events/event/${carNumber}`;
+
+        ajaxCall("POST", api, JSON.stringify(newEvent), onAddEventSuccess, onAddEventError);
+    });
+
+    function onAddEventSuccess(response) {
+        alert("Event added successfully!");
+        $('#addUserModal').fadeOut();  // Updated to use 'addUserModal'
+        $('#add_EventForm')[0].reset();
+        loadEvents();
+    }
+
+    function onAddEventError(error) {
+        console.error("Failed to add event:", error);
+        alert("Failed to add event. Please try again.");
+    }
+
+    loadEvents();
 });
