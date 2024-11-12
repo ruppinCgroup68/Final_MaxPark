@@ -19,7 +19,6 @@ namespace MaxPark.Controllers
             return eve.Read();
         }
 
-
         // POST api/<EventsController>/event/{userPhone}
         [HttpPost("event/{userPhone}")]
         public int Post(string userPhone, Event event_data)
@@ -27,16 +26,6 @@ namespace MaxPark.Controllers
             Event e = new Event();
             return e.InsertEvent(event_data, userPhone);
         }
-
-
-
-        // GET api/<EventsController>/5
-        //[HttpGet("{id}")]
-        //public string Get(int id)
-        //{
-        //    return "value";
-        //}
-
 
         // PUT api/<EventsController>/5
         [HttpPut("{id}")]
