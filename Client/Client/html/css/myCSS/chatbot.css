@@ -4,8 +4,8 @@
     position: fixed;
     bottom: 20px;
     right: 20px;
-    width: 140px; /* הגודל החדש של ה-div */
-    height: 140px; /* הגודל החדש של ה-div */
+    width: 120px; /* הגודל החדש של ה-div */
+    height: 120px; /* הגודל החדש של ה-div */
     border-radius: 50%;
     display: flex;
     align-items: center;
