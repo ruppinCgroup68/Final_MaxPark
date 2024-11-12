@@ -1,4 +1,4 @@
-**MAX PARK - Final Project for Industrial Engineering and Management, Information Systems**
+**MAX PARK - Final Project in Industrial Engineering and Management, Information Systems Specialization**
 
 Project Repository: GitHub - MAX PARK
 
