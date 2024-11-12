@@ -26,6 +26,7 @@ Getting Started
 bash
 Copy code
 git clone:
+
 https://github.com/ruppinCgroup68/Final_MaxPark.git
 Set up the environment following the installation instructions.
 
