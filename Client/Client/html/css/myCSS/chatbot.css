@@ -1,17 +1,17 @@
-﻿/* Floating chat icon */
+﻿
+/* Floating chat icon */
 .chat-bot-icon {
     position: fixed;
     bottom: 20px;
     right: 20px;
-    background-color: #4287f5;
-    width: 60px;
-    height: 60px;
+    width: 140px; /* הגודל החדש של ה-div */
+    height: 140px; /* הגודל החדש של ה-div */
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0);
     z-index: 1000;
 }
 
@@ -21,8 +21,8 @@
 }
 
 .chat-icon-img {
-    width: 30px;
-    height: 30px;
+    width: 100%; /* תופס 100% מהרוחב של ה-div */
+    height: 100%; /* תופס 100% מהגובה של ה-div */
 }
 
 /* Chat container */
@@ -35,7 +35,7 @@
     background-color: #ffffff;
     border: 1px solid #ddd;
     border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0);
     z-index: 1000;
 }
 
@@ -58,3 +58,4 @@
         border: none;
         cursor: pointer;
     }
+
