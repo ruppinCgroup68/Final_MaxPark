@@ -1,0 +1,14 @@
+﻿#logout-btn {
+    width: 90%; /* הכפתור יתפוס 80% מרוחב המיכל */
+    display: block; /* גורם לכפתור להיראות כאלמנט בלוק */
+    text-align: center; /* ממרכז את הטקסט */
+    padding: 10px 0; /* רווח אנכי לכפתור */
+    box-sizing: border-box; /* מבטיח שהרוחב כולל את כל הרווחים והגבולות */
+    border-radius: 5px; /* ביטול פינות מעוגלות */
+    margin: 0 auto; /* מרכוז הכפתור בתוך ה-div */
+}
+
+.sidebar-footer-MyCSS {
+    border-top: none;
+    background-color: none;
+}

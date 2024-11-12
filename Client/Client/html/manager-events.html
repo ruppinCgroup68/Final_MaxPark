@@ -33,7 +33,8 @@
             margin-bottom: 0; /* Removes any additional margin at the bottom */
         }
     </style>
-    <![endif]-->
+    <!--MyCSS-->
+    <link href="css/myCSS/logout-btn.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -109,6 +110,7 @@
                                 <input type="text" class="form-control" placeholder="Search &amp; enter"> <a class="srh-btn"><i class="ti-close"></i></a>
                             </form>
                         </li>
+
                     </ul>
 
                     <!-- ============================================================== -->
@@ -121,7 +123,7 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <img id="profileImage" src="../assets/images/users/1.jpg" alt="user" class="profile-pic me-2">
-                                <span id="userName">Markarn Doe</span>
+                                <span id="userName">System Manager</span>
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown"></ul>
                         </li>
@@ -148,35 +150,17 @@
                                 <i class="mdi me-2 mdi-gauge"></i><span class="hide-menu">Home</span>
                             </a>
                         </li>
-                        <li class="text-center p-20 upgrade-btn">
-                            <a href="https://www.wrappixel.com/templates/materialpro/"
-                               id="logout-btn" class="btn btn-danger text-white mt-4" target="_blank">Logout</a>
-                        </li>
                     </ul>
 
                 </nav>
                 <!-- End Sidebar navigation -->
             </div>
-            <!-- End Sidebar scroll-->
-            <div class="sidebar-footer">
+            <!-- End Sidebar scroll LogOut-button-->
+            <div class="sidebar-footer sidebar-footer-MyCSS">
                 <div class="row">
-                    <div class="col-4 link-wrap">
-                        <!-- item-->
-                        <a href="" class="link" data-toggle="tooltip" title="" data-original-title="Settings">
-                            <i class="ti-settings"></i>
-                        </a>
-                    </div>
-                    <div class="col-4 link-wrap">
-                        <!-- item-->
-                        <a href="" class="link" data-toggle="tooltip" title="" data-original-title="Email">
-                            <i class="mdi mdi-gmail"></i>
-                        </a>
-                    </div>
-                    <div class="col-4 link-wrap">
-                        <!-- item-->
-                        <a href="" class="link" data-toggle="tooltip" title="" data-original-title="Logout">
-                            <i class="mdi mdi-power"></i>
-                        </a>
+                    <div class="col-12 link-wrap">
+                        <a href="https://www.wrappixel.com/templates/materialpro/"
+                           id="logout-btn" class="sidebar-link btn btn-danger text-white logout-link" target="_blank">Logout</a>
                     </div>
                 </div>
             </div>

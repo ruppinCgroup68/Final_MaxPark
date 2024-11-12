@@ -110,6 +110,8 @@
                     <td>${formatTime(reservation.reservation_ETime)}</td>
                     <td style="color: ${statusColor}">${reservation.reservation_Status}</td>
                     <td>${reservation.markId}</td>
+                    <td><button class="btn btn-red btn-xs edit-btn">🗑️</button></td>
+
                 </tr>
             `;
             tableBody.append(row);
