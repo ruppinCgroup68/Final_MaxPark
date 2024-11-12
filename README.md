@@ -3,8 +3,11 @@
 Project Repository: GitHub - MAX PARK
 
 Author: Natalia Zaslavski
+
 Email: natalia199401@gmail.com
+
 System Email: max2024park@gmail.com
+
 Institution: Ruppin Academic Center, Industrial Engineering and Management - Information Systems
 
 **Project Overview**
