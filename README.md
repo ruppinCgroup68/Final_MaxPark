@@ -28,6 +28,7 @@ Copy code
 git clone:
 
 https://github.com/ruppinCgroup68/Final_MaxPark.git
+
 Set up the environment following the installation instructions.
 
 Run the project locally or deploy it on your organization's server as per the setup guide.
