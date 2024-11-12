@@ -35,4 +35,6 @@ Run the project locally or deploy it on your organization's server as per the se
 Log in with your credentials to manage or view parking reservations.
 Make new reservations, cancel existing ones, or check availability using the system's scheduling interface.
 **Contact**
-For further information, please reach out to **Natalia Zaslavski** at **natalia199401@gmail.com**
+For further information, please reach out to 
+**Natalia Zaslavski** at 
+**natalia199401@gmail.com**
