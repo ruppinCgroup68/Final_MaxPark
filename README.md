@@ -31,6 +31,7 @@ Set up the environment following the installation instructions.
 Run the project locally or deploy it on your organization's server as per the setup guide.
 
 **Usage**
+
 Log in with your credentials to manage or view parking reservations.
 Make new reservations, cancel existing ones, or check availability using the system's scheduling interface.
 
