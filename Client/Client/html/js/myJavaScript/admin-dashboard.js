@@ -24,7 +24,79 @@ function initDashboard(baseApi) {
     // Fetch reservations data from the server using ajaxCall
     ajaxCall('GET', api, null, function (response) {
         handleSuccess(response, baseApi);
+        renderParkingSlots(response);
     }, handleError);
+}
+
+/// Render distinct parking slots with all available marks
+function renderParkingSlots(data) {
+    const parkingSlotsList = $('#parkingSlotsList');
+
+    // Get unique markIds (ignoring 0) and sort them
+    const parkingSlots = [...new Set(data.map(item => item.markId))].filter(markId => markId !== 0).sort((a, b) => a - b);
+
+    parkingSlotsList.empty(); // Clear existing list items
+
+    parkingSlots.forEach(markId => {
+        const button = $(`
+            <button type="button" class="btn btn-light border p-3" style="width: 60px; height: 60px;" data-mark-id="${markId}">
+                ${markId}
+            </button>
+        `);
+
+        button.on('click', function () {
+            displayReservationsForMark(markId, data);
+        });
+
+        parkingSlotsList.append(button);
+    });
+}
+
+// Display reservations for the selected parking slot for today
+function displayReservationsForMark(markId, data) {
+    const today = new Date().toISOString().split('T')[0];
+    const selectedReservations = data.filter(item => {
+        const reservationDate = new Date(item.reservation_Date).toISOString().split('T')[0];
+        return item.markId === markId && reservationDate === today;
+    });
+
+    const reservationList = selectedReservations.map(item => `
+        <li>
+            Reservation ID: ${item.reservationId}<br>
+            Name: ${item.userFirstName} ${item.userLastName}<br>
+            Start Time: ${item.reservation_STime}<br>
+            End Time: ${item.reservation_ETime}<br>
+        </li>
+    `).join('');
+
+    const message = reservationList || "<li>No reservations for this mark today.</li>";
+
+    // Modal content
+    const modalContent = `
+        <div class="modal fade" id="reservationModal" tabindex="-1" role="dialog" aria-labelledby="reservationModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="reservationModalLabel">Reservations for Parking Slot ${markId}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <ul>${message}</ul>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+
+    // Append and show modal
+    $('body').append(modalContent);
+    $('#reservationModal').modal('show');
+    $('#reservationModal').on('hidden.bs.modal', function () {
+        $(this).remove();
+    });
 }
 
 function handleSuccess(response, baseApi) {

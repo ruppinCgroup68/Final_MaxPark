@@ -9,7 +9,7 @@
 
     const today = new Date();
     const oneWeekAgo = new Date(today);
-    oneWeekAgo.setDate(today.getDate() - 7);
+    oneWeekAgo.setDate(today.getDate() - 30);
 
     const oneYearLater = new Date(today);
     oneYearLater.setFullYear(today.getFullYear() + 1);

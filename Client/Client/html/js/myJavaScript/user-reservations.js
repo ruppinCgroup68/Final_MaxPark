@@ -102,16 +102,21 @@
 
         reservations.forEach(reservation => {
             const statusColor = statusColors[reservation.reservation_Status] || "black";
+
+            // Conditionally display the delete button only for status "הזמנה בהמתנה"
+            const deleteButton = reservation.reservation_Status === "הזמנה בהמתנה"
+                ? `<button class="btn btn-red btn-xs edit-btn">🗑️</button>`
+                : "";
+
             const row = `
-                <tr>
+                <tr data-reservation-id="${reservation.reservationId}">
                     <td>${reservation.reservationId}</td>
                     <td>${formatDate(reservation.reservation_Date)}</td>
                     <td>${formatTime(reservation.reservation_STime)}</td>
                     <td>${formatTime(reservation.reservation_ETime)}</td>
                     <td style="color: ${statusColor}">${reservation.reservation_Status}</td>
                     <td>${reservation.markId}</td>
-                    <td><button class="btn btn-red btn-xs edit-btn">🗑️</button></td>
-
+                    <td>${deleteButton}</td>
                 </tr>
             `;
             tableBody.append(row);
@@ -156,4 +161,32 @@
         currentPage = 1; // Reset to the first page
         loadReservations();
     });
+
+
+    // Event listener for delete button in the reservation table
+    $(document).on('click', '.edit-btn', function () {
+        const reservationId = $(this).closest('tr').data('reservation-id');
+        if (confirm("Are you sure you want to delete this reservation?")) {
+            const deleteApiUrl = `${apiBaseUrl}/Reservations/reservationId?reservationId=${reservationId}`;
+            ajaxCall("DELETE", deleteApiUrl, null, deleteSuccess, deleteError);
+        }
+    });
+
+    // Success callback for delete
+    function deleteSuccess() {
+        alert('Reservation deleted successfully');
+        loadReservations(); // Reload reservations after deletion
+    }
+
+    // Error callback for delete
+    function deleteError(xhr, status, error) {
+        if (xhr.status === 200) {
+            // If status is 200, treat it as a success and call deleteSuccess
+            deleteSuccess();
+        } else {
+            // Otherwise, log the error and alert the user
+            console.error("Error deleting reservation:", error);
+            alert('Failed to delete reservation. Please try again.');
+        }
+    }
 });
