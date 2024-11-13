@@ -154,11 +154,12 @@
 
     // Load parking slots into markId select element using ajaxCall function
     function loadParkingSlots() {
-        const api = `${apiBaseUrl}/ParkingSlots`;
+        const api = `${apiBaseUrl}/Marks`;
         ajaxCall("GET", api, null, onLoadParkingSlotsSuccess, onLoadParkingSlotsError);
     }
 
-    function onLoadParkingSlotsSuccess(parkingSlots) {
+    function onLoadParkingSlotsSuccess(parkingSlots)
+    {
         const markIdSelect = $('#markId');
         markIdSelect.empty(); // Clear previous options
 

@@ -20,10 +20,13 @@
     <link href="css/myCSS/chatbot.css" rel="stylesheet">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <!-- Bootstrap CSS -->
     <style>
-        .filter-container label {
+        .filter-container label 
+        {
             display: flex;
             align-items: center; /* Aligns text vertically in the center */
             margin-bottom: 0; /* Removes any additional margin at the bottom */
@@ -31,21 +34,10 @@
     </style>
     <!--MyCSS-->
     <link href="css/myCSS/logout-btn.css" rel="stylesheet" />
-    <style>
-        #main-wrapper[data-layout="vertical"][data-sidebartype="full"] .page-wrapper {
-            margin-left: 0 !important; /* מבטל את המרווח השמאלי */
-        }
-
-        .logout-btn-MyCSS {
-            padding: 5px 10px; /* מגדיר גודל קטן יותר לכפתור */
-            font-size: 0.875rem; /* גודל טקסט קטן יותר */
-            border-radius: 4px; /* פינות מעוגלות כמו שאר הכפתורים */
-        }
-    </style>
 </head>
 
 <body>
-    <!-- ==============================================================
+    <!-- ============================================================== -->
     <!-- Preloader - style you can find in spinners.css -->
     <!-- ============================================================== -->
     <div class="preloader">
@@ -74,14 +66,12 @@
                             <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
                             <!-- Dark Logo icon -->
                             <img src="../assets/images/logo-light-icon.png" alt="homepage" class="dark-logo" />
-
                         </b>
                         <!--End Logo icon -->
                         <!-- Logo text -->
                         <span class="logo-text">
                             <!-- dark Logo text -->
                             <img src="../assets/images/logo-light-text.png" alt="homepage" class="dark-logo" />
-
                         </span>
                     </a>
                     <!-- ============================================================== -->
@@ -110,16 +100,13 @@
                         <!-- ============================================================== -->
                         <!-- Search -->
                         <!-- ============================================================== -->
-
                         <li class="nav-item search-box">
                             <a class="nav-link text-muted" href="javascript:void(0)"><i class="ti-search"></i></a>
                             <form class="app-search" style="display: none;">
                                 <input type="text" class="form-control" placeholder="Search &amp; enter"> <a class="srh-btn"><i class="ti-close"></i></a>
                             </form>
                         </li>
-
                     </ul>
-
                     <!-- ============================================================== -->
                     <!-- Right side toggle and nav items -->
                     <!-- ============================================================== -->
@@ -130,7 +117,7 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <img id="profileImage" src="../assets/images/users/1.jpg" alt="user" class="profile-pic me-2">
-                                <span id="userName">System Manager</span>
+                                <span id="userName"></span>
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown"></ul>
                         </li>
@@ -142,6 +129,57 @@
         <!-- End Topbar header -->
         <!-- ============================================================== -->
         <!-- ============================================================== -->
+        <!-- Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+        <aside class="left-sidebar" data-sidebarbg="skin6">
+            <!-- Sidebar scroll-->
+            <div class="scroll-sidebar">
+                <!-- Sidebar navigation-->
+                <nav class="sidebar-nav">
+                    <ul id="sidebarnav">
+                        <!-- User Profile-->
+                        <li class="sidebar-item">
+                            <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                               href="user-homePage.html" aria-expanded="false">
+                                <i class="mdi me-2 mdi-gauge"></i><span class="hide-menu">Home</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                               href="user-profile.html" aria-expanded="false">
+                                <i class="mdi me-2 mdi-account-check"></i><span class="hide-menu">Profile</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                               href="user-reservations.html" aria-expanded="false">
+                                <i class="mdi me-2 mdi-table"></i><span class="hide-menu">Reservations</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                               href="user-activeParking.html" aria-expanded="false">
+                                <i class="mdi me-2 mdi-emoticon"></i><span class="hide-menu">Parking</span>
+                            </a>
+                        </li>                    
+                    </ul>
+                </nav>
+                <!-- End Sidebar navigation -->
+            </div>
+            <!-- End Sidebar scroll LogOut button-->
+            <div class="sidebar-footer sidebar-footer-MyCSS">
+                <div class="row">
+                    <div class="col-12 link-wrap">
+                        <a href="https://www.wrappixel.com/templates/materialpro/"
+                           id="logout-btn" class="sidebar-link btn btn-danger text-white logout-link" target="_blank">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </aside>
+        <!-- ============================================================== -->
+        <!-- End Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
         <!-- Page wrapper  -->
         <!-- ============================================================== -->
         <div class="page-wrapper">
@@ -151,11 +189,15 @@
             <div class="page-breadcrumb">
                 <div class="row align-items-center">
                     <div class="col-md-6 col-8 align-self-center">
-                        <h3 class="page-title mb-0 p-0">Events</h3>
-                    </div>
-                    <div class="col-md-6 col-4 text-end">
-                        <a href="https://www.wrappixel.com/templates/materialpro/"
-                           id="logout-btn" class="sidebar-link waves-effect waves-dark btn btn-danger text-white logout-link logout-btn-MyCSS " target="_blank">Logout</a>
+                        <h3 class="page-title mb-0 p-0">Reservations</h3>
+                        <div class="d-flex align-items-center">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">Reservations</li>
+                                </ol>
+                            </nav>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -175,15 +217,20 @@
                     <div class="col-sm-12">
                         <div class="card">
                             <div class="card-body">
-                                <!-- Filters -->
                                 <div class="filter-container d-flex align-items-center">
-                                    <label for="filterParkId" class="me-2">Park ID:</label>
-                                    <input type="number" id="filterParkId" class="form-control me-3" style="width: 150px;" placeholder="Enter Park ID">
+                                    <label for="filterStatus" class="me-2">Status:</label>
+                                    <select id="filterStatus" class="form-select me-3" style="width: 150px;">
+                                        <option value="">All</option>
+                                        <option value="אישור">אישור</option>
+                                        <option value="דחייה">דחייה</option>
+                                        <option value="הזמנה בהמתנה">הזמנה בהמתנה</option>
+                                        <option value="הזמנה נמחקה">הזמנה נמחקה</option>
+                                    </select>
 
-                                    <label for="filterStartDate" class="me-2">Start Date:</label>
+                                    <label for="filterStartDate" class="me-2">מתאריך:</label>
                                     <input type="date" id="filterStartDate" class="form-control me-3" style="width: 150px;">
 
-                                    <label for="filterEndDate" class="me-2">End Date:</label>
+                                    <label for="filterEndDate" class="me-2">עד תאריך:</label>
                                     <input type="date" id="filterEndDate" class="form-control" style="width: 150px;">
                                 </div>
                             </div>
@@ -194,26 +241,22 @@
                     <div class="col-sm-12">
                         <div class="card">
                             <div class="card-body">
-                                <button type="button" class="btn btn-primary mb-3" id="addEvents-btn">Add Event</button>
                                 <div class="table-responsive">
                                     <table class="table user-table">
                                         <thead>
                                             <tr>
-                                                <th class="border-top-0">Event ID</th>
-                                                <th class="border-top-0">Car Number</th>
-                                                <th class="border-top-0">Park ID</th>
-                                                <th class="border-top-0">Mark ID</th>
-                                                <th class="border-top-0">Event Date</th>
+                                                <th class="border-top-0">Reservation ID</th>
+                                                <th class="border-top-0">Reservation Date</th>
                                                 <th class="border-top-0">Start Time</th>
                                                 <th class="border-top-0">End Time</th>
-                                                <th class="border-top-0">Event Type</th>
-                                                <th class="border-top-0">Note</th>
-                                                <th class="border-top-0"></th>
+                                                <th class="border-top-0">Status</th>
+                                                <th class="border-top-0">Mark ID</th>                                         
+                                                <th class="border-top-0"></th>                                            
                                             </tr>
                                         </thead>
-                                        <tbody id="eventsTableBody">
-                                            <!-- Events rows will be dynamically
-                                            ed here -->
+                                        <tbody id="reservationTableBody">
+                                            <!-- Reservation rows will be dynamically 
+                                                ed here -->
                                         </tbody>
                                     </table>
                                 </div>
@@ -226,63 +269,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Add Event Modal -->
-                <div id="addUserModal" class="modal" tabindex="-1" role="dialog">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title">Add New Event</h5>
-                                <button type="button" id="closeModal" class="btn-close" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <form id="add_EventForm">
-                                    <div class="mb-3">
-                                        <label for="carNumber" class="form-label">Car Number</label>
-                                        <input type="text" class="form-control" id="carNumber" placeholder="XX-XXX-XX" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="parkId" class="form-label">Park ID</label>
-                                        <input type="number" class="form-control" id="parkId" value="1" required readonly>
-
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="markId" class="form-label">Mark ID</label>
-                                        <select class="form-control" id="markId" required>
-                                            <!-- החניות ייטענו כאן JavaScript -->
-                                        </select>
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label for="event_Date" class="form-label">Date</label>
-                                        <input type="date" class="form-control" id="event_Date" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="event_STime" class="form-label">Start Time</label>
-                                        <input type="time" class="form-control" id="event_STime">
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="event_ETime" class="form-label">End Time</label>
-                                        <input type="time" class="form-control" id="event_ETime">
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="evenType" class="form-label">Event Type</label>
-                                        <input type="text" class="form-control" id="evenType" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="event_Note" class="form-label">Note</label>
-                                        <input type="text" class="form-control" id="event_Note">
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="submit" class="btn btn-primary" id="submit-btn">Add Event</button>
-                                        <button type="button" class="btn btn-secondary" id="cancel-btn">Cancel</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
                 <!-- Row -->
                 <!-- ============================================================== -->
                 <!-- End PAge Content -->
@@ -301,22 +287,24 @@
             <!-- ============================================================== -->
             <!-- footer -->
             <!-- ============================================================== -->
-            <!--<div id="chatBotIcon" class="chat-bot-icon">
-                <img src="../assets/images/logo-light-icon.png" alt="Chat Bot" class="chat-icon-img">
-            </div>-->
+            <div id="chatBotIcon" class="chat-bot-icon">
+                <img src="../assets/images/logo-chat.png" alt="Chat Bot" class="chat-icon-img">
+            </div>
+
             <!-- Chat Box (initially hidden) -->
-            <!--<div class="chat-container" id="chat-container" style="display: none;">
-            <div id="chatMessages" style="height: 300px; overflow-y: auto; border: 1px solid #ddd; padding: 10px;">-->
-            <!-- Chat messages will appear here -->
-            <!--</div>
+            <div class="chat-container" id="chat-container" style="display: none;">
+                <div id="chatMessages" style="height: 300px; overflow-y: auto; border: 1px solid #ddd; padding: 10px;">
+                    <!-- Chat messages will appear here -->
+                </div>
                 <div class="chat-input">
                     <input type="text" id="messageInput" placeholder="Type your request here...">
                     <button id="sendButton">Send</button>
                 </div>
-            </div>-->
+            </div>
             <footer class="footer">
-                © 2024 MaxPark - smart solution of parking lot management for companies & organizations<a href=" https://github.com/ruppinCgroup68/Final_MaxPark.git"> Full Project On GitHub </a>
-            </footer><!-- ============================================================== -->
+                © 2024 MAX PARK Academic Final Project <a href="https://github.com/ruppinCgroup68/Final_MaxPark.git">Git -> </a>
+            </footer>
+            <!-- ============================================================== -->
             <!-- End footer -->
             <!-- ============================================================== -->
         </div>
@@ -343,7 +331,7 @@
     <!--My Java Script-->
     <script src="js/ajaxCall.js"></script>
     <script src="js/myJavaScript/general.js"></script>
-    <script src="js/myJavaScript/manager-events.js"></script>
+    <script src="js/myJavaScript/user-reservations.js"></script>
+    <script src="js/myJavaScript/user-chatbot.js"></script>
 </body>
-
 </html>
