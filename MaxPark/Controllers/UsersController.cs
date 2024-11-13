@@ -39,7 +39,6 @@ namespace MaxPark.Controllers
             return user.updatePassword();
         }
 
-
         // Upload Image - Benny
         [HttpPost]
         [Route("savePhoto")]
