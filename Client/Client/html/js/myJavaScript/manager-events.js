@@ -9,7 +9,7 @@
 
     const today = new Date();
     const oneWeekAgo = new Date(today);
-    oneWeekAgo.setDate(today.getDate() - 7); // Set to 7 days before today
+    oneWeekAgo.setDate(today.getDate() - 7);
 
     const oneYearLater = new Date(today);
     oneYearLater.setFullYear(today.getFullYear() + 1);
@@ -17,7 +17,6 @@
     $('#filterStartDate').val(oneWeekAgo.toISOString().split('T')[0]);
     $('#filterEndDate').val(oneYearLater.toISOString().split('T')[0]);
 
-    // Function to load events
     function loadEvents() {
         const api = `${apiBaseUrl}/Events`;
         ajaxCall("GET", api, null, onLoadEventsSuccess, onLoadEventsError);
@@ -109,16 +108,14 @@
         applyFilters();
     });
 
-    // Show the Add Event modal
     $('#addEvents-btn').click(function () {
         console.log("Add Event button clicked");
-        $('#addUserModal').fadeIn();  // Updated to use 'addUserModal'
+        $('#addUserModal').fadeIn();
     });
 
-    // Close modal on cancel or close button click
     $('#closeModal, #cancel-btn').click(function () {
         console.log("Closing modal");
-        $('#addUserModal').fadeOut();  // Updated to use 'addUserModal'
+        $('#addUserModal').fadeOut();
     });
 
     $('#add_EventForm').submit(function (e) {
@@ -128,7 +125,7 @@
 
         const newEvent = {
             eventId: 0,
-            userId: 6, // Example user ID, replace as needed
+            userId: $('#userId').val(),
             parkId: $('#parkId').val(),
             markId: $('#markId').val(),
             event_Date: $('#event_Date').val(),
@@ -145,7 +142,7 @@
 
     function onAddEventSuccess(response) {
         alert("Event added successfully!");
-        $('#addUserModal').fadeOut();  // Updated to use 'addUserModal'
+        $('#addUserModal').fadeOut();
         $('#add_EventForm')[0].reset();
         loadEvents();
     }
@@ -155,5 +152,38 @@
         alert("Failed to add event. Please try again.");
     }
 
+    // Load parking slots into markId select element using ajaxCall function
+    function loadParkingSlots() {
+        const api = `${apiBaseUrl}/ParkingSlots`;
+        ajaxCall("GET", api, null, onLoadParkingSlotsSuccess, onLoadParkingSlotsError);
+    }
+
+    function onLoadParkingSlotsSuccess(parkingSlots) {
+        const markIdSelect = $('#markId');
+        markIdSelect.empty(); // Clear previous options
+
+        parkingSlots.forEach(slot => {
+            markIdSelect.append(new Option(`Slot ${slot.id}`, slot.id));
+        });
+    }
+
+    function onLoadParkingSlotsError(error) {
+        console.error("Error loading parking slots:", error);
+        alert('Failed to load parking slots. Please try again.');
+    }
+
+    // Call function to load parking slots on page load
+    loadParkingSlots();
     loadEvents();
+
+    // Format Car Number Input to "XX-XXX-XX" format
+    $('#carNumber').on('input', function () {
+        let value = $(this).val().replace(/[^0-9]/g, ""); // Remove non-numeric characters
+        if (value.length > 2 && value.length <= 5) {
+            value = value.slice(0, 2) + "-" + value.slice(2); // Add first hyphen
+        } else if (value.length > 5) {
+            value = value.slice(0, 2) + "-" + value.slice(2, 5) + "-" + value.slice(5); // Add second hyphen
+        }
+        $(this).val(value.slice(0, 9)); // Limit to 9 characters
+    });
 });

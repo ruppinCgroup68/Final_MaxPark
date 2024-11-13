@@ -20,18 +20,18 @@ namespace MaxPark.Controllers
         }
 
         // POST api/<EventsController>/event/{userPhone}
-        [HttpPost("event/{userPhone}")]
-        public int Post(string userPhone, Event event_data)
+        [HttpPost("event/{userCarNum}")]
+        public int Post(string userCarNum, Event event_data)
         {
             Event e = new Event();
-            return e.InsertEvent(event_data, userPhone);
+            return e.InsertEvent(event_data, userCarNum);
         }
 
         // PUT api/<EventsController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
+        //[HttpPut("{id}")]
+        //public void Put(int id, [FromBody] string value)
+        //{
 
-        }
+        //}
     }
 }
