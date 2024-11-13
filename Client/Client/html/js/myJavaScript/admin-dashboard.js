@@ -7,16 +7,23 @@
     // Initialize the dashboard
     initDashboard(baseApi);
 
-    // Set the default date to today for the date picker
     const today = new Date().toISOString().split('T')[0];
     $('#dateFilter').val(today);
+    $('#parkingDatePicker').val(today);
 
-    // Event listener for the date picker
     $('#dateFilter').on('change', function () {
         const selectedDate = new Date(this.value);
         updateBarChart(selectedDate, baseApi);
     });
+
+    $('#parkingDatePicker').on('change', function () {
+        const selectedDate = this.value;
+        renderParkingSlots(lastFetchedData, selectedDate); // Update parking slots based on selected date
+    });
 });
+
+let lastFetchedData = []; // Store fetched data for reuse
+
 
 function initDashboard(baseApi) {
     const api = `${baseApi}/Reservations/readReservations`;
@@ -28,8 +35,8 @@ function initDashboard(baseApi) {
     }, handleError);
 }
 
-/// Render distinct parking slots with all available marks
-function renderParkingSlots(data) {
+// Render distinct parking slots with selected date
+function renderParkingSlots(data, selectedDate = new Date().toISOString().split('T')[0]) {
     const parkingSlotsList = $('#parkingSlotsList');
 
     // Get unique markIds (ignoring 0) and sort them
@@ -38,26 +45,34 @@ function renderParkingSlots(data) {
     parkingSlotsList.empty(); // Clear existing list items
 
     parkingSlots.forEach(markId => {
+        // Check if there are reservations for this markId on the selected date
+        const hasReservation = data.some(item => {
+            const reservationDate = new Date(item.reservation_Date).toISOString().split('T')[0];
+            return item.markId === markId && reservationDate === selectedDate;
+        });
+
+        // Set button color based on reservation status
+        const buttonColor = hasReservation ? 'btn-success' : 'btn-light';
+
         const button = $(`
-            <button type="button" class="btn btn-light border p-3" style="width: 60px; height: 60px;" data-mark-id="${markId}">
+            <button type="button" class="btn ${buttonColor} border p-3" style="width: 60px; height: 60px;" data-mark-id="${markId}">
                 ${markId}
             </button>
         `);
 
         button.on('click', function () {
-            displayReservationsForMark(markId, data);
+            displayReservationsForMark(markId, data, selectedDate);
         });
 
         parkingSlotsList.append(button);
     });
 }
 
-// Display reservations for the selected parking slot for today
-function displayReservationsForMark(markId, data) {
-    const today = new Date().toISOString().split('T')[0];
+// Display reservations for the selected parking slot for a specific date
+function displayReservationsForMark(markId, data, selectedDate) {
     const selectedReservations = data.filter(item => {
         const reservationDate = new Date(item.reservation_Date).toISOString().split('T')[0];
-        return item.markId === markId && reservationDate === today;
+        return item.markId === markId && reservationDate === selectedDate;
     });
 
     const reservationList = selectedReservations.map(item => `
@@ -69,7 +84,7 @@ function displayReservationsForMark(markId, data) {
         </li>
     `).join('');
 
-    const message = reservationList || "<li>No reservations for this mark today.</li>";
+    const message = reservationList || "<li>No reservations for this mark on the selected date.</li>";
 
     // Modal content
     const modalContent = `
