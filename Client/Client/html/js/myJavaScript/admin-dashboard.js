@@ -84,11 +84,18 @@ function filterDataByDateRange(data, endDate) {
         labels.push(date.toISOString().split('T')[0]);
     }
 
-    // Filter data to include only dates within this 7-day range
+    //// Filter data to include only dates within this 7-day range
+    //const filteredData = data.filter(item => {
+    //    const reservationDate = new Date(item.reservation_Date).toISOString().split('T')[0];
+    //    return labels.includes(reservationDate);
+    //});
+
     const filteredData = data.filter(item => {
+        if (!item.reservation_Date) return false;
         const reservationDate = new Date(item.reservation_Date).toISOString().split('T')[0];
         return labels.includes(reservationDate);
     });
+
 
     return { filteredData, labels };
 }
