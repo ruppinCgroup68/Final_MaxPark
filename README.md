@@ -19,7 +19,8 @@ The project's core functionality centers around an intelligent algorithm that co
 1. Optimized Space Management: The system efficiently manages and allocates parking spots to reduce congestion and resource wastage.
 2. Smart Algorithm: The algorithm handles consecutive bookings and prioritizes space efficiency, allowing multiple users to share parking spaces seamlessly.
 3. Automated Scheduling: A web-based cron job schedules the smart algorithm to run daily at 20:00, ensuring consistent and timely parking allocation optimization.
-4. User-Friendly Interface: The application provides an easy-to-use interface for making, viewing, and managing parking reservations.
+   https://console.cron-job.org/jobs
+5. User-Friendly Interface: The application provides an easy-to-use interface for making, viewing, and managing parking reservations.
 Getting Started
 
 **Clone the repository:**
