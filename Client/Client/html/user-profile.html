@@ -190,10 +190,10 @@
                     </div>
                     <div class="col-md-6 col-4 align-self-center">
                         <!--<div class="text-end upgrade-btn">
-                    <a href="https://www.wrappixel.com/templates/materialpro/"
-                        class="btn btn-danger d-none d-md-inline-block text-white" target="_blank">Upgrade to
-                        Pro</a>
-                </div>-->
+                            <a href="https://www.wrappixel.com/templates/materialpro/"
+                                class="btn btn-danger d-none d-md-inline-block text-white" target="_blank">Upgrade to
+                                Pro</a>
+                        </div>-->
                     </div>
                 </div>
             </div>
@@ -216,24 +216,10 @@
                         <div class="card">
                             <div class="card-body profile-card">
                                 <center class="mt-4">
-                                    <img src="../assets/images/users/5.jpg"
-                                         class="rounded-circle" width="150" />
-                                    <h4 class="card-title mt-2">Natalia Zaslavski</h4>
-                                    <h6 class="card-subtitle">Junior FPR Development</h6>
-                                    <div class="row text-center justify-content-center">
-                                        <div class="col-4">
-                                            <a href="javascript:void(0)" class="link">
-                                                <i class="icon-people" aria-hidden="true"></i>
-                                                <span class="value-digit">254</span>
-                                            </a>
-                                        </div>
-                                        <div class="col-4">
-                                            <a href="javascript:void(0)" class="link">
-                                                <i class="icon-picture" aria-hidden="true"></i>
-                                                <span class="value-digit">54</span>
-                                            </a>
-                                        </div>
-                                    </div>
+                                    <!-- Clickable Profile Image -->
+                                    <img id="profileImageBig" class="rounded-circle" width="150" onclick="document.getElementById('imageUpload').click();" />
+                                    <!-- Hidden File Input for Image Upload -->
+                                    <input type="file" id="imageUpload" class="form-control" accept="image/*" style="display:none;">
                                 </center>
                             </div>
                         </div>
