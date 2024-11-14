@@ -114,7 +114,7 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <img id="profileImage" src="../assets/images/users/1.jpg" alt="user" class="profile-pic me-2">
-                                <span id="userName">Markarn Doe</span>
+                                <span id="userName"></span>
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown"></ul>
                         </li>
@@ -164,15 +164,6 @@
                 </nav>
                 <!-- End Sidebar navigation -->
             </div>
-            <!-- End Sidebar scroll LogOut-button-->
-            <div class="sidebar-footer sidebar-footer-MyCSS">
-                <div class="row">
-                    <div class="col-12 link-wrap">
-                        <a href="https://www.wrappixel.com/templates/materialpro/"
-                           id="logout-btn" class="sidebar-link btn btn-danger text-white logout-link" target="_blank">Logout</a>
-                    </div>
-                </div>
-            </div>
         </aside>
         <!-- ============================================================== -->
         <!-- End Left Sidebar - style you can find in sidebar.scss  -->
@@ -220,18 +211,35 @@
                 <div class="row">
                     <!-- Column -->
                     <div class="col-lg-4 col-xlg-3 col-md-5">
+
+
                         <div class="card">
                             <div class="card-body profile-card">
                                 <center class="mt-4">
-                                    <!-- Clickable Profile Image -->
-                                    <img id="profileImageBig" class="rounded-circle" width="150" onclick="document.getElementById('imageUpload').click();" />
-
-                                    <!-- Hidden File Input for Image Upload -->
-                                    <input type="file" id="imageUpload" class="form-control" accept="image/*" style="display:none;">
-
+                                    <img src="../assets/images/users/5.jpg"
+                                         class="rounded-circle" width="150" />
+                                    <h4 class="card-title mt-2">Natalia Zaslavski</h4>
+                                    <h6 class="card-subtitle">Junior FPR Development</h6>
+                                    <div class="row text-center justify-content-center">
+                                        <div class="col-4">
+                                            <a href="javascript:void(0)" class="link">
+                                                <i class="icon-people" aria-hidden="true"></i>
+                                                <span class="value-digit">254</span>
+                                            </a>
+                                        </div>
+                                        <div class="col-4">
+                                            <a href="javascript:void(0)" class="link">
+                                                <i class="icon-picture" aria-hidden="true"></i>
+                                                <span class="value-digit">54</span>
+                                            </a>
+                                        </div>
+                                    </div>
                                 </center>
                             </div>
                         </div>
+
+
+
                     </div>
                     <!-- Column -->
                     <!-- Column -->
@@ -300,9 +308,6 @@
                 <!-- ============================================================== -->
             </div>
             <!-- ============================================================== -->
-            <!-- End Container fluid  -->
-            <!-- ============================================================== -->
-            <!-- ============================================================== -->
             <!-- footer -->
             <!-- ============================================================== -->
             <div id="chatBotIcon" class="chat-bot-icon">
@@ -319,6 +324,17 @@
                     <button id="sendButton">Send</button>
                 </div>
             </div>
+
+            <!-- End Sidebar scroll LogOut-button-->
+            <div class="sidebar-footer sidebar-footer-MyCSS">
+                <div class="row">
+                    <div class="col-12 link-wrap">
+                        <a href="https://www.wrappixel.com/templates/materialpro/"
+                           id="logout-btn" class="sidebar-link btn btn-danger text-white logout-link" target="_blank">Logout</a>
+                    </div>
+                </div>
+            </div>
+
             <footer class="footer">
                 © 2024 MAX PARK Academic Final Project <a href="https://github.com/ruppinCgroup68/Final_MaxPark.git">Git -> </a>
             </footer>
