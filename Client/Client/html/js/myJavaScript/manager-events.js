@@ -110,12 +110,12 @@
 
     $('#addEvents-btn').click(function () {
         console.log("Add Event button clicked");
-        $('#addUserModal').fadeIn();
+        $('#addEventModal').fadeIn();
     });
 
     $('#closeModal, #cancel-btn').click(function () {
         console.log("Closing modal");
-        $('#addUserModal').fadeOut();
+        $('#addEventModal').fadeOut();
     });
 
     $('#add_EventForm').submit(function (e) {
@@ -142,7 +142,7 @@
 
     function onAddEventSuccess(response) {
         alert("Event added successfully!");
-        $('#addUserModal').fadeOut();
+        $('#addEventModal').fadeOut();
         $('#add_EventForm')[0].reset();
         loadEvents();
     }
@@ -152,29 +152,29 @@
         alert("Failed to add event. Please try again.");
     }
 
-    // Load parking slots into markId select element using ajaxCall function
-    function loadParkingSlots() {
+    // Load parking marks into markId select element using ajaxCall function
+    function loadParkingMarks() {
         const api = `${apiBaseUrl}/Marks`;
-        ajaxCall("GET", api, null, onLoadParkingSlotsSuccess, onLoadParkingSlotsError);
+        ajaxCall("GET", api, null, onLoadParkingMarksSuccess, onLoadParkingMarksError);
     }
 
-    function onLoadParkingSlotsSuccess(parkingSlots)
+    function onLoadParkingMarksSuccess(parkingMarks)
     {
         const markIdSelect = $('#markId');
         markIdSelect.empty(); // Clear previous options
 
-        parkingSlots.forEach(slot => {
-            markIdSelect.append(new Option(`Slot ${slot.id}`, slot.id));
+        parkingMarks.forEach(mark => {
+            markIdSelect.append(new Option(`${mark.markName}`, mark.markId));
         });
     }
 
-    function onLoadParkingSlotsError(error) {
-        console.error("Error loading parking slots:", error);
-        alert('Failed to load parking slots. Please try again.');
+    function onLoadParkingMarksError(error) {
+        console.error("Error loading parking marks:", error);
+        alert('Failed to load parking marks. Please try again.');
     }
 
-    // Call function to load parking slots on page load
-    loadParkingSlots();
+    // Call function to load parking marks on page load
+    loadParkingMarks();
     loadEvents();
 
     // Format Car Number Input to "XX-XXX-XX" format
